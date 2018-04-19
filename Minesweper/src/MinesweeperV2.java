@@ -23,9 +23,10 @@ public class MinesweeperV2 implements Serializable {
 	public static int mapSizeX = 6;
 	public static int mapSizeY = 6;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, IOException {
 
 		do {// start of a game
+			// run menu GUI here
 			int numOffMines = 0;// get this from menu gui
 
 			Mine myMine[][] = new Mine[mapSizeX][mapSizeY];
@@ -34,7 +35,13 @@ public class MinesweeperV2 implements Serializable {
 					myMine[i][j] = new Mine(false);// adds objects to myMine
 				}
 			}
-			genMines(numOffMines, myMine, mapSizeX + 2, mapSizeY + 2);// these variable must be determined before hand
+			boolean newGame = false;// get from gui
+			if (newGame) {//
+				genMines(numOffMines, myMine, mapSizeX + 2, mapSizeY + 2);// these variable must be determined before
+																			// hand
+			} else {//
+				readFromFile(myMine, "Get name of file from user");
+			}
 
 		} while (true);
 
