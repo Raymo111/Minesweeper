@@ -25,14 +25,15 @@ public class MinesweeperV2 {
 	public static void main(String[] args) {
 
 		do {// start of a game
+			int numOffMines = 0;// get this from menu gui
+
 			Mine myMine[][] = new Mine[mapSizeX][mapSizeY];
 			for (int i = 0; i < mapSizeX; i++) {
 				for (int j = 0; j < mapSizeY; j++) {
 					myMine[i][j] = new Mine(false);// adds objects to myMine
 				}
 			}
-
-			genMines(5, myMine, mapSizeX + 2, mapSizeY + 2);// these variable must be determined before hand
+			genMines(numOffMines, myMine, mapSizeX + 2, mapSizeY + 2);// these variable must be determined before hand
 
 		} while (true);
 
@@ -74,8 +75,11 @@ public class MinesweeperV2 {
 	 * checks to see if a mine is at the users guess location
 	 * 
 	 * @param guessX
+	 *            the X coordinate of the users current click
 	 * @param guessY
+	 *            the Y coordinate of the users current click
 	 * @param myMine
+	 *            2D array that holds all of the information about the game board
 	 * @return
 	 */
 	public static boolean checkForMine(int guessX, int guessY, Mine[][] myMine) {
