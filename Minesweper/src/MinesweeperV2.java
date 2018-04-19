@@ -26,18 +26,16 @@ public class MinesweeperV2 {
 
 		Mine myMine[][] = new Mine[mapSizeX][mapSizeY];
 
-		for (int i = 0; i < mapSizeX; i++) {
-			for (int j = 0; j < mapSizeY; j++) {
-				myMine[i][j] = new Mine(false);
+		do {// start of a game
+			
+			
+			genMines(5, myMine, mapSizeX + 2, mapSizeY + 2);// these variable must be determined before hand
+			
+			for (int i = 0; i < mapSizeX; i++) {
+				for (int j = 0; j < mapSizeY; j++) {
+					myMine[i][j] = new Mine(false);//adds objects to myMine
+				}
 			}
-		}
-		genMines(5, myMine, mapSizeX + 2, mapSizeY + 2);
-		do {
-			System.out.println("Enter X");
-			int guessX = input.nextInt();// temp method of input
-			System.out.println("Enter Y");
-			int guessY = input.nextInt();// temp method of input
-
 		} while (true);
 
 	}
@@ -61,6 +59,7 @@ public class MinesweeperV2 {
 	}
 
 	/**
+	 * Sets the array of myMine to all empty
 	 * 
 	 * @param myMine
 	 */

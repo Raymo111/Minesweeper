@@ -8,9 +8,6 @@ public class Mine {
 		contains = MinesweeperTypes.EMPTY;
 	}
 
-	/*
-	 * public static enum mineTypes { empty, flaged, unknown, quetionMark }
-	 */
 	public void setToMine() {
 		isAMine = true;
 	}
