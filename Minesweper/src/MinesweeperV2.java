@@ -19,8 +19,8 @@ public class MinesweeperV2 {
 	private JButton[][] buttons = new JButton[5][5];
 	public static int roundCount = 0;
 	static Scanner input = new Scanner(System.in);
-	public static int mapSizeX = 5;
-	public static int mapSizeY = 5;
+	public static int mapSizeX = 6;
+	public static int mapSizeY = 6;
 
 	public static void main(String[] args) {
 
