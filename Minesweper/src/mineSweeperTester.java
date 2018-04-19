@@ -1,6 +1,7 @@
 /*
  * Authors: Raymond Li, David Tuck
  * Date started: 2018-04-18
+ * Date Finished: 2018-04-
  * Description: Minesweeper game
  */
 
@@ -8,10 +9,7 @@
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
-import java.util.Random;
 import java.util.Scanner;
 
 public class mineSweeperTester implements Serializable {
@@ -22,11 +20,14 @@ public class mineSweeperTester implements Serializable {
 	static Scanner input = new Scanner(System.in);
 	public static int mapSizeX = 6;
 	public static int mapSizeY = 6;
+	public static long additionalTime;
 
 	public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, IOException {
 
 		do {// start of a game
 			// run menu GUI here
+			// can we run the GUI in a different class so that the main method is less
+			// crowded
 			int numOffMines = 0;// get this from menu gui
 
 			Mine myMine[][] = new Mine[mapSizeX][mapSizeY];
