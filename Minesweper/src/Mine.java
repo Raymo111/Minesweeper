@@ -1,5 +1,5 @@
 public class Mine {
-	private int visableValue = 0;
+	private int visibleValue = 0;
 	public MinesweeperTypes contains;
 	private boolean isAMine = false;
 
