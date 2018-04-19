@@ -24,18 +24,16 @@ public class MinesweeperV2 {
 
 	public static void main(String[] args) {
 
-		Mine myMine[][] = new Mine[mapSizeX][mapSizeY];
-
 		do {// start of a game
-			
-			
-			genMines(5, myMine, mapSizeX + 2, mapSizeY + 2);// these variable must be determined before hand
-			
+			Mine myMine[][] = new Mine[mapSizeX][mapSizeY];
 			for (int i = 0; i < mapSizeX; i++) {
 				for (int j = 0; j < mapSizeY; j++) {
-					myMine[i][j] = new Mine(false);//adds objects to myMine
+					myMine[i][j] = new Mine(false);// adds objects to myMine
 				}
 			}
+
+			genMines(5, myMine, mapSizeX + 2, mapSizeY + 2);// these variable must be determined before hand
+
 		} while (true);
 
 	}
