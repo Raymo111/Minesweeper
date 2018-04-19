@@ -10,10 +10,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 import java.util.Random;
 import java.util.Scanner;
 
-public class MinesweeperV2 {
+public class MinesweeperV2 implements Serializable {
 
 	// Class variables
 	private JButton[][] buttons = new JButton[5][5];
@@ -43,7 +44,10 @@ public class MinesweeperV2 {
 	 * Set's a given number of mines randomly thought out the mine field
 	 * 
 	 * @param numOffMines
-	 * @param myMine
+	 *            the number of total mines that should be in the whole mine field
+	 * @param myMine2D
+	 *            2D array for objects that holds all of the information about the
+	 *            game board. Each object is is a different square on the board.
 	 */
 	public static void genMines(int numOffMines, Mine[][] myMine, int notX, int notY) {
 		int tempX;
@@ -60,7 +64,9 @@ public class MinesweeperV2 {
 	/**
 	 * Sets the array of myMine to all empty
 	 * 
-	 * @param myMine
+	 * @param myMine2D
+	 *            2D array for objects that holds all of the information about the
+	 *            game board. Each object is is a different square on the board.
 	 */
 	public static void fillWithEmpty(Mine[][] myMine) {
 		for (int i = 0; i < myMine.length; i++) {
@@ -72,15 +78,18 @@ public class MinesweeperV2 {
 	}
 
 	/**
-	 * checks to see if a mine is at the users guess location
+	 * Checks to see if a mine is at the users guess location.
 	 * 
 	 * @param guessX
-	 *            the X coordinate of the users current click
+	 *            The X coordinate of the users current click.
 	 * @param guessY
-	 *            the Y coordinate of the users current click
+	 *            The Y coordinate of the users current click.
 	 * @param myMine
-	 *            2D array that holds all of the information about the game board
-	 * @return
+	 *            2D array for objects that holds all of the information about the
+	 *            game board. Each object is is a different square on the board.
+	 * @return true if the users current guess location IS in the location of a mine
+	 *         false if the users current guess location is NOT the location of a
+	 *         mine
 	 */
 	public static boolean checkForMine(int guessX, int guessY, Mine[][] myMine) {
 		if (roundCount == 0 && myMine[guessX][guessY].checkMine()) {// moves the mine
@@ -100,9 +109,14 @@ public class MinesweeperV2 {
 	 * finds the number of mines arrowed a guess location z-
 	 * 
 	 * @param guessX
+	 *            The X coordinate of the users current click.
 	 * @param guessY
-	 * @param myMine
-	 * @return
+	 *            The Y coordinate of the users current click.
+	 * @param myMine2D
+	 *            2D array for objects that holds all of the information about the
+	 *            game board. Each object is is a different square on the board.
+	 * @return the number of mines that are in the surrounding area of guessX and
+	 *         GuessY coordinates
 	 */
 	public static int genNumOfMines(int guessX, int guessY, Mine[][] myMine) {
 		int count = 0;
@@ -117,5 +131,25 @@ public class MinesweeperV2 {
 			}
 		}
 		return count;
+	}
+
+	public static void writeToFile(Mine[][] myMine, String fileName) throws FileNotFoundException, IOException {
+		try (FileOutputStream f = new FileOutputStream(fileName + ".txt"); ObjectOutput s = new ObjectOutputStream(f)) {
+			s.writeObject(myMine);
+		} catch (FileNotFoundException e) {
+			System.err.println("Could not find file.");// GUI needs to display error
+		} catch (IOException e) {
+			System.err.println(e);// GUI needs to display error
+		}
+	}
+
+	public static void readFromFile(Mine[][] myMine, String fileName)
+			throws FileNotFoundException, IOException, ClassNotFoundException {
+		try (FileInputStream in = new FileInputStream(fileName + ".txt");
+				ObjectInputStream s = new ObjectInputStream(in)) {
+			myMine = (Mine[][]) s.readObject();
+		} catch (FileNotFoundException e) {
+			System.err.println(e);// GUI needs to display error
+		}
 	}
 }
