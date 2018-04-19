@@ -1,13 +1,11 @@
-
 public class Mine {
 	private int visableValue = 0;
-	public typesOfMines.mineTypes contains;
+	public MinesweeperTypes contains;
 	private boolean isAMine = false;
-	
-	
+
 	public Mine(boolean mine) {
 		isAMine = mine;
-		contains = mineTypes.empty;
+		contains = MinesweeperTypes.EMPTY;
 	}
 
 	/*
@@ -25,11 +23,11 @@ public class Mine {
 		return isAMine;
 	}
 
-	public typesOfMines.mineTypes getMineType() {
+	public MinesweeperTypes getMineType() {
 		return contains;
 	}
 
-	public void changeType(typesOfMines.mineTypes var) {
+	public void changeType(MinesweeperTypes var) {
 		contains = var;
 	}
 }

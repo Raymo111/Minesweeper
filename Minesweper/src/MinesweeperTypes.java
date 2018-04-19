@@ -1,0 +1,4 @@
+
+public enum MinesweeperTypes {
+	MINE, EMPTY, FLAG, FLAGGEDMINE, UNKNOWN, UNKNOWNMINE, EXPLODEDMINE;
+}

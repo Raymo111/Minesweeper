@@ -7,8 +7,6 @@
 //Imports java GUI classes
 import javax.swing.*;
 
-import typesOfMines.mineTypes;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +21,6 @@ public class MinesweeperV2 {
 	static Scanner input = new Scanner(System.in);
 	public static int mapSizeX = 5;
 	public static int mapSizeY = 5;
-	
 
 	public static void main(String[] args) {
 
@@ -70,7 +67,8 @@ public class MinesweeperV2 {
 	public static void fillWithEmpty(Mine[][] myMine) {
 		for (int i = 0; i < myMine.length; i++) {
 			for (int j = 0; j < myMine[0].length; j++) {
-				myMine[i][j].changeType();
+				myMine[i][j].changeType(MinesweeperTypes.EMPTY);
+				;
 			}
 		}
 	}
@@ -98,7 +96,7 @@ public class MinesweeperV2 {
 	}
 
 	/**
-	 * finds the number of mines arrowed a guess location
+	 * finds the number of mines arrowed a guess location z-
 	 * 
 	 * @param guessX
 	 * @param guessY
