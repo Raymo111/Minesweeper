@@ -37,10 +37,12 @@ public class MinesweeperV2 implements Serializable {
 			}
 			boolean newGame = false;// get from gui
 			if (newGame) {//
+				fillWithEmpty(myMine);
 				genMines(numOffMines, myMine, mapSizeX + 2, mapSizeY + 2);// these variable must be determined before
 																			// hand
 			} else {//
 				readFromFile(myMine, "Get name of file from user");
+
 			}
 
 		} while (true);
@@ -52,7 +54,7 @@ public class MinesweeperV2 implements Serializable {
 	 * 
 	 * @param numOffMines
 	 *            the number of total mines that should be in the whole mine field
-	 * @param myMine2D
+	 * @param myMine
 	 *            2D array for objects that holds all of the information about the
 	 *            game board. Each object is is a different square on the board.
 	 */
@@ -71,7 +73,7 @@ public class MinesweeperV2 implements Serializable {
 	/**
 	 * Sets the array of myMine to all empty
 	 * 
-	 * @param myMine2D
+	 * @param myMine
 	 *            2D array for objects that holds all of the information about the
 	 *            game board. Each object is is a different square on the board.
 	 */
@@ -119,7 +121,7 @@ public class MinesweeperV2 implements Serializable {
 	 *            The X coordinate of the users current click.
 	 * @param guessY
 	 *            The Y coordinate of the users current click.
-	 * @param myMine2D
+	 * @param myMine
 	 *            2D array for objects that holds all of the information about the
 	 *            game board. Each object is is a different square on the board.
 	 * @return the number of mines that are in the surrounding area of guessX and
@@ -140,6 +142,14 @@ public class MinesweeperV2 implements Serializable {
 		return count;
 	}
 
+	/**
+	 * Saves a current game to a file
+	 * 
+	 * @param myMine
+	 * @param fileName
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public static void writeToFile(Mine[][] myMine, String fileName) throws FileNotFoundException, IOException {
 		try (FileOutputStream f = new FileOutputStream(fileName + ".txt"); ObjectOutput s = new ObjectOutputStream(f)) {
 			s.writeObject(myMine);
@@ -150,6 +160,15 @@ public class MinesweeperV2 implements Serializable {
 		}
 	}
 
+	/**
+	 * read a saved game from a file and outputs this to myMine array
+	 * 
+	 * @param myMine
+	 * @param fileName
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public static void readFromFile(Mine[][] myMine, String fileName)
 			throws FileNotFoundException, IOException, ClassNotFoundException {
 		try (FileInputStream in = new FileInputStream(fileName + ".txt");
