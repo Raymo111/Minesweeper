@@ -27,4 +27,12 @@ public class Mine {
 	public void changeType(MinesweeperTypes var) {
 		contains = var;
 	}
+
+	public void setVisibleValue(int newValue) {
+		visibleValue = newValue;
+	}
+
+	public int getVisibleValue() {
+		return visibleValue;
+	}
 }

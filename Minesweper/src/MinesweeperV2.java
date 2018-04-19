@@ -27,15 +27,16 @@ public class MinesweeperV2 implements Serializable {
 			// run menu GUI here
 			// can we run the GUI in a different class so that the main method is less
 			// crowded
-			int numOffMines = 0;// get this from menu gui
 
+			boolean newGame = false;// get from gui
+			int numOffMines = 0;// get this from menu gui
 			Mine myMine[][] = new Mine[mapSizeX][mapSizeY];
 			for (int i = 0; i < mapSizeX; i++) {
 				for (int j = 0; j < mapSizeY; j++) {
 					myMine[i][j] = new Mine(false);// adds objects to myMine
 				}
 			}
-			boolean newGame = false;// get from gui
+
 			if (newGame) {//
 				fillWithEmpty(myMine);
 				genMines(numOffMines, myMine, mapSizeX + 2, mapSizeY + 2);// these variable must be determined before
