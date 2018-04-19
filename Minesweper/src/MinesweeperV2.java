@@ -6,6 +6,9 @@
 
 //Imports java GUI classes
 import javax.swing.*;
+
+import typesOfMines.mineTypes;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +23,7 @@ public class MinesweeperV2 {
 	static Scanner input = new Scanner(System.in);
 	public static int mapSizeX = 5;
 	public static int mapSizeY = 5;
+	
 
 	public static void main(String[] args) {
 
@@ -38,6 +42,7 @@ public class MinesweeperV2 {
 			int guessY = input.nextInt();// temp method of input
 
 		} while (true);
+
 	}
 
 	/**
@@ -65,13 +70,9 @@ public class MinesweeperV2 {
 	public static void fillWithEmpty(Mine[][] myMine) {
 		for (int i = 0; i < myMine.length; i++) {
 			for (int j = 0; j < myMine[0].length; j++) {
-				myMine[i][j].changeType(0);
+				myMine[i][j].changeType();
 			}
 		}
-	}
-
-	public static enum mineTypes {
-		empty, flaged, unknown, quetionMark
 	}
 
 	/**

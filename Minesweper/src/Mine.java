@@ -1,18 +1,18 @@
 
 public class Mine {
 	private int visableValue = 0;
-	private mineTypes contains;
+	public typesOfMines.mineTypes contains;
 	private boolean isAMine = false;
-
+	
+	
 	public Mine(boolean mine) {
 		isAMine = mine;
 		contains = mineTypes.empty;
 	}
 
-	public static enum mineTypes {
-		empty, flaged, unknown, quetionMark
-	}
-
+	/*
+	 * public static enum mineTypes { empty, flaged, unknown, quetionMark }
+	 */
 	public void setToMine() {
 		isAMine = true;
 	}
@@ -25,20 +25,11 @@ public class Mine {
 		return isAMine;
 	}
 
-	public mineTypes getMineType() {
+	public typesOfMines.mineTypes getMineType() {
 		return contains;
 	}
 
-	public void changeType(int change) {
-		if (change == 0) {
-			contains = mineTypes.empty;
-		} else if (change == 1) {
-			contains = mineTypes.flaged;
-		} else if (change == 2) {
-			contains = mineTypes.unknown;
-		} else if (change == 3) {
-			contains = mineTypes.quetionMark;
-		} else {
-		}
+	public void changeType(typesOfMines.mineTypes var) {
+		contains = var;
 	}
 }
