@@ -16,6 +16,7 @@ public class Minesweeper {
 	public static int roundCount = 0, mapSizeX, mapSizeY, mineCount;
 	public static final int mapSizeYLimit = 24;// limit on the custom dimension Y
 	public static final int mapSizeXLimit = 30;// limit on the custom dimension X
+	public static final int numOfMinesLimit = 99;// limit on the number of mines
 	public static long additionalTime;
 	public static boolean newGame = false;
 	public static Integer numOfMinesLeft;
@@ -37,12 +38,9 @@ public class Minesweeper {
 	}
 
 	/**
-	 * <<<<<<< HEAD Sets a given number of mines randomly thought out the mine field
-	 * 
-	 * ======= Set's a given number of mines randomly thought out the mine field
+	 * Sets a given number of mines randomly thought out the mine field Set's a
+	 * given number of mines randomly thought out the mine field
 	 *
-	 * >>>>>>> 84fd8d696d8504d1a5dc16c543dd5e6ea0229b7b
-	 * 
 	 * @param numOffMines
 	 *            the number of total mines that should be in the whole mine field
 	 * @param myMine
