@@ -19,7 +19,7 @@ public class Minesweeper {
 	public static final int numOfMinesLimit = 99;// limit on the number of mines
 	public static long additionalTime;
 	public static boolean newGame = false;
-	public static Integer numOfMinesLeft;
+	public static Integer numOfMinesLeft;// display on gameGUI
 	private static Random random = new Random();
 
 	public static void main(String[] args) {
@@ -38,16 +38,9 @@ public class Minesweeper {
 	}
 
 	/**
-<<<<<<< HEAD
 	 * Sets a given number of mines randomly thought out the mine field Set's a
 	 * given number of mines randomly thought out the mine field
-	 *
-=======
-	 * Sets a given number of mines randomly thought out the mine field
 	 * 
-	 * Set's a given number of mines randomly thought out the mine field
-	 * 
->>>>>>> ddab51cb8352ea2e23ae5c2bac0396a5a30415bc
 	 * @param numOffMines
 	 *            the number of total mines that should be in the whole mine field
 	 * @param myMine
@@ -109,6 +102,34 @@ public class Minesweeper {
 				return true;
 			}
 		}
+	}
+
+	/**
+	 * finds the number of mines arrowed a guess location z-
+	 * 
+	 * @param guessX
+	 *            The X coordinate of the users current click.
+	 * @param guessY
+	 *            The Y coordinate of the users current click.
+	 * @param myMine
+	 *            2D array for objects that holds all of the information about the
+	 *            game board. Each object is is a different square on the board.
+	 * @return the number of mines that are in the surrounding area of guessX and
+	 *         GuessY coordinates
+	 */
+	public static int genNumOfMines(int guessX, int guessY, Square[][] myMine) {
+		int count = 0;
+		for (int i = -1; i < 2; i++) {
+			for (int j = -1; j < 2; j++) {
+				try {
+					if (myMine[guessX + i][guessY + j].checkMine()) {
+						count++;
+					}
+				} catch (Exception e) {
+				}
+			}
+		}
+		return count;
 	}
 
 	/**
