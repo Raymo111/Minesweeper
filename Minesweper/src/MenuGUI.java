@@ -1,7 +1,3 @@
-import java.io.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
 
 /*
  * Authors: Raymond Li, David Tuck
@@ -9,6 +5,12 @@ import javax.swing.*;
  * Date Finished: 2018-04-
  * Description: Minesweeper game
  */
+
+import java.io.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
 public class MenuGUI extends JFrame implements ActionListener {
 
 	// Private class variables
@@ -25,24 +27,26 @@ public class MenuGUI extends JFrame implements ActionListener {
 	public MenuGUI() {
 
 		// Sets font of message and adds it to messagePanel
-		message.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+		message.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		messagePanel.add(message);
 
 		// Adds action listeners and fonts to buttons
 		newGame.addActionListener(this);
-		newGame.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+		newGame.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		loadGame.addActionListener(this);
-		loadGame.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+		loadGame.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		small.addActionListener(this);
-		small.setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
+		small.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
 		medium.addActionListener(this);
-		medium.setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
+		medium.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
 		large.addActionListener(this);
-		large.setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
+		large.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+		back.addActionListener(this);
+		back.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
 
 		// Sets title, size, layout and location of GUI window
 		setTitle("Start Game");
-		setSize(420, 420);
+		setSize(640, 420);
 		setLayout(new GridLayout(2, 1));
 		setLocationRelativeTo(null);
 
