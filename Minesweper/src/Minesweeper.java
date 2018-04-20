@@ -17,11 +17,8 @@ public class Minesweeper {
 	public static final int mapSizeYLimit = 24;// limit on the custom dimension Y
 	public static final int mapSizeXLimit = 30;// limit on the custom dimension X
 	public static long additionalTime;
-<<<<<<< HEAD
-=======
 	public static boolean newGame = false;
 	public static Integer numOfMinesLeft;
->>>>>>> 84fd8d696d8504d1a5dc16c543dd5e6ea0229b7b
 	private static Random random = new Random();
 
 	public static void main(String[] args) {
@@ -40,13 +37,12 @@ public class Minesweeper {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * Sets a given number of mines randomly thought out the mine field
+	 * <<<<<<< HEAD Sets a given number of mines randomly thought out the mine field
 	 * 
-=======
-	 * Set's a given number of mines randomly thought out the mine field
+	 * ======= Set's a given number of mines randomly thought out the mine field
 	 *
->>>>>>> 84fd8d696d8504d1a5dc16c543dd5e6ea0229b7b
+	 * >>>>>>> 84fd8d696d8504d1a5dc16c543dd5e6ea0229b7b
+	 * 
 	 * @param numOffMines
 	 *            the number of total mines that should be in the whole mine field
 	 * @param myMine
