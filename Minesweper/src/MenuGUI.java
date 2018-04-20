@@ -18,8 +18,9 @@ public class MenuGUI extends JFrame implements ActionListener {
 			"<html><div style='text-align: center;'>"
 					+ "Welcome to Minesweeper!<br>Created by: Raymond Li and David Tuck" + "</div></html>",
 			JLabel.CENTER);
-	private JButton newGame = new JButton("New Game"), loadGame = new JButton("Load Game"), small = new JButton("6x6"),
-			medium = new JButton("8x8"), large = new JButton("10x10"), back = new JButton("Back");
+	private JButton newGame = new JButton("New Game"), loadGame = new JButton("Load Game"),
+			beginner = new JButton("Beginner (6x6)"), intermediate = new JButton("Intermediate (8x8)"),
+			Expert = new JButton("Expert (10x10)"), back = new JButton("Back");
 	private JPanel messagePanel = new JPanel(), buttonPanel = new JPanel();
 	private JFileChooser fc;
 
@@ -35,18 +36,18 @@ public class MenuGUI extends JFrame implements ActionListener {
 		newGame.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
 		loadGame.addActionListener(this);
 		loadGame.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-		small.addActionListener(this);
-		small.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
-		medium.addActionListener(this);
-		medium.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
-		large.addActionListener(this);
-		large.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+		beginner.addActionListener(this);
+		beginner.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+		intermediate.addActionListener(this);
+		intermediate.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+		Expert.addActionListener(this);
+		Expert.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
 		back.addActionListener(this);
 		back.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
 
 		// Sets title, size, layout and location of GUI window
 		setTitle("Start Game");
-		setSize(640, 420);
+		setSize(640, 300);
 		setLayout(new GridLayout(2, 1));
 		setLocationRelativeTo(null);
 
@@ -63,9 +64,9 @@ public class MenuGUI extends JFrame implements ActionListener {
 		if (event.getSource() == newGame) {
 			buttonPanel.remove(newGame);
 			buttonPanel.remove(loadGame);
-			buttonPanel.add(small);
-			buttonPanel.add(medium);
-			buttonPanel.add(large);
+			buttonPanel.add(beginner);
+			buttonPanel.add(intermediate);
+			buttonPanel.add(Expert);
 			buttonPanel.add(back);
 			buttonPanel.revalidate();
 			buttonPanel.repaint();
@@ -105,9 +106,10 @@ public class MenuGUI extends JFrame implements ActionListener {
 				dispose();
 				new MenuGUI();
 			}
-		} else if (event.getSource() == small) {
+		} else if (event.getSource() == beginner) {
 			Minesweeper.mapSizeX = 6;
 			Minesweeper.mapSizeY = 6;
+			Minesweeper.mineCount = 10;
 			try {
 				Minesweeper.menufinished();
 				Minesweeper.fillWithEmpty();
@@ -116,9 +118,10 @@ public class MenuGUI extends JFrame implements ActionListener {
 				e.printStackTrace();
 			}
 			dispose();
-		} else if (event.getSource() == medium) {
+		} else if (event.getSource() == intermediate) {
 			Minesweeper.mapSizeX = 8;
 			Minesweeper.mapSizeY = 8;
+			Minesweeper.mineCount = 40;
 			try {
 				Minesweeper.menufinished();
 				Minesweeper.fillWithEmpty();
@@ -127,9 +130,10 @@ public class MenuGUI extends JFrame implements ActionListener {
 				e.printStackTrace();
 			}
 			dispose();
-		} else if (event.getSource() == large) {
+		} else if (event.getSource() == Expert) {
 			Minesweeper.mapSizeX = 10;
 			Minesweeper.mapSizeY = 10;
+			Minesweeper.mineCount = 99;
 			try {
 				Minesweeper.menufinished();
 				Minesweeper.fillWithEmpty();
