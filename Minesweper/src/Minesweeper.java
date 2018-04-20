@@ -13,7 +13,10 @@ public class Minesweeper {
 
 	// Class variables
 	private static Square map[][];
-	public static int roundCount = 0, mapSizeX, mapSizeY, mineCount;
+	public static int roundCount = 0;
+	public static int mapSizeX;
+	public static int mapSizeY;
+	public static int mineCount;
 	public static final int mapSizeYLimit = 24;// limit on the custom dimension Y
 	public static final int mapSizeXLimit = 30;// limit on the custom dimension X
 	public static final int numOfMinesLimit = 99;// limit on the number of mines
@@ -102,34 +105,6 @@ public class Minesweeper {
 				return true;
 			}
 		}
-	}
-
-	/**
-	 * finds the number of mines arrowed a guess location z-
-	 * 
-	 * @param guessX
-	 *            The X coordinate of the users current click.
-	 * @param guessY
-	 *            The Y coordinate of the users current click.
-	 * @param myMine
-	 *            2D array for objects that holds all of the information about the
-	 *            game board. Each object is is a different square on the board.
-	 * @return the number of mines that are in the surrounding area of guessX and
-	 *         GuessY coordinates
-	 */
-	public static int genNumOfMines(int guessX, int guessY, Square[][] myMine) {
-		int count = 0;
-		for (int i = -1; i < 2; i++) {
-			for (int j = -1; j < 2; j++) {
-				try {
-					if (myMine[guessX + i][guessY + j].checkMine()) {
-						count++;
-					}
-				} catch (Exception e) {
-				}
-			}
-		}
-		return count;
 	}
 
 	/**
