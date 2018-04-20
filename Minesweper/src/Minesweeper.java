@@ -1,136 +1,176 @@
 /*
  * Authors: Raymond Li, David Tuck
  * Date started: 2018-04-18
+ * Date Finished: 2018-04-
  * Description: Minesweeper game
  */
 
-//Imports java GUI classes
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+//Imports java io and Random classes
+import java.io.*;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Minesweeper {
 
 	// Class variables
-	private JButton[][] buttons = new JButton[5][5];
-
+	private static Square map[][];
+	public static int roundCount = 0, mapSizeX, mapSizeY, mineCount;
+	public static long additionalTime;
+	public static boolean newGame = false;
 	private static Random random = new Random();
-	public static int roundCount = 0;
-	static Scanner input = new Scanner(System.in);
-	public static int mapSizeX = 5;
-	public static int mapSizeY = 5;
 
-	public static void main(String[] args) { 
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
 
-		int numOffMines = 5;
+		do {// start of a game
+			// run menu GUI here
 
-		mineSweeperTypes[][] masterMap = new mineSweeperTypes[mapSizeX][mapSizeY];// underlying map of mines
-		fillWithEmpty(masterMap);
-		genMines(numOffMines, masterMap);
+			map = new Square[map.length][];
+			for (int i = 0; i < mapSizeX; i++) {
+				for (int j = 0; j < mapSizeY; j++) {
+					map[i][j] = new Square();// adds objects to myMine
+				}
+			}
 
-		mineSweeperTypes[][] userMap = new mineSweeperTypes[mapSizeX][mapSizeY];// map that is visible to user
-		fillWithEmpty(userMap);
-		do {
-			System.out.println("Enter X");
-			int guessX = input.nextInt();// temp method of input
-			System.out.println("Enter Y");
-			int guessY = input.nextInt();// temp method of input
-			if (checkForMine(guessX, guessY, masterMap)) {
-				int numOfMines = genNumOfMines(guessX, guessY, userMap);
-
+			if (newGame) {//
+				fillWithEmpty();
+				genMines();
 			} else {
+				readFromFile("Get name of file from user");
 
 			}
 
 		} while (true);
+
 	}
 
 	/**
-	 * Set's a given number of mines randomly thoughtout the master map
+	 * Set's a given number of mines randomly thought out the mine field
 	 * 
 	 * @param numOffMines
-	 * @param masterMap
+	 *            the number of total mines that should be in the whole mine field
+	 * @param myMine
+	 *            2D array for objects that holds all of the information about the
+	 *            game board. Each object is is a different square on the board.
 	 */
-	public static void genMines(int numOffMines, mineSweeperTypes[][] masterMap) {
-		int tempX;
-		int tempY;
-		for (int i = 0; i < numOffMines; i++) {
-			do {
-				tempX = (int) (Math.random() * mapSizeX);
-				tempY = (int) (Math.random() * mapSizeY);
-			} while (masterMap[tempX][tempY] != mineSweeperTypes.mine);
-			masterMap[tempX][tempY] = mineSweeperTypes.mine;
+	public static void genMines() {
+		int newX, newY;
+		for (int i = 0; i < mineCount; i++) {
+			newX = random.nextInt(mapSizeX);
+			newY = random.nextInt(mapSizeY);
+			map[newX][newY].setToMine();
 		}
 	}
 
 	/**
+	 * Sets the array of myMine to all empty
 	 * 
-	 * @param map
+	 * @param myMine
+	 *            2D array for objects that holds all of the information about the
+	 *            game board. Each object is is a different square on the board.
 	 */
-	public static void fillWithEmpty(mineSweeperTypes[][] map) {
+	public static void fillWithEmpty() {
 		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map.length; j++) {
-				map[i][j] = mineSweeperTypes.empty;
+			for (int j = 0; j < map[i].length; j++) {
+				map[i][j].changeType(MinesweeperTypes.EMPTY);
+				;
 			}
 		}
 	}
 
-	public enum mineSweeperTypes {
-		mine, empty, flaged, unknown, quetionMark
-	}
-
 	/**
+	 * Checks to see if a mine is at the user's clicked location.
 	 * 
-	 * @param guessX
-	 * @param guessY
-	 * @param masterMap
-	 * @return
+	 * @param clickX
+	 *            The X coordinate of the users current click.
+	 * @param clickY
+	 *            The Y coordinate of the users current click.
+	 * @param map
+	 *            2D array for objects that holds all of the information about the
+	 *            game board. Each object is is a different square on the board.
+	 * @return true if the users current guess location IS in the location of a mine
+	 *         false if the users current guess location is NOT the location of a
+	 *         mine
 	 */
-	public static boolean checkForMine(int guessX, int guessY, mineSweeperTypes[][] masterMap) {
-		if (roundCount == 0 && masterMap[guessX][guessY] == mineSweeperTypes.mine) {// moves the mine
-
-			int tempX;
-			int tempY;
-			masterMap[guessX][guessY] = mineSweeperTypes.empty;
+	public static boolean checkForMine(int clickX, int clickY) {
+		if (roundCount == 0 && map[clickX][clickY].checkMine()) {// moves the mine
+			map[clickX][clickY].removeMine();// Removes the mine
+			// generates one move mine in a different location
+			int newX, newY;
 			do {
-				tempX = (int) (Math.random() * mapSizeX);
-				tempY = (int) (Math.random() * mapSizeY);
-			} while (masterMap[tempX][tempY] != mineSweeperTypes.mine);
-			masterMap[tempX][tempY] = mineSweeperTypes.mine;
+				newX = random.nextInt(mapSizeX);
+				newY = random.nextInt(mapSizeY);
+			} while (map[newX][newY].checkMine() || newX == clickX & newY == clickY);
+			map[newX][newY].setToMine();
 			return true;
-
 		} else {
-			if (masterMap[guessX][guessY] == mineSweeperTypes.mine) {// checks to see if position has a mine
-				return false;
-			} else {// returns true if there is no mine
+			if (map[clickX][clickY].checkMine()) {// checks to see if position has a mine
+				return false;// returns true if user has clicked on a mine
+			} else {// returns false if there is no mine
 				return true;
 			}
 		}
 	}
 
 	/**
+	 * finds the number of mines arrowed a guess location (x,y)
 	 * 
 	 * @param guessX
+	 *            The X coordinate of the users current click.
 	 * @param guessY
-	 * @param userMap
-	 * @return
+	 *            The Y coordinate of the users current click.
+	 * @param myMine
+	 *            2D array for objects that holds all of the information about the
+	 *            game board. Each object is is a different square on the board.
+	 * @return the number of mines that are in the surrounding area of guessX and
+	 *         GuessY coordinates
 	 */
-	public static int genNumOfMines(int guessX, int guessY, mineSweeperTypes[][] userMap) {
+	public static int genNumOfMines(int clickX, int clickY) {
 		int count = 0;
 		for (int i = -1; i < 2; i++) {
 			for (int j = -1; j < 2; j++) {
 				try {
-					if (userMap[guessX + i][guessY + j] == mineSweeperTypes.mine) {
+					if (map[clickX + i][clickY + j].checkMine()) {
 						count++;
 					}
 				} catch (Exception e) {
-
 				}
 			}
 		}
 		return count;
+	}
+
+	/**
+	 * Saves a current game to a file
+	 * 
+	 * @param myMine
+	 * @param fileName
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	public static void writeToFile(String fileName) throws FileNotFoundException, IOException {
+		try (FileOutputStream f = new FileOutputStream(fileName + ".txt"); ObjectOutput s = new ObjectOutputStream(f)) {
+			s.writeObject(map);
+		} catch (FileNotFoundException e) {
+			System.err.println("Could not find file.");// GUI needs to display error
+		} catch (IOException e) {
+			System.err.println(e);// GUI needs to display error
+		}
+	}
+
+	/**
+	 * read a saved game from a file and outputs this to myMine array
+	 * 
+	 * @param myMine
+	 * @param fileName
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	public static void readFromFile(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException {
+		try (FileInputStream in = new FileInputStream(fileName + ".txt");
+				ObjectInputStream s = new ObjectInputStream(in)) {
+			map = (Square[][]) s.readObject();
+		} catch (FileNotFoundException e) {
+			System.err.println(e);// GUI needs to display error
+		}
 	}
 }

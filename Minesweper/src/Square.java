@@ -1,10 +1,14 @@
-public class Mine {
+/*
+ * Authors: Raymond Li, David Tuck
+ * Date created: 2018-04-18
+ * Description: Minesweeper squares
+ */
+public class Square {
 	private int visibleValue = 0;
 	private MinesweeperTypes contains;
 	private boolean isAMine = false;
 
-	public Mine(boolean mine) {
-		isAMine = mine;
+	public Square() {
 		contains = MinesweeperTypes.EMPTY;
 	}
 
@@ -24,8 +28,8 @@ public class Mine {
 		return contains;
 	}
 
-	public void changeType(MinesweeperTypes var) {
-		contains = var;
+	public void changeType(MinesweeperTypes type) {
+		contains = type;
 	}
 
 	public void setVisibleValue(int newValue) {
