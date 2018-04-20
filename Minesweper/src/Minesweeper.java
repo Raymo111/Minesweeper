@@ -14,7 +14,14 @@ public class Minesweeper {
 	// Class variables
 	private static Square map[][];
 	public static int roundCount = 0, mapSizeX, mapSizeY, mineCount;
+	public static final int mapSizeYLimit = 24;// limit on the custom dimension Y
+	public static final int mapSizeXLimit = 30;// limit on the custom dimension X
 	public static long additionalTime;
+<<<<<<< HEAD
+=======
+	public static boolean newGame = false;
+	public static Integer numOfMinesLeft;
+>>>>>>> 84fd8d696d8504d1a5dc16c543dd5e6ea0229b7b
 	private static Random random = new Random();
 
 	public static void main(String[] args) {
@@ -33,8 +40,13 @@ public class Minesweeper {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Sets a given number of mines randomly thought out the mine field
 	 * 
+=======
+	 * Set's a given number of mines randomly thought out the mine field
+	 *
+>>>>>>> 84fd8d696d8504d1a5dc16c543dd5e6ea0229b7b
 	 * @param numOffMines
 	 *            the number of total mines that should be in the whole mine field
 	 * @param myMine
@@ -52,7 +64,7 @@ public class Minesweeper {
 
 	/**
 	 * Sets the array of myMine to all empty
-	 * 
+	 *
 	 * @param myMine
 	 *            2D array for objects that holds all of the information about the
 	 *            game board. Each object is is a different square on the board.
@@ -66,7 +78,7 @@ public class Minesweeper {
 
 	/**
 	 * Checks to see if a mine is at the user's clicked location.
-	 * 
+	 *
 	 * @param clickX
 	 *            The X coordinate of the users current click.
 	 * @param clickY
@@ -100,7 +112,7 @@ public class Minesweeper {
 
 	/**
 	 * finds the number of mines arrowed a guess location (x,y)
-	 * 
+	 *
 	 * @param guessX
 	 *            The X coordinate of the users current click.
 	 * @param guessY
@@ -129,8 +141,10 @@ public class Minesweeper {
 
 	/**
 	 * Saves a current game to a file
-	 * 
+	 *
 	 * @param myMine
+	 *            2D array for objects that holds all of the information about the
+	 *            game board. Each object is is a different square on the board.
 	 * @param fileName
 	 * @throws FileNotFoundException
 	 * @throws IOException
@@ -148,7 +162,7 @@ public class Minesweeper {
 
 	/**
 	 * read a saved game from a file and outputs this to myMine array
-	 * 
+	 *
 	 * @param myMine
 	 * @param fileName
 	 * @throws FileNotFoundException
@@ -161,5 +175,23 @@ public class Minesweeper {
 		} catch (FileNotFoundException e) {
 			System.err.println(e);// GUI needs to display error
 		}
+	}
+
+	/**
+	 * Updates the number of mines that are left. This method should be run right
+	 * after every time the user right click a cell
+	 * 
+	 * 
+	 */
+	public static void updateScore() {
+		int counter = 0;
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map.length; j++) {
+				if (map[i][j].getMineType() == MinesweeperTypes.FLAG) {
+					counter++;
+				}
+			}
+		}
+		numOfMinesLeft = mineCount - counter;
 	}
 }
