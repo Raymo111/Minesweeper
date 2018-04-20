@@ -12,7 +12,7 @@ import java.util.Random;
 public class Minesweeper {
 
 	// Class variables
-	private static Square map[][];
+	public static Square map[][];
 	public static int roundCount = 0, mapSizeX, mapSizeY, mineCount;
 	public static final int mapSizeYLimit = 24;// limit on the custom dimension Y
 	public static final int mapSizeXLimit = 30;// limit on the custom dimension X
@@ -179,12 +179,21 @@ public class Minesweeper {
 		}
 	}
 
-	public static void updateScore(Integer currentScore) {
+	/**
+	 * Updates the number of mines that are left. This method should be run right
+	 * after every time the user right click a cell
+	 * 
+	 * 
+	 */
+	public static void updateScore() {
 		int counter = 0;
-		for (int i = 0; i < myMine.length; i++) {
-			for (int j = 0; j < myMine.length; j++) {
-				if (myMine[i][j].getMineType() == MinesweeperTypes.FLAG) {
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map.length; j++) {
+				if (map[i][j].getMineType() == MinesweeperTypes.FLAG) {
 					counter++;
 				}
 			}
+		}
+		numOfMinesLeft = mineCount - counter;
+	}
 }
