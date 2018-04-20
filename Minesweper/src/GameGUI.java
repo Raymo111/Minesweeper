@@ -13,7 +13,7 @@ import javax.swing.*;
 public class GameGUI {
 
 	// Private class Variables
-	JButton
+	private JButton[][] buttons;
 
 	public GameGUI(int mapSizeX, int mapSizeY) {
 
