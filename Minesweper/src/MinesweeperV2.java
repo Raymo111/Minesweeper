@@ -32,10 +32,10 @@ public class MinesweeperV2 implements Serializable {
 
 			boolean newGame = false;// get from gui
 
-			Mine myMine[][] = new Mine[mapSizeX][mapSizeY];
+			Square myMine[][] = new Square[mapSizeX][mapSizeY];
 			for (int i = 0; i < mapSizeX; i++) {
 				for (int j = 0; j < mapSizeY; j++) {
-					myMine[i][j] = new Mine(false);// adds objects to myMine
+					myMine[i][j] = new Square();// adds objects to myMine
 				}
 			}
 
@@ -61,7 +61,7 @@ public class MinesweeperV2 implements Serializable {
 	 *            2D array for objects that holds all of the information about the
 	 *            game board. Each object is is a different square on the board.
 	 */
-	public static void genMines(int countOf, Mine[][] myMine, int notX, int notY) {
+	public static void genMines(int countOf, Square[][] myMine, int notX, int notY) {
 		int tempX;
 		int tempY;
 		for (int i = 0; i < countOf; i++) {
@@ -80,7 +80,7 @@ public class MinesweeperV2 implements Serializable {
 	 *            2D array for objects that holds all of the information about the
 	 *            game board. Each object is is a different square on the board.
 	 */
-	public static void fillWithEmpty(Mine[][] myMine) {
+	public static void fillWithEmpty(Square[][] myMine) {
 		for (int i = 0; i < myMine.length; i++) {
 			for (int j = 0; j < myMine[0].length; j++) {
 				myMine[i][j].changeType(MinesweeperTypes.EMPTY);
@@ -103,7 +103,7 @@ public class MinesweeperV2 implements Serializable {
 	 *         false if the users current guess location is NOT the location of a
 	 *         mine
 	 */
-	public static boolean checkForMine(int guessX, int guessY, Mine[][] myMine) {
+	public static boolean checkForMine(int guessX, int guessY, Square[][] myMine) {
 		if (roundCount == 0 && myMine[guessX][guessY].checkMine()) {// moves the mine
 			myMine[guessX][guessY].removeMine();// Removes the mine
 			genMines(1, myMine, guessX, guessY);// generates one move mine in a different location
@@ -130,7 +130,7 @@ public class MinesweeperV2 implements Serializable {
 	 * @return the number of mines that are in the surrounding area of guessX and
 	 *         GuessY coordinates
 	 */
-	public static int genNumOfMines(int guessX, int guessY, Mine[][] myMine) {
+	public static int genNumOfMines(int guessX, int guessY, Square[][] myMine) {
 		int count = 0;
 		for (int i = -1; i < 2; i++) {
 			for (int j = -1; j < 2; j++) {
@@ -156,7 +156,7 @@ public class MinesweeperV2 implements Serializable {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public static void writeToFile(Mine[][] myMine, String fileName) throws FileNotFoundException, IOException {
+	public static void writeToFile(Square[][] myMine, String fileName) throws FileNotFoundException, IOException {
 		try (FileOutputStream f = new FileOutputStream(fileName + ".txt"); ObjectOutput s = new ObjectOutputStream(f)) {
 			s.writeObject(myMine);
 		} catch (FileNotFoundException e) {
@@ -178,11 +178,11 @@ public class MinesweeperV2 implements Serializable {
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public static void readFromFile(Mine[][] myMine, String fileName)
+	public static void readFromFile(Square[][] myMine, String fileName)
 			throws FileNotFoundException, IOException, ClassNotFoundException {
 		try (FileInputStream in = new FileInputStream(fileName + ".txt");
 				ObjectInputStream s = new ObjectInputStream(in)) {
-			myMine = (Mine[][]) s.readObject();
+			myMine = (Square[][]) s.readObject();
 		} catch (FileNotFoundException e) {
 			System.err.println(e);// GUI needs to display error
 		}
@@ -199,7 +199,7 @@ public class MinesweeperV2 implements Serializable {
 	 *            game board. Each object is is a different square on the board.
 	 * 
 	 */
-	public static void updateScore(Integer currentScore, Mine[][] myMine) {
+	public static void updateScore(Integer currentScore, Square[][] myMine) {
 		int counter = 0;
 		for (int i = 0; i < myMine.length; i++) {
 			for (int j = 0; j < myMine.length; j++) {
