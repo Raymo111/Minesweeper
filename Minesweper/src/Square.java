@@ -28,8 +28,8 @@ public class Square {
 		return contains;
 	}
 
-	public void changeType(MinesweeperTypes var) {
-		contains = var;
+	public void changeType(MinesweeperTypes type) {
+		contains = type;
 	}
 
 	public void setVisibleValue(int newValue) {
