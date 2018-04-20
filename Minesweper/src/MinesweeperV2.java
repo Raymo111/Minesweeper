@@ -19,7 +19,9 @@ public class MinesweeperV2 implements Serializable {
 	static Scanner input = new Scanner(System.in);
 	public static int mapSizeX = 6;
 	public static int mapSizeY = 6;
+	public static int numOffMines = 0;// get this from menu gui
 	public static long additionalTime;
+	public static Integer numOfMinesLeft;
 
 	public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, IOException {
 
@@ -29,7 +31,7 @@ public class MinesweeperV2 implements Serializable {
 			// crowded
 
 			boolean newGame = false;// get from gui
-			int numOffMines = 0;// get this from menu gui
+
 			Mine myMine[][] = new Mine[mapSizeX][mapSizeY];
 			for (int i = 0; i < mapSizeX; i++) {
 				for (int j = 0; j < mapSizeY; j++) {
@@ -53,16 +55,16 @@ public class MinesweeperV2 implements Serializable {
 	/**
 	 * Set's a given number of mines randomly thought out the mine field
 	 * 
-	 * @param numOffMines
+	 * @param countOf
 	 *            the number of total mines that should be in the whole mine field
 	 * @param myMine
 	 *            2D array for objects that holds all of the information about the
 	 *            game board. Each object is is a different square on the board.
 	 */
-	public static void genMines(int numOffMines, Mine[][] myMine, int notX, int notY) {
+	public static void genMines(int countOf, Mine[][] myMine, int notX, int notY) {
 		int tempX;
 		int tempY;
-		for (int i = 0; i < numOffMines; i++) {
+		for (int i = 0; i < countOf; i++) {
 			do {
 				tempX = (int) (Math.random() * mapSizeX);
 				tempY = (int) (Math.random() * mapSizeY);
@@ -144,10 +146,13 @@ public class MinesweeperV2 implements Serializable {
 	}
 
 	/**
-	 * Saves a current game to a file
+	 * Saves a current game to a file.
 	 * 
 	 * @param myMine
+	 *            2D array for objects that holds all of the information about the
+	 *            game board. Each object is is a different square on the board.
 	 * @param fileName
+	 *            The name the user fishes to save the file as.
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
@@ -162,10 +167,13 @@ public class MinesweeperV2 implements Serializable {
 	}
 
 	/**
-	 * read a saved game from a file and outputs this to myMine array
+	 * Read a saved game from a file and outputs this to myMine array.
 	 * 
 	 * @param myMine
+	 *            2D array for objects that holds all of the information about the
+	 *            game board. Each object is is a different square on the board.
 	 * @param fileName
+	 *            The name the user has the games saved as.
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws ClassNotFoundException
@@ -178,5 +186,28 @@ public class MinesweeperV2 implements Serializable {
 		} catch (FileNotFoundException e) {
 			System.err.println(e);// GUI needs to display error
 		}
+	}
+
+	/**
+	 * Updates the number of mines that are left. This method should be run right
+	 * after every time the user right click a cell
+	 * 
+	 * @param currentScore
+	 *            The number of mines left.
+	 * @param myMine
+	 *            2D array for objects that holds all of the information about the
+	 *            game board. Each object is is a different square on the board.
+	 * 
+	 */
+	public static void updateScore(Integer currentScore, Mine[][] myMine) {
+		int counter = 0;
+		for (int i = 0; i < myMine.length; i++) {
+			for (int j = 0; j < myMine.length; j++) {
+				if (myMine[i][j].getMineType() == MinesweeperTypes.FLAG) {
+					counter++;
+				}
+			}
+		}
+		currentScore = numOffMines - counter;
 	}
 }
