@@ -37,11 +37,9 @@ public class Minesweeper {
 	}
 
 	/**
-	 * <<<<<<< HEAD Sets a given number of mines randomly thought out the mine field
+	 * Sets a given number of mines randomly thought out the mine field
 	 * 
-	 * ======= Set's a given number of mines randomly thought out the mine field
-	 *
-	 * >>>>>>> 84fd8d696d8504d1a5dc16c543dd5e6ea0229b7b
+	 * Set's a given number of mines randomly thought out the mine field
 	 * 
 	 * @param numOffMines
 	 *            the number of total mines that should be in the whole mine field
@@ -176,8 +174,6 @@ public class Minesweeper {
 	/**
 	 * Updates the number of mines that are left. This method should be run right
 	 * after every time the user right click a cell
-	 * 
-	 * 
 	 */
 	public static void updateScore() {
 		int counter = 0;
