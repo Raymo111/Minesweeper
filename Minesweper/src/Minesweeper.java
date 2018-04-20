@@ -18,28 +18,19 @@ public class Minesweeper {
 	public static boolean newGame = false;
 	private static Random random = new Random();
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException {
+	public static void main(String[] args) {
 
-		do {// start of a game
-			// run menu GUI here
+		// Start menu instance
+		new MenuGUI();
+	}
 
-			map = new Square[map.length][];
-			for (int i = 0; i < mapSizeX; i++) {
-				for (int j = 0; j < mapSizeY; j++) {
-					map[i][j] = new Square();// adds objects to myMine
-				}
+	public static void menufinished() throws IOException, ClassNotFoundException {
+		map = new Square[mapSizeX][mapSizeY];
+		for (int i = 0; i < mapSizeX; i++) {
+			for (int j = 0; j < mapSizeY; j++) {
+				map[i][j] = new Square();// adds objects to myMine
 			}
-
-			if (newGame) {//
-				fillWithEmpty();
-				genMines();
-			} else {
-				readFromFile("Get name of file from user");
-
-			}
-
-		} while (true);
-
+		}
 	}
 
 	/**
@@ -68,8 +59,8 @@ public class Minesweeper {
 	 *            game board. Each object is is a different square on the board.
 	 */
 	public static void fillWithEmpty() {
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[i].length; j++) {
+		for (int i = 0; i < mapSizeX; i++) {
+			for (int j = 0; j < mapSizeY; j++) {
 				map[i][j].changeType(MinesweeperTypes.EMPTY);
 				;
 			}
@@ -132,6 +123,7 @@ public class Minesweeper {
 						count++;
 					}
 				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		}
@@ -147,7 +139,7 @@ public class Minesweeper {
 	 * @throws IOException
 	 */
 	public static void writeToFile(String fileName) throws FileNotFoundException, IOException {
-		try (FileOutputStream f = new FileOutputStream(fileName + ".txt"); ObjectOutput s = new ObjectOutputStream(f)) {
+		try (FileOutputStream f = new FileOutputStream(fileName + ".msg"); ObjectOutput s = new ObjectOutputStream(f)) {
 			s.writeObject(map);
 		} catch (FileNotFoundException e) {
 			System.err.println("Could not find file.");// GUI needs to display error
@@ -166,7 +158,7 @@ public class Minesweeper {
 	 * @throws ClassNotFoundException
 	 */
 	public static void readFromFile(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException {
-		try (FileInputStream in = new FileInputStream(fileName + ".txt");
+		try (FileInputStream in = new FileInputStream(fileName + ".msg");
 				ObjectInputStream s = new ObjectInputStream(in)) {
 			map = (Square[][]) s.readObject();
 		} catch (FileNotFoundException e) {
