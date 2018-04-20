@@ -12,7 +12,7 @@ import java.util.Random;
 public class Minesweeper {
 
 	// Class variables
-	public static Square map[][];
+	private static Square map[][];
 	public static int roundCount = 0, mapSizeX, mapSizeY, mineCount;
 	public static final int mapSizeYLimit = 24;// limit on the custom dimension Y
 	public static final int mapSizeXLimit = 30;// limit on the custom dimension X
