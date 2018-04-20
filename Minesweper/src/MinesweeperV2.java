@@ -1,5 +1,5 @@
 /*
- * Authors: Raymond Li, David Tuck
+ * Authors: David Tuck, Raymond Li
  * Date started: 2018-04-18
  * Date Finished: 2018-04-
  * Description: Minesweeper game
@@ -209,5 +209,6 @@ public class MinesweeperV2 implements Serializable {
 			}
 		}
 		currentScore = numOffMines - counter;
+
 	}
 }
