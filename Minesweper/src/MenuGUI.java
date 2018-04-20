@@ -130,6 +130,10 @@ public class MenuGUI extends JFrame implements ActionListener {
 				Minesweeper.menufinished();
 				Minesweeper.fillWithEmpty();
 				Minesweeper.genMines();
+<<<<<<< HEAD
+=======
+				new GameGUI(Minesweeper.mapSizeX, Minesweeper.mapSizeY);
+>>>>>>> 34d1c8ff900edf1c8256b699e6faf9f3f4573250
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
