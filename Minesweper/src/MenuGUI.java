@@ -74,26 +74,27 @@ public class MenuGUI extends JFrame implements ActionListener {
 				fc = new JFileChooser();
 
 				// Add a custom file filter and disable the default (Accept All) file filter
-				fc.addChoosableFileFilter(new MSGFilter());
+				fc.addChoosableFileFilter(new MSSGFilter());
 				fc.setAcceptAllFileFilterUsed(false);
 			}
 
-			// Show it.
+			// Show it
 			int returnVal = fc.showDialog(MenuGUI.this, "Load Game");
 
-			// Process the results.
+			// Process the results
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				File saveGame = fc.getSelectedFile();
 
 				// Reset the file chooser for the next time it's shown and read file
 				fc.setSelectedFile(null);
 				try {
-					System.out.println(saveGame.getName());
+					Minesweeper.menufinished();
 					Minesweeper.readFromFile(saveGame.getName());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				JOptionPane.showMessageDialog(rootPane, new JLabel("File loaded!"), "FileLoader", JLabel.CENTER);
+				JOptionPane.showMessageDialog(rootPane, new JLabel("File loaded!", JLabel.CENTER), "FileLoader",
+						JOptionPane.DEFAULT_OPTION);
 			} else {
 				JOptionPane.showMessageDialog(rootPane, new JLabel("File not loaded. Bad File."), "FileLoader",
 						JLabel.CENTER);
@@ -103,20 +104,35 @@ public class MenuGUI extends JFrame implements ActionListener {
 		} else if (event.getSource() == small) {
 			Minesweeper.mapSizeX = 6;
 			Minesweeper.mapSizeY = 6;
-			Minesweeper.fillWithEmpty();
-			Minesweeper.genMines();
+			try {
+				Minesweeper.menufinished();
+				Minesweeper.fillWithEmpty();
+				Minesweeper.genMines();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			dispose();
 		} else if (event.getSource() == medium) {
 			Minesweeper.mapSizeX = 8;
 			Minesweeper.mapSizeY = 8;
-			Minesweeper.fillWithEmpty();
-			Minesweeper.genMines();
+			try {
+				Minesweeper.menufinished();
+				Minesweeper.fillWithEmpty();
+				Minesweeper.genMines();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			dispose();
 		} else if (event.getSource() == large) {
 			Minesweeper.mapSizeX = 10;
 			Minesweeper.mapSizeY = 10;
-			Minesweeper.fillWithEmpty();
-			Minesweeper.genMines();
+			try {
+				Minesweeper.menufinished();
+				Minesweeper.fillWithEmpty();
+				Minesweeper.genMines();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			dispose();
 		} else if (event.getSource() == back) {
 			dispose();

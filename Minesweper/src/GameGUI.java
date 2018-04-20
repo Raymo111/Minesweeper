@@ -5,5 +5,7 @@
  * Description: Minesweeper game's main GUI
  */
 public class GameGUI {
+	public GameGUI(int mapSizeX, int mapSizeY) {
 
+	}
 }

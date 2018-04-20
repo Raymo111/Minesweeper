@@ -2,7 +2,7 @@ import java.io.File;
 
 import javax.swing.filechooser.FileFilter;
 
-public class MSGFilter extends FileFilter {
+public class MSSGFilter extends FileFilter {
 
 	public boolean accept(File f) {
 		if (f.isDirectory()) {
@@ -11,7 +11,7 @@ public class MSGFilter extends FileFilter {
 
 		String extension = getExtension(f);
 		if (extension != null) {
-			if (extension.equals("msg")) {
+			if (extension.equals("mssg")) {
 				return true;
 			} else {
 				return false;
@@ -23,7 +23,7 @@ public class MSGFilter extends FileFilter {
 
 	// The description of this filter
 	public String getDescription() {
-		return "Minesweeper Savegames (.msg files)";
+		return "Minesweeper Savegames (.mssg files)";
 	}
 
 	// Gets extension of files
