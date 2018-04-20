@@ -19,6 +19,8 @@ public class MinesweeperV2 implements Serializable {
 	static Scanner input = new Scanner(System.in);
 	public static int mapSizeX = 6;
 	public static int mapSizeY = 6;
+	public static int mapSizeYLimit = 24;//limit on the custom dimension Y
+	public static int mapSizeXLimit = 30;//limit on the custom dimension X
 	public static int numOffMines = 0;// get this from menu gui
 	public static long additionalTime;
 	public static Integer numOfMinesLeft;
@@ -45,9 +47,7 @@ public class MinesweeperV2 implements Serializable {
 																			// hand
 			} else {//
 				readFromFile(myMine, "Get name of file from user");
-
 			}
-
 		} while (true);
 
 	}
