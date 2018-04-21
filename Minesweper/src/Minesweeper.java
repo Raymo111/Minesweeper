@@ -38,6 +38,7 @@ public class Minesweeper {
 				map[i][j] = new Square();
 			}
 		}
+		new GameGUI(mapSizeX, mapSizeY);
 	}
 
 	/**

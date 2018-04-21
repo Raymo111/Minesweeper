@@ -13,6 +13,8 @@ import javax.swing.*;
 
 public class MenuGUI extends JFrame implements ActionListener {
 
+	private static final long serialVersionUID = 4449469728308361534L;
+
 	// Private class variables
 	private JLabel message = new JLabel(
 			"<html><div style='text-align: center;'>"
@@ -61,7 +63,7 @@ public class MenuGUI extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent event) {
-		if (event.getSource() == newGame) {
+		if (newGame == event.getSource()) {
 			buttonPanel.remove(newGame);
 			buttonPanel.remove(loadGame);
 			buttonPanel.add(beginner);
@@ -72,7 +74,7 @@ public class MenuGUI extends JFrame implements ActionListener {
 			buttonPanel.repaint();
 			revalidate();
 			repaint();
-		} else if (event.getSource() == loadGame) {
+		} else if (loadGame == event.getSource()) {
 			// Load game from file
 			// Set up the file chooser
 			if (fc == null) {
@@ -106,7 +108,7 @@ public class MenuGUI extends JFrame implements ActionListener {
 				dispose();
 				new MenuGUI();
 			}
-		} else if (event.getSource() == beginner) {
+		} else if (beginner == event.getSource()) {
 			Minesweeper.mapSizeX = 6;
 			Minesweeper.mapSizeY = 6;
 			Minesweeper.mineCount = 10;
@@ -118,7 +120,7 @@ public class MenuGUI extends JFrame implements ActionListener {
 				e.printStackTrace();
 			}
 			dispose();
-		} else if (event.getSource() == intermediate) {
+		} else if (intermediate == event.getSource()) {
 			Minesweeper.mapSizeX = 8;
 			Minesweeper.mapSizeY = 8;
 			Minesweeper.mineCount = 40;
@@ -130,7 +132,7 @@ public class MenuGUI extends JFrame implements ActionListener {
 				e.printStackTrace();
 			}
 			dispose();
-		} else if (event.getSource() == Expert) {
+		} else if (Expert == event.getSource()) {
 			Minesweeper.mapSizeX = 10;
 			Minesweeper.mapSizeY = 10;
 			Minesweeper.mineCount = 99;
@@ -143,7 +145,7 @@ public class MenuGUI extends JFrame implements ActionListener {
 				e.printStackTrace();
 			}
 			dispose();
-		} else if (event.getSource() == back) {
+		} else if (back == event.getSource()) {
 			dispose();
 			new MenuGUI();
 		}
