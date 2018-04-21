@@ -130,7 +130,6 @@ public class Minesweeper {
 						count++;
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
 		}
