@@ -21,8 +21,8 @@ public class MenuGUI extends JFrame implements ActionListener {
 					+ "Welcome to Minesweeper!<br>Created by: Raymond Li and David Tuck" + "</div></html>",
 			JLabel.CENTER);
 	private JButton newGame = new JButton("New Game"), loadGame = new JButton("Load Game"),
-			beginner = new JButton("Beginner (6x6)"), intermediate = new JButton("Intermediate (8x8)"),
-			Expert = new JButton("Expert (10x10)"), back = new JButton("Back");
+			beginner = new JButton("Beginner (9x9)"), intermediate = new JButton("Intermediate (16x16)"),
+			Expert = new JButton("Expert (30x16)"), back = new JButton("Back");
 	private JPanel messagePanel = new JPanel(), buttonPanel = new JPanel();
 	private JFileChooser fc;
 
@@ -109,8 +109,8 @@ public class MenuGUI extends JFrame implements ActionListener {
 				new MenuGUI();
 			}
 		} else if (beginner == event.getSource()) {
-			Minesweeper.mapSizeX = 6;
-			Minesweeper.mapSizeY = 6;
+			Minesweeper.mapSizeX = 9;
+			Minesweeper.mapSizeY = 9;
 			Minesweeper.mineCount = 10;
 			try {
 				Minesweeper.menufinished();
@@ -121,8 +121,8 @@ public class MenuGUI extends JFrame implements ActionListener {
 			}
 			dispose();
 		} else if (intermediate == event.getSource()) {
-			Minesweeper.mapSizeX = 8;
-			Minesweeper.mapSizeY = 8;
+			Minesweeper.mapSizeX = 16;
+			Minesweeper.mapSizeY = 16;
 			Minesweeper.mineCount = 40;
 			try {
 				Minesweeper.menufinished();
@@ -133,8 +133,8 @@ public class MenuGUI extends JFrame implements ActionListener {
 			}
 			dispose();
 		} else if (Expert == event.getSource()) {
-			Minesweeper.mapSizeX = 10;
-			Minesweeper.mapSizeY = 10;
+			Minesweeper.mapSizeX = 30;
+			Minesweeper.mapSizeY = 16;
 			Minesweeper.mineCount = 99;
 			try {
 				Minesweeper.menufinished();
