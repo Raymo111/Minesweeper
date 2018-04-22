@@ -1,3 +1,4 @@
+
 /*
  * Authors: Raymond Li, David Tuck
  * Date started: 2018-04-18
@@ -8,6 +9,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 
 public class GameGUI extends JFrame implements ActionListener {
 
@@ -23,16 +25,62 @@ public class GameGUI extends JFrame implements ActionListener {
 
 	public GameGUI(int mapSizeX, int mapSizeY) {
 
-		// Initializes panels and
+		// Initializes panels and buttons array
 		gamePanel.setLayout(new GridLayout(mapSizeX, mapSizeY));
 		controlPanel.setLayout(new FlowLayout());
 		buttons = new JButton[mapSizeX][mapSizeY];
 
-		// Initializes buttons, adds action listeners and adds buttons to the gamePanel
+		// Initializes buttons, adds mouse listeners and adds buttons to the gamePanel
 		for (int i = 0; i < mapSizeX; i++)
 			for (int j = 0; j < mapSizeY; j++) {
+				final int m = i, n = j;
 				buttons[i][j] = new JButton();
-				buttons[i][j].addActionListener(this);
+				buttons[i][j].addMouseListener(new MouseAdapter() {
+					boolean pressed;
+
+					public void mousePressed(MouseEvent e) {
+						buttons[m][n].getModel().setArmed(true);
+						buttons[m][n].getModel().setPressed(true);
+						pressed = true;
+					}
+
+					public void mouseReleased(MouseEvent e) {
+						buttons[m][n].getModel().setArmed(false);
+						buttons[m][n].getModel().setPressed(false);
+
+						if (pressed) {
+							if (SwingUtilities.isRightMouseButton(e)) {
+								// Show flag here
+							} else {
+								buttons[m][n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+								if (!Minesweeper.checkForMine(m, n)) {
+									if (Minesweeper.genNumOfMines(m, n) != 0)
+										buttons[m][n].setText(Integer.toString(Minesweeper.genNumOfMines(m, n)));
+								} else
+									for (int k = 0; k < mapSizeX; k++)
+										for (int l = 0; l < mapSizeY; l++) {
+											if (Minesweeper.checkForMine(k, l)) {
+												// Show Mine image here
+											}
+											// End game
+										}
+							}
+						}
+						pressed = false;
+
+					}
+
+					public void mouseExited(MouseEvent e) {
+						pressed = false;
+					}
+
+					public void mouseEntered(MouseEvent e) {
+						pressed = true;
+					}
+				});
+				buttons[i][j].setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+				buttons[i][j].setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+				buttons[i][j].setPreferredSize(new Dimension(60, 60));
 				gamePanel.add(buttons[i][j]);
 			}
 
@@ -48,7 +96,7 @@ public class GameGUI extends JFrame implements ActionListener {
 		// Sets title, size, layout and location of GUI window
 		setTitle("Minesweeper");
 		setSize(840, 840);
-		setLayout(new FlowLayout());
+		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		setLocationRelativeTo(null);
 
 		/*
@@ -60,12 +108,6 @@ public class GameGUI extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent event) {
-		for (int i = 0; i < buttons.length; i++)
-			for (int j = 0; j < buttons[i].length; j++)
-				if (buttons[i][j] == event.getSource()) {
-					Minesweeper.checkForMine(i, j);
-					Minesweeper.genNumOfMines(i, j);
-					Minesweeper.updateScore();
-				}
+
 	}
 }
