@@ -1,8 +1,14 @@
+
+/*
+ * Author: Raymond Li
+ * Date created: 2018-04-19
+ * Description: Minesweeper Save Game File filter class
+ */
+
 import java.io.File;
 
 import javax.swing.filechooser.FileFilter;
 
-//Minesweeper Save Game File filter class
 public class MSSGFilter extends FileFilter {
 
 	/*

@@ -1,4 +1,3 @@
-
 /*
  * Authors: Raymond Li, David Tuck
  * Date started: 2018-04-18
@@ -50,19 +49,22 @@ public class GameGUI extends JFrame implements ActionListener {
 
 						if (pressed) {
 							if (SwingUtilities.isRightMouseButton(e)) {
-								// Show flag here
+								// TODO Show flag here
 							} else {
 								buttons[m][n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 								if (!Minesweeper.checkForMine(m, n)) {
 									if (Minesweeper.genNumOfMines(m, n) != 0)
 										buttons[m][n].setText(Integer.toString(Minesweeper.genNumOfMines(m, n)));
+									else {
+										// TODO recursive function here
+									}
 								} else
 									for (int k = 0; k < mapSizeX; k++)
 										for (int l = 0; l < mapSizeY; l++) {
 											if (Minesweeper.checkForMine(k, l)) {
-												// Show Mine image here
+												// TODO Show Mine image here
 											}
-											// End game
+											// TODO End game
 										}
 							}
 						}
