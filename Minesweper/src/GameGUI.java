@@ -1,3 +1,4 @@
+
 /*
  * Authors: Raymond Li, David Tuck
  * Date started: 2018-04-18
@@ -86,6 +87,10 @@ public class GameGUI extends JFrame implements ActionListener {
 				gamePanel.add(buttons[i][j]);
 			}
 
+		// Disables editing for textPanes
+		clock.setEditable(false);
+		minesLeft.setEditable(false);
+
 		// Adds button and textPanes to controlPanel
 		controlPanel.add(clock);
 		controlPanel.add(newGame);
@@ -94,6 +99,9 @@ public class GameGUI extends JFrame implements ActionListener {
 		// Adds panels to frame
 		getContentPane().add(controlPanel);
 		getContentPane().add(gamePanel);
+
+		// Adds menuBar to frame
+		setJMenuBar(createMenuBar());
 
 		// Sets title, size, layout and location of GUI window
 		setTitle("Minesweeper");
@@ -109,7 +117,52 @@ public class GameGUI extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent event) {
+	public JMenuBar createMenuBar() {
+		JMenuBar menuBar;
+		JMenu menu, submenu;
+		JMenuItem menuItem;
 
+		// Create the menu bar.
+		menuBar = new JMenuBar();
+
+		// Build the first menu.
+		menu = new JMenu("Game");
+		menuBar.add(menu);
+
+		// a group of JMenuItems
+		menuItem = new JMenuItem("Save game");
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
+
+		menuItem = new JMenuItem("Load Game");
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
+
+		// a submenu
+		menu.addSeparator();
+		submenu = new JMenu("New game");
+
+		menuItem = new JMenuItem("Beginner (9x9)");
+		menuItem.addActionListener(this);
+		submenu.add(menuItem);
+
+		menuItem = new JMenuItem("Intermediate (16x16)");
+		menuItem.addActionListener(this);
+		submenu.add(menuItem);
+
+		menuItem = new JMenuItem("Expert (30x16)");
+		menuItem.addActionListener(this);
+		submenu.add(menuItem);
+
+		// Build second menu in the menu bar.
+		menuItem = new JMenu("Help");
+		menuItem.addActionListener(this);
+		menuBar.add(menuItem);
+
+		return menuBar;
+	}
+
+	public void actionPerformed(ActionEvent event) {
+		// TODO Control menuBar
 	}
 }
