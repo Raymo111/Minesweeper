@@ -116,48 +116,43 @@ public class GameGUI extends JFrame implements ActionListener {
 	}
 
 	public JMenuBar createMenuBar() {
-		JMenuBar menuBar;
-		JMenu menu, submenu;
-		JMenuItem menuItem;
 
-		// Create the menu bar.
-		menuBar = new JMenuBar();
+		JMenuBar menuBar = new JMenuBar();
+		JMenu gameMenu = new JMenu("Game");
+		JMenu newGameSubmenu = new JMenu("New game");
+		JMenuItem saveGame = new JMenuItem("Save game");
+		JMenuItem loadGame = new JMenuItem("Load Game");
+		JMenuItem beginner = new JMenuItem("Beginner (9x9)");
+		JMenuItem intermediate = new JMenuItem("Intermediate (16x16)");
+		JMenuItem expert = new JMenuItem("Expert (30x16)");
+		JMenuItem helpButton = new JMenu("Help");
 
-		// Build the first menu.
-		menu = new JMenu("Game");
-		menuBar.add(menu);
+		// Adds gameMenu to menuBar
+		menuBar.add(gameMenu);
 
-		// a group of JMenuItems
-		menuItem = new JMenuItem("Save game");
-		menuItem.addActionListener(this);
-		menu.add(menuItem);
+		// Adds actionListeners to menuItems and adds menuItems to gameMenu
+		saveGame.addActionListener(this);
+		gameMenu.add(saveGame);
+		loadGame.addActionListener(this);
+		gameMenu.add(loadGame);
 
-		menuItem = new JMenuItem("Load Game");
-		menuItem.addActionListener(this);
-		menu.add(menuItem);
+		// Adds newGame submenu
+		gameMenu.addSeparator();
 
-		// a submenu
-		menu.addSeparator();
-		submenu = new JMenu("New game");
+		// Adds actionListeners to submenuItems and adds menuItems to gameMenu
+		beginner.addActionListener(this);
+		newGameSubmenu.add(beginner);
+		intermediate.addActionListener(this);
+		newGameSubmenu.add(intermediate);
+		expert.addActionListener(this);
+		newGameSubmenu.add(expert);
+		gameMenu.add(newGameSubmenu);
 
-		menuItem = new JMenuItem("Beginner (9x9)");
-		menuItem.addActionListener(this);
-		submenu.add(menuItem);
+		// Adds help button to menu
+		helpButton.addActionListener(this);
+		menuBar.add(helpButton);
 
-		menuItem = new JMenuItem("Intermediate (16x16)");
-		menuItem.addActionListener(this);
-		submenu.add(menuItem);
-
-		menuItem = new JMenuItem("Expert (30x16)");
-		menuItem.addActionListener(this);
-		submenu.add(menuItem);
-		menu.add(submenu);
-
-		// Build second menu in the menu bar.
-		menuItem = new JMenu("Help");
-		menuItem.addActionListener(this);
-		menuBar.add(menuItem);
-
+		// Returns the finished menuBar
 		return menuBar;
 	}
 
