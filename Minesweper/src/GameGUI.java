@@ -52,7 +52,7 @@ public class GameGUI extends JFrame implements ActionListener {
 								// TODO Show flag here
 							} else {
 								buttons[m][n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-								if (!Minesweeper.checkForMine(m, n)) {
+								if (Minesweeper.checkForMine(m, n)) {
 									if (Minesweeper.genNumOfMines(m, n) != 0)
 										buttons[m][n].setText(Integer.toString(Minesweeper.genNumOfMines(m, n)));
 									else {
