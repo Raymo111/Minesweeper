@@ -143,6 +143,7 @@ public class Minesweeper {
 	 *            2D array for objects that holds all of the information about the
 	 *            game board. Each object is is a different square on the board.
 	 * @param fileName
+	 *            The name the user has the games saved as.
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
@@ -160,8 +161,8 @@ public class Minesweeper {
 	/**
 	 * read a saved game from a file and outputs this to myMine array
 	 *
-	 * @param myMine
 	 * @param fileName
+	 *            The name the user has the games saved as.
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws ClassNotFoundException
