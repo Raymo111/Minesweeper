@@ -34,6 +34,9 @@ public class GameGUI extends JFrame implements ActionListener {
 			for (int j = 0; j < mapSizeY; j++) {
 				final int m = i, n = j;
 				buttons[i][j] = new JButton();
+				buttons[i][j].setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+				buttons[i][j].setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+				buttons[i][j].setPreferredSize(new Dimension(60, 60));
 				buttons[i][j].addMouseListener(new MouseAdapter() {
 					boolean pressed;
 
@@ -49,7 +52,7 @@ public class GameGUI extends JFrame implements ActionListener {
 
 						if (pressed) {
 							if (SwingUtilities.isRightMouseButton(e)) {
-								// TODO Show flag here
+								buttons[m][n] = new SizedImageButton("flag.png");
 							} else {
 								buttons[m][n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 								if (Minesweeper.checkForMine(m, n)) {
@@ -80,9 +83,6 @@ public class GameGUI extends JFrame implements ActionListener {
 						pressed = true;
 					}
 				});
-				buttons[i][j].setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-				buttons[i][j].setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
-				buttons[i][j].setPreferredSize(new Dimension(60, 60));
 				gamePanel.add(buttons[i][j]);
 			}
 
