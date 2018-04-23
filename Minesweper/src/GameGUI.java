@@ -139,7 +139,6 @@ public class GameGUI extends JFrame implements ActionListener {
 		// a submenu
 		menu.addSeparator();
 		submenu = new JMenu("New game");
-		menu.add(menuItem);
 
 		menuItem = new JMenuItem("Beginner (9x9)");
 		menuItem.addActionListener(this);
@@ -152,6 +151,7 @@ public class GameGUI extends JFrame implements ActionListener {
 		menuItem = new JMenuItem("Expert (30x16)");
 		menuItem.addActionListener(this);
 		submenu.add(menuItem);
+		menu.add(submenu);
 
 		// Build second menu in the menu bar.
 		menuItem = new JMenu("Help");
