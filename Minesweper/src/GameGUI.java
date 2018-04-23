@@ -17,7 +17,6 @@ public class GameGUI extends JFrame implements ActionListener {
 
 	// Private class Variables
 	private JButton[][] buttons;
-	private JButton newGame = new JButton("New Game");
 	private JTextPane clock = new JTextPane();
 	private JTextPane minesLeft = new JTextPane();
 	private JPanel gamePanel = new JPanel();
@@ -91,9 +90,8 @@ public class GameGUI extends JFrame implements ActionListener {
 		clock.setEditable(false);
 		minesLeft.setEditable(false);
 
-		// Adds button and textPanes to controlPanel
+		// Adds textPanes to controlPanel
 		controlPanel.add(clock);
-		controlPanel.add(newGame);
 		controlPanel.add(minesLeft);
 
 		// Adds panels to frame
@@ -141,6 +139,7 @@ public class GameGUI extends JFrame implements ActionListener {
 		// a submenu
 		menu.addSeparator();
 		submenu = new JMenu("New game");
+		menu.add(menuItem);
 
 		menuItem = new JMenuItem("Beginner (9x9)");
 		menuItem.addActionListener(this);
