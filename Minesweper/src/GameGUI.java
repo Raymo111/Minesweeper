@@ -106,7 +106,7 @@ public class GameGUI extends JFrame implements ActionListener {
 								// Sets the button to an image (flag.png)
 								buttons[m][n] = new SizedImageButton("flag.png");
 
-							// If the mouse click was not a left-click
+							// If the mouse click was not a right-click
 							else {
 
 								buttons[m][n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
@@ -177,13 +177,13 @@ public class GameGUI extends JFrame implements ActionListener {
 								// If user clicks on a mine
 								else
 
-									// For all squares on map with a mine, show the mine image
+									// For all squares on map with a mine, shows the mine image
 									for (int k = 0; k < mapSizeX; k++)
 										for (int l = 0; l < mapSizeY; l++) {
 											if (Minesweeper.checkForMine(k, l)) {
 												// TODO Show Mine image here
 											}
-											// Ends the game with a game over and prompt for name with High Score
+											// Ends the game with a game over and prompts for name with High Score
 											// TODO End game
 										}
 							}
@@ -248,11 +248,23 @@ public class GameGUI extends JFrame implements ActionListener {
 	 */
 	public JMenuBar createMenuBar() {
 
+		// Local variables for menuBar
+		// The menuBar itself
 		JMenuBar menuBar = new JMenuBar();
+
+		// The first menu
 		JMenu gameMenu = new JMenu("Game");
+
+		// The submenu under gameMenu
 		JMenu newGameSubmenu = new JMenu("New game");
+
+		// Menu item to save game
 		JMenuItem saveGame = new JMenuItem("Save game");
+
+		// Menu item to load game
 		JMenuItem loadGame = new JMenuItem("Load Game");
+
+		// Menu items for difficulty (under the newGame submenu)
 		JMenuItem beginner = new JMenuItem("Beginner (9x9)");
 		JMenuItem intermediate = new JMenuItem("Intermediate (16x16)");
 		JMenuItem expert = new JMenuItem("Expert (16x30)");
@@ -287,6 +299,9 @@ public class GameGUI extends JFrame implements ActionListener {
 		return menuBar;
 	}
 
+	/**
+	 * Action performed method to control the menuBar
+	 */
 	public void actionPerformed(ActionEvent event) {
 		// TODO Control menuBar
 	}
