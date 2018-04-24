@@ -3,9 +3,14 @@
  * Authors: Raymond Li, David Tuck
  * Date started: 2018-04-19
  * Date Finished: 2018-04-
- * Description: Minesweeper game
+ * Description: User first starts with a welcome message and options to start a new game
+ * 				and	to load a game. New game brings out 3 choices - Beginner, Intermediate
+ * 				and Expert. A game based on the selected difficulty is then created. Load
+ * 				game brings out a file explorer to load a game previously saved to a .mssg
+ * 				(MineSweeper Save Game) file.
  */
 
+// Imports required packages
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -33,12 +38,12 @@ public class MenuGUI extends JFrame implements ActionListener {
 	// Buttons for different difficulty categories
 	private JButton beginner = new JButton("Beginner (9x9)");
 	private JButton intermediate = new JButton("Intermediate (16x16)");
-	private JButton Expert = new JButton("Expert (30x16)");
+	private JButton expert = new JButton("Expert (16x30)");
 
 	// Back button for user to go back to initial view
 	private JButton back = new JButton("Back");
 
-	// Panels to hold messageLabel and buttons
+	// Panels to hold message and buttons
 	private JPanel messagePanel = new JPanel();
 	private JPanel buttonPanel = new JPanel();
 
@@ -61,8 +66,8 @@ public class MenuGUI extends JFrame implements ActionListener {
 		beginner.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
 		intermediate.addActionListener(this);
 		intermediate.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
-		Expert.addActionListener(this);
-		Expert.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+		expert.addActionListener(this);
+		expert.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
 		back.addActionListener(this);
 		back.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
 
@@ -85,14 +90,14 @@ public class MenuGUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 
 		/*
-		 * If the newGame button is clicked, removes all buttons and add difficulty
+		 * If the newGame button is clicked, removes all buttons and adds difficulty
 		 * level buttons and back button, and refreshes the panel and screen
 		 */
 		if (newGame == event.getSource()) {
 			buttonPanel.removeAll();
 			buttonPanel.add(beginner);
 			buttonPanel.add(intermediate);
-			buttonPanel.add(Expert);
+			buttonPanel.add(expert);
 			buttonPanel.add(back);
 			buttonPanel.revalidate();
 			buttonPanel.repaint();
@@ -108,16 +113,16 @@ public class MenuGUI extends JFrame implements ActionListener {
 			if (fc == null) {
 				fc = new JFileChooser();
 
-				// Add a custom file filter and disable the default (Accept All) file filter
+				// Adds a custom file filter and disables the default (Accept All) file filter
 				fc.addChoosableFileFilter(new MSSGFilter());
 				fc.setAcceptAllFileFilterUsed(false);
 			}
 
-			// Process the results of getting the user to load a game
+			// Processes the results of getting the user to load a game
 			if (fc.showDialog(MenuGUI.this, "Load Game") == JFileChooser.APPROVE_OPTION) {
 				File saveGame = fc.getSelectedFile();
 
-				// Resets the file chooser for the next time it's shown and read file
+				// Resets the file chooser for the next time it's shown
 				fc.setSelectedFile(null);
 
 				// Try-catch to handle exceptions
@@ -153,7 +158,7 @@ public class MenuGUI extends JFrame implements ActionListener {
 		/*
 		 * If the beginner button is clicked, sets size of map to 9x9 and the number of
 		 * mines to 10, and proceed to initialize the map with mines and empty squares,
-		 * disposing of the Menu window when done
+		 * disposing of the menu window when done
 		 */
 		else if (beginner == event.getSource()) {
 			Minesweeper.mapSizeX = 9;
@@ -170,8 +175,8 @@ public class MenuGUI extends JFrame implements ActionListener {
 		}
 
 		/*
-		 * If the beginner button is clicked, sets size of map to 16x16 and the number
-		 * of mines to 40, and proceed to initialize the map with mines and empty
+		 * If the intermediate button is clicked, sets size of map to 16x16 and the
+		 * number of mines to 40, and proceed to initialize the map with mines and empty
 		 * squares, disposing of the Menu window when done
 		 */
 		else if (intermediate == event.getSource()) {
@@ -189,13 +194,13 @@ public class MenuGUI extends JFrame implements ActionListener {
 		}
 
 		/*
-		 * If the beginner button is clicked, sets size of map to 30x16 and the number
-		 * of mines to 99, and proceed to initialize the map with mines and empty
-		 * squares, disposing of the Menu window when done
+		 * If the expect button is clicked, sets size of map to 16x30 and the number of
+		 * mines to 99, and proceed to initialize the map with mines and empty squares,
+		 * disposing of the Menu window when done
 		 */
-		else if (Expert == event.getSource()) {
-			Minesweeper.mapSizeX = 30;
-			Minesweeper.mapSizeY = 16;
+		else if (expert == event.getSource()) {
+			Minesweeper.mapSizeX = 16;
+			Minesweeper.mapSizeY = 30;
 			Minesweeper.mineCount = 99;
 			try {
 				Minesweeper.menufinished();
@@ -207,7 +212,7 @@ public class MenuGUI extends JFrame implements ActionListener {
 			dispose();
 		}
 
-		// If the back button is pressed, restart the MenuGUI
+		// If the back button is clicked, restart the MenuGUI
 		else if (back == event.getSource()) {
 			dispose();
 			new MenuGUI();
