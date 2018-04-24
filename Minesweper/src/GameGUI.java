@@ -127,24 +127,43 @@ public class GameGUI extends JFrame implements ActionListener {
 										buttons[m][n].setText("2");
 									}
 
-									// Red for 3
+									// Orange for 3
 									else if (Minesweeper.genNumOfMines(m, n) == 3) {
-										buttons[m][n].setForeground(Color.RED);
-										buttons[m][n].setText("2");
+										buttons[m][n].setForeground(Color.ORANGE);
+										buttons[m][n].setText("3");
 									}
 
 									// Magenta for 4
 									else if (Minesweeper.genNumOfMines(m, n) == 2) {
 										buttons[m][n].setForeground(Color.MAGENTA);
-										buttons[m][n].setText("2");
+										buttons[m][n].setText("4");
 									}
 
-									// Green for 2
+									// Red for 5
 									else if (Minesweeper.genNumOfMines(m, n) == 2) {
-										buttons[m][n].setForeground(Color.BROWN);
-										buttons[m][n].setText("2");
+										buttons[m][n].setForeground(Color.RED);
+										buttons[m][n].setText("5");
 									}
 
+									// Cyan for 6
+									else if (Minesweeper.genNumOfMines(m, n) == 2) {
+										buttons[m][n].setForeground(Color.CYAN);
+										buttons[m][n].setText("6");
+									}
+
+									// Dark grey for 7
+									else if (Minesweeper.genNumOfMines(m, n) == 2) {
+										buttons[m][n].setForeground(Color.DARK_GRAY);
+										buttons[m][n].setText("7");
+									}
+
+									// Gray for 8
+									else if (Minesweeper.genNumOfMines(m, n) == 2) {
+										buttons[m][n].setForeground(Color.GRAY);
+										buttons[m][n].setText("8");
+									}
+
+									// Recursive function to auto-click all connecting blank squares
 									else {
 										// TODO recursive function here
 									}
