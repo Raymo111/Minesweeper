@@ -84,9 +84,9 @@ public class Minesweeper {
 	 * @param map
 	 *            2D array for objects that holds all of the information about the
 	 *            game board. Each object is is a different square on the board.
-	 * @return false if the users current guess location IS in the location of a mine
-	 *         true if the users current guess location is NOT the location of a
-	 *         mine
+	 * @return false if the users current guess location IS in the location of a
+	 *         mine true if the users current guess location is NOT the location of
+	 *         a mine
 	 */
 	public static boolean checkForMine(int clickX, int clickY) {
 		roundCount++;
@@ -191,5 +191,5 @@ public class Minesweeper {
 		}
 		numOfMinesLeft = mineCount - counter;
 	}
-	
+
 }

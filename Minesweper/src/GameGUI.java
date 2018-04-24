@@ -10,7 +10,7 @@
  * 				Below that is the actual Minesweeper map, which the user can left press
  * 				to show the number of mines around the square pressed on, or right press
  * 				to flag the square as containing a mine. Flagging a square lowers the
- * 				mine count. If the user presss on a square containing a mine, the user’s
+ * 				mine count. If the user press on a square containing a mine, the user’s
  * 				game will see ‘Game over’ and be prompted to start a new game or quit.
  */
 
@@ -104,7 +104,8 @@ public class GameGUI extends JFrame implements ActionListener {
 							if (SwingUtilities.isRightMouseButton(event))
 
 								// Sets the button to an image (flag.png)
-								buttons[m][n] = new SizedImageButton("flag.png");
+								buttons[m][n].setIcon(
+										new ImageIcon(this.getClass().getClassLoader().getResource("flag.png")));
 
 							// If the mouse click was not a right-click
 							else {
