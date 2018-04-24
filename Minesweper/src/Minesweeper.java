@@ -193,6 +193,7 @@ public class Minesweeper {
 		numOfMinesLeft = mineCount - counter;
 	}
 
+<<<<<<< HEAD
 	/**
 	 * stores the current time in the variable timeStarted
 	 */
@@ -209,3 +210,6 @@ public class Minesweeper {
 	}
 
 }
+=======
+}
+>>>>>>> 1dac6d38ddb42e4402d19d9aea5c5766705f7b14

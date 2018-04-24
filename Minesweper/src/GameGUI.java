@@ -7,10 +7,10 @@
  * 				or save a game and a submenu containing different new game difficulties
  * 				and another Help button containing instructions on how to play the game.
  * 				The window also contains a clock and a count of the number of mines left.
- * 				Below that is the actual Minesweeper grid, which the user can left press
+ * 				Below that is the actual Minesweeper map, which the user can left press
  * 				to show the number of mines around the square pressed on, or right press
  * 				to flag the square as containing a mine. Flagging a square lowers the
- * 				mine count. If the user presss on a square containing a mine, the user’s
+ * 				mine count. If the user press on a square containing a mine, the user’s
  * 				game will see ‘Game over’ and be prompted to start a new game or quit.
  */
 
@@ -27,7 +27,7 @@ public class GameGUI extends JFrame implements ActionListener {
 	private static final long serialVersionUID = -3978640272114053636L;
 
 	// Private class Variables
-	// 2D JButton array for the Minesweeper grid
+	// 2D JButton array for the Minesweeper map
 	private JButton[][] buttons;
 
 	// Clock to display the amount of time elapsed for the user
@@ -104,9 +104,10 @@ public class GameGUI extends JFrame implements ActionListener {
 							if (SwingUtilities.isRightMouseButton(event))
 
 								// Sets the button to an image (flag.png)
-								buttons[m][n] = new SizedImageButton("flag.png");
+								buttons[m][n].setIcon(
+										new ImageIcon(this.getClass().getClassLoader().getResource("flag.png")));
 
-							// If the mouse click was not a left-click
+							// If the mouse click was not a right-click
 							else {
 
 								buttons[m][n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
@@ -116,79 +117,96 @@ public class GameGUI extends JFrame implements ActionListener {
 
 									// Sets appropriate color for each number of mines
 									// Blue for 1
-									if (Minesweeper.genNumOfMines(m, n) == 1) {
+									int mineCount = Minesweeper.genNumOfMines(m, n);
+									if (mineCount == 1) {
 										buttons[m][n].setForeground(Color.BLUE);
 										buttons[m][n].setText("1");
 									}
 
 									// Green for 2
-									else if (Minesweeper.genNumOfMines(m, n) == 2) {
+									else if (mineCount == 2) {
 										buttons[m][n].setForeground(Color.GREEN);
 										buttons[m][n].setText("2");
 									}
 
 									// Orange for 3
-									else if (Minesweeper.genNumOfMines(m, n) == 3) {
+									else if (mineCount == 3) {
 										buttons[m][n].setForeground(Color.ORANGE);
 										buttons[m][n].setText("3");
 									}
 
 									// Magenta for 4
-									else if (Minesweeper.genNumOfMines(m, n) == 2) {
+									else if (mineCount == 4) {
 										buttons[m][n].setForeground(Color.MAGENTA);
 										buttons[m][n].setText("4");
 									}
 
 									// Red for 5
-									else if (Minesweeper.genNumOfMines(m, n) == 2) {
+									else if (mineCount == 5) {
 										buttons[m][n].setForeground(Color.RED);
 										buttons[m][n].setText("5");
 									}
 
 									// Cyan for 6
-									else if (Minesweeper.genNumOfMines(m, n) == 2) {
+									else if (mineCount == 6) {
 										buttons[m][n].setForeground(Color.CYAN);
 										buttons[m][n].setText("6");
 									}
 
 									// Dark grey for 7
-									else if (Minesweeper.genNumOfMines(m, n) == 2) {
+									else if (mineCount == 7) {
 										buttons[m][n].setForeground(Color.DARK_GRAY);
 										buttons[m][n].setText("7");
 									}
 
 									// Gray for 8
-									else if (Minesweeper.genNumOfMines(m, n) == 2) {
+									else if (mineCount == 8) {
 										buttons[m][n].setForeground(Color.GRAY);
 										buttons[m][n].setText("8");
 									}
 
-									// Recursive function to auto-click all connecting blank squares
+									// If mineCount is zero
 									else {
+										// Calls recursive function to auto-click all connecting blank squares
 										// TODO recursive function here
 									}
-								} else
+
+									// Checks if all empty squares were clicked
+									// TODO check for all empty squares
+								}
+
+								// If user clicks on a mine
+								else
+
+									// For all squares on map with a mine, shows the mine image
 									for (int k = 0; k < mapSizeX; k++)
 										for (int l = 0; l < mapSizeY; l++) {
 											if (Minesweeper.checkForMine(k, l)) {
 												// TODO Show Mine image here
 											}
+											// Ends the game with a game over and prompts for name with High Score
 											// TODO End game
 										}
 							}
 						}
+
+						// Resets pressed variable to false
 						pressed = false;
 
 					}
 
+					// Sets pressed to false if cursor leaves a button
 					public void mouseExited(MouseEvent event) {
 						pressed = false;
 					}
 
+					// Sets pressed to true if cursor enters a button
 					public void mouseEntered(MouseEvent event) {
 						pressed = true;
 					}
 				});
+
+				// Adds buttons to game panel
 				gamePanel.add(buttons[i][j]);
 			}
 
@@ -217,21 +235,37 @@ public class GameGUI extends JFrame implements ActionListener {
 		setLayout(new FlowLayout());
 		setLocationRelativeTo(null);
 
-		/*
-		 * Makes the program terminate on press of close window, and sets window to
-		 * visible
-		 */
+		// Makes the program terminate on press of close window
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+		// Sets window to visible
 		setVisible(true);
 	}
 
+	/**
+	 * Creates the menuBar
+	 * 
+	 * @return The finished JMenuBar
+	 */
 	public JMenuBar createMenuBar() {
 
+		// Local variables for menuBar
+		// The menuBar itself
 		JMenuBar menuBar = new JMenuBar();
+
+		// The first menu
 		JMenu gameMenu = new JMenu("Game");
+
+		// The submenu under gameMenu
 		JMenu newGameSubmenu = new JMenu("New game");
+
+		// Menu item to save game
 		JMenuItem saveGame = new JMenuItem("Save game");
+
+		// Menu item to load game
 		JMenuItem loadGame = new JMenuItem("Load Game");
+
+		// Menu items for difficulty (under the newGame submenu)
 		JMenuItem beginner = new JMenuItem("Beginner (9x9)");
 		JMenuItem intermediate = new JMenuItem("Intermediate (16x16)");
 		JMenuItem expert = new JMenuItem("Expert (16x30)");
@@ -266,6 +300,9 @@ public class GameGUI extends JFrame implements ActionListener {
 		return menuBar;
 	}
 
+	/**
+	 * Action performed method to control the menuBar
+	 */
 	public void actionPerformed(ActionEvent event) {
 		// TODO Control menuBar
 	}
