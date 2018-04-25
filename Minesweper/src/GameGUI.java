@@ -42,6 +42,9 @@ public class GameGUI extends JFrame implements ActionListener {
 	// InfoPanel to hold clock and minesLeft
 	private JPanel infoPanel = new JPanel();
 
+	static Color[] mycolors = { Color.BLUE, Color.GREEN, Color.ORANGE, Color.MAGENTA, Color.CYAN, Color.DARK_GRAY,
+			Color.GRAY };
+
 	/**
 	 * Constructor
 	 * 
@@ -118,51 +121,9 @@ public class GameGUI extends JFrame implements ActionListener {
 									// Sets appropriate color for each number of mines
 									// Blue for 1
 									int mineCount = Minesweeper.genNumOfMines(m, n);
-									if (mineCount == 1) {
-										buttons[m][n].setForeground(Color.BLUE);
-										buttons[m][n].setText("1");
-									}
-
-									// Green for 2
-									else if (mineCount == 2) {
-										buttons[m][n].setForeground(Color.GREEN);
-										buttons[m][n].setText("2");
-									}
-
-									// Orange for 3
-									else if (mineCount == 3) {
-										buttons[m][n].setForeground(Color.ORANGE);
-										buttons[m][n].setText("3");
-									}
-
-									// Magenta for 4
-									else if (mineCount == 4) {
-										buttons[m][n].setForeground(Color.MAGENTA);
-										buttons[m][n].setText("4");
-									}
-
-									// Red for 5
-									else if (mineCount == 5) {
-										buttons[m][n].setForeground(Color.RED);
-										buttons[m][n].setText("5");
-									}
-
-									// Cyan for 6
-									else if (mineCount == 6) {
-										buttons[m][n].setForeground(Color.CYAN);
-										buttons[m][n].setText("6");
-									}
-
-									// Dark grey for 7
-									else if (mineCount == 7) {
-										buttons[m][n].setForeground(Color.DARK_GRAY);
-										buttons[m][n].setText("7");
-									}
-
-									// Gray for 8
-									else if (mineCount == 8) {
-										buttons[m][n].setForeground(Color.GRAY);
-										buttons[m][n].setText("8");
+									if (mineCount != 0) {
+										buttons[m][n].setText(Integer.toString(mineCount));
+										buttons[m][n].setForeground(mycolors[mineCount]);
 									}
 
 									// If mineCount is zero
