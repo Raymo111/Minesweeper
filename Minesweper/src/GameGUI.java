@@ -121,6 +121,7 @@ public class GameGUI extends JFrame implements ActionListener {
 									// Sets appropriate color for each number of mines
 									// Blue for 1
 									int mineCount = Minesweeper.genNumOfMines(m, n);
+
 									if (mineCount != 0) {
 										buttons[m][n].setText(Integer.toString(mineCount));
 										buttons[m][n].setForeground(mycolors[mineCount]);
@@ -266,5 +267,52 @@ public class GameGUI extends JFrame implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent event) {
 		// TODO Control menuBar
+	}
+
+	public static void recursion(int m, int n) {
+		if (Minesweeper.genNumOfMines(1 + m, n) == 0) {
+			recursion(1 + m, n);
+		} else {
+
+		}
+		if (Minesweeper.genNumOfMines(m, 1 + n) == 0) {
+			recursion(m, 1 + n);
+		} else {
+
+		}
+		if (Minesweeper.genNumOfMines(m - 1, n) == 0) {
+			recursion(m - 1, n);
+		} else {
+
+		}
+		if (Minesweeper.genNumOfMines(m, n - 1) == 0) {
+			recursion(m, n - 1);
+		} else {
+
+		}
+		if (Minesweeper.genNumOfMines(1 + m, 1 + n) == 0) {
+			recursion(1 + m, 1 + n);
+		} else {
+
+		}
+		if (Minesweeper.genNumOfMines(1 - m, 1 - n) == 0) {
+			recursion(1 - m, 1 - n);
+		} else {
+
+		}
+		if (Minesweeper.genNumOfMines(1 + m, n - 1) == 0) {
+			recursion(1 + m, n - 1);
+		} else {
+
+		}
+		if (Minesweeper.genNumOfMines(m - 1, 1 + n) == 0) {
+			recursion(m - 1, 1 + n);
+		} else {
+
+		}
+	}
+
+	public static void showValue(int m, int n) {
+
 	}
 }

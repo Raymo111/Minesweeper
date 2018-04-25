@@ -193,19 +193,4 @@ public class Minesweeper {
 		numOfMinesLeft = mineCount - counter;
 	}
 
-	/**
-	 * stores the current time in the variable timeStarted
-	 */
-	public static void startTime() {
-		timeStarted = System.currentTimeMillis();
-	}
-
-	/**
-	 * 
-	 * @return the current time the user has been playing
-	 */
-	public static long getTime() {
-		return System.currentTimeMillis() - timeStarted + additionalTime;
-	}
-
 }
