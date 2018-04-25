@@ -20,7 +20,8 @@ public class Minesweeper {
 	public static final int mapSizeYLimit = 24;// limit on the custom dimension Y
 	public static final int mapSizeXLimit = 30;// limit on the custom dimension X
 	public static final int numOfMinesLimit = 99;// limit on the number of mines
-	public static long additionalTime;
+	public static long additionalTime = 0;
+	public static long timeStarted;
 	public static boolean newGame = false;
 	public static Integer numOfMinesLeft;// display on gameGUI
 	private static Random random = new Random();
@@ -190,6 +191,21 @@ public class Minesweeper {
 			}
 		}
 		numOfMinesLeft = mineCount - counter;
+	}
+
+	/**
+	 * stores the current time in the variable timeStarted
+	 */
+	public static void startTime() {
+		timeStarted = System.currentTimeMillis();
+	}
+
+	/**
+	 * 
+	 * @return the current time the user has been playing
+	 */
+	public static long getTime() {
+		return System.currentTimeMillis() - timeStarted + additionalTime;
 	}
 
 }
