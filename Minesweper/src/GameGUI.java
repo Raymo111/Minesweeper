@@ -42,8 +42,31 @@ public class GameGUI extends JFrame implements ActionListener {
 	// InfoPanel to hold clock and minesLeft
 	private JPanel infoPanel = new JPanel();
 
+	// Colors for each number of mines
 	static Color[] mycolors = { Color.BLUE, Color.GREEN, Color.ORANGE, Color.MAGENTA, Color.CYAN, Color.DARK_GRAY,
 			Color.GRAY };
+
+	// MenuBar variables
+	// The menuBar itself
+	private JMenuBar menuBar = new JMenuBar();
+
+	// The first menu
+	private JMenu gameMenu = new JMenu("Game");
+
+	// The submenu under gameMenu
+	private JMenu newGameSubmenu = new JMenu("New game");
+
+	// Menu item to save game
+	private JMenuItem saveGame = new JMenuItem("Save game");
+
+	// Menu item to load game
+	private JMenuItem loadGame = new JMenuItem("Load Game");
+
+	// Menu items for difficulty (under the newGame submenu)
+	private JMenuItem beginner = new JMenuItem("Beginner (9x9)");
+	private JMenuItem intermediate = new JMenuItem("Intermediate (16x16)");
+	private JMenuItem expert = new JMenuItem("Expert (16x30)");
+	private JMenuItem helpButton = new JMenu("Help");
 
 	/**
 	 * Constructor
@@ -133,8 +156,8 @@ public class GameGUI extends JFrame implements ActionListener {
 								}
 
 								// If user clicks on a mine
-								else
-
+								else {
+									buttons[m][n].setText("*");
 									// For all squares on map with a mine, shows the mine image
 									for (int k = 0; k < mapSizeX; k++)
 										for (int l = 0; l < mapSizeY; l++) {
@@ -144,6 +167,7 @@ public class GameGUI extends JFrame implements ActionListener {
 											// Ends the game with a game over and prompts for name with High Score
 											// TODO End game
 										}
+								}
 							}
 						}
 
@@ -206,28 +230,6 @@ public class GameGUI extends JFrame implements ActionListener {
 	 */
 	public JMenuBar createMenuBar() {
 
-		// Local variables for menuBar
-		// The menuBar itself
-		JMenuBar menuBar = new JMenuBar();
-
-		// The first menu
-		JMenu gameMenu = new JMenu("Game");
-
-		// The submenu under gameMenu
-		JMenu newGameSubmenu = new JMenu("New game");
-
-		// Menu item to save game
-		JMenuItem saveGame = new JMenuItem("Save game");
-
-		// Menu item to load game
-		JMenuItem loadGame = new JMenuItem("Load Game");
-
-		// Menu items for difficulty (under the newGame submenu)
-		JMenuItem beginner = new JMenuItem("Beginner (9x9)");
-		JMenuItem intermediate = new JMenuItem("Intermediate (16x16)");
-		JMenuItem expert = new JMenuItem("Expert (16x30)");
-		JMenuItem helpButton = new JMenu("Help");
-
 		// Adds gameMenu to menuBar
 		menuBar.add(gameMenu);
 
@@ -261,13 +263,69 @@ public class GameGUI extends JFrame implements ActionListener {
 	 * Action performed method to control the menuBar
 	 */
 	public void actionPerformed(ActionEvent event) {
-		// TODO Control menuBar
+		/*
+		 * If the beginner button is clicked, sets size of map to 9x9 and the number of
+		 * mines to 10, and proceed to initialize the map with mines and empty squares,
+		 * disposing of the menu window when done
+		 */
+		if (beginner == event.getSource()) {
+			Minesweeper.mapSizeX = 9;
+			Minesweeper.mapSizeY = 9;
+			Minesweeper.mineCount = 10;
+			try {
+				Minesweeper.menufinished();
+				Minesweeper.fillWithEmpty();
+				Minesweeper.genMines();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			dispose();
+		}
+
+		/*
+		 * If the intermediate button is clicked, sets size of map to 16x16 and the
+		 * number of mines to 40, and proceed to initialize the map with mines and empty
+		 * squares, disposing of the Menu window when done
+		 */
+		else if (intermediate == event.getSource()) {
+			Minesweeper.mapSizeX = 16;
+			Minesweeper.mapSizeY = 16;
+			Minesweeper.mineCount = 40;
+			try {
+				Minesweeper.menufinished();
+				Minesweeper.fillWithEmpty();
+				Minesweeper.genMines();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			dispose();
+		}
+
+		/*
+		 * If the expect button is clicked, sets size of map to 16x30 and the number of
+		 * mines to 99, and proceed to initialize the map with mines and empty squares,
+		 * disposing of the Menu window when done
+		 */
+		else if (expert == event.getSource()) {
+			Minesweeper.mapSizeX = 16;
+			Minesweeper.mapSizeY = 30;
+			Minesweeper.mineCount = 99;
+			try {
+				Minesweeper.menufinished();
+				Minesweeper.fillWithEmpty();
+				Minesweeper.genMines();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			dispose();
+		}
 	}
 
 	public static void recursion(int m, int n) {
 		if (Minesweeper.genNumOfMines(1 + m, n) == 0
 				&& Minesweeper.map[1 + m][n].getMineType() == MinesweeperTypes.EMPTY) {
 			Minesweeper.map[1 + m][n].changeType(MinesweeperTypes.EMPTY);
+			buttons[1 + m][n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 			recursion(1 + m, n);
 		} else {
 			showValue(1 + m, n);
@@ -275,6 +333,7 @@ public class GameGUI extends JFrame implements ActionListener {
 		if (Minesweeper.genNumOfMines(m, 1 + n) == 0
 				&& Minesweeper.map[m][1 + n].getMineType() == MinesweeperTypes.EMPTY) {
 			Minesweeper.map[m][1 + n].changeType(MinesweeperTypes.EMPTY);
+			buttons[ m][1 + n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 			recursion(m, 1 + n);
 		} else {
 			showValue(m, 1 + n);
@@ -282,6 +341,7 @@ public class GameGUI extends JFrame implements ActionListener {
 		if (Minesweeper.genNumOfMines(m - 1, n) == 0
 				&& Minesweeper.map[m - 1][n].getMineType() == MinesweeperTypes.EMPTY) {
 			Minesweeper.map[m - 1][n].changeType(MinesweeperTypes.EMPTY);
+			buttons[m - 1][n ].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 			recursion(m - 1, n);
 		} else {
 			showValue(m - 1, n);
@@ -289,6 +349,7 @@ public class GameGUI extends JFrame implements ActionListener {
 		if (Minesweeper.genNumOfMines(m, n - 1) == 0
 				&& Minesweeper.map[m][n - 1].getMineType() == MinesweeperTypes.EMPTY) {
 			Minesweeper.map[m][n - 1].changeType(MinesweeperTypes.EMPTY);
+			buttons[m][n - 1].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 			recursion(m, n - 1);
 		} else {
 			showValue(m, n - 1);
@@ -296,6 +357,7 @@ public class GameGUI extends JFrame implements ActionListener {
 		if (Minesweeper.genNumOfMines(1 + m, 1 + n) == 0
 				&& Minesweeper.map[1 + m][1 + n].getMineType() == MinesweeperTypes.EMPTY) {
 			Minesweeper.map[1 + m][1 + n].changeType(MinesweeperTypes.EMPTY);
+			buttons[1 + m][1 + n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 			recursion(1 + m, 1 + n);
 		} else {
 			showValue(1 + m, 1 + n);
@@ -303,6 +365,7 @@ public class GameGUI extends JFrame implements ActionListener {
 		if (Minesweeper.genNumOfMines(m - 1, n - 1) == 0
 				&& Minesweeper.map[m - 1][n - 1].getMineType() == MinesweeperTypes.EMPTY) {
 			Minesweeper.map[m - 1][n - 1].changeType(MinesweeperTypes.EMPTY);
+			buttons[m - 1][n - 1].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 			recursion(m - 1, n - 1);
 		} else {
 			showValue(m - 1, n - 1);
@@ -310,6 +373,7 @@ public class GameGUI extends JFrame implements ActionListener {
 		if (Minesweeper.genNumOfMines(1 + m, n - 1) == 0
 				&& Minesweeper.map[1 + m][n - 1].getMineType() == MinesweeperTypes.EMPTY) {
 			Minesweeper.map[1 + m][n - 1].changeType(MinesweeperTypes.EMPTY);
+			buttons[1 + m][n - 1].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 			recursion(1 + m, n - 1);
 		} else {
 			showValue(1 + m, n - 1);
@@ -318,6 +382,7 @@ public class GameGUI extends JFrame implements ActionListener {
 		if (Minesweeper.genNumOfMines(m - 1, 1 + n) == 0
 				&& Minesweeper.map[m - 1][1 + n].getMineType() == MinesweeperTypes.EMPTY) {
 			Minesweeper.map[m - 1][1 + n].changeType(MinesweeperTypes.EMPTY);
+			buttons[m - 1][1 + n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 			recursion(m - 1, 1 + n);
 		} else {
 			showValue(m - 1, 1 + n);
