@@ -28,7 +28,7 @@ public class GameGUI extends JFrame implements ActionListener {
 
 	// Private class Variables
 	// 2D JButton array for the Minesweeper map
-	private JButton[][] buttons;
+	private static JButton[][] buttons;
 
 	// Clock to display the amount of time elapsed for the user
 	private JTextPane clock = new JTextPane();
@@ -118,19 +118,14 @@ public class GameGUI extends JFrame implements ActionListener {
 								// Checks if a mine exists at the clicked square
 								if (Minesweeper.checkForMine(m, n)) {
 
-									// Sets appropriate color for each number of mines
-									// Blue for 1
 									int mineCount = Minesweeper.genNumOfMines(m, n);
-
 									if (mineCount != 0) {
-										buttons[m][n].setText(Integer.toString(mineCount));
-										buttons[m][n].setForeground(mycolors[mineCount]);
+										showValue(m, n);
 									}
 
-									// If mineCount is zero
 									else {
 										// Calls recursive function to auto-click all connecting blank squares
-										// TODO recursive function here
+										recursion(m, n);
 									}
 
 									// Checks if all empty squares were clicked
@@ -270,49 +265,72 @@ public class GameGUI extends JFrame implements ActionListener {
 	}
 
 	public static void recursion(int m, int n) {
-		if (Minesweeper.genNumOfMines(1 + m, n) == 0) {
+		if (Minesweeper.genNumOfMines(1 + m, n) == 0
+				&& Minesweeper.map[1 + m][n].getMineType() == MinesweeperTypes.EMPTY) {
+			Minesweeper.map[1 + m][n].changeType(MinesweeperTypes.EMPTY);
 			recursion(1 + m, n);
 		} else {
-
+			showValue(1 + m, n);
 		}
-		if (Minesweeper.genNumOfMines(m, 1 + n) == 0) {
+		if (Minesweeper.genNumOfMines(m, 1 + n) == 0
+				&& Minesweeper.map[m][1 + n].getMineType() == MinesweeperTypes.EMPTY) {
+			Minesweeper.map[m][1 + n].changeType(MinesweeperTypes.EMPTY);
 			recursion(m, 1 + n);
 		} else {
-
+			showValue(m, 1 + n);
 		}
-		if (Minesweeper.genNumOfMines(m - 1, n) == 0) {
+		if (Minesweeper.genNumOfMines(m - 1, n) == 0
+				&& Minesweeper.map[m - 1][n].getMineType() == MinesweeperTypes.EMPTY) {
+			Minesweeper.map[m - 1][n].changeType(MinesweeperTypes.EMPTY);
 			recursion(m - 1, n);
 		} else {
-
+			showValue(m - 1, n);
 		}
-		if (Minesweeper.genNumOfMines(m, n - 1) == 0) {
+		if (Minesweeper.genNumOfMines(m, n - 1) == 0
+				&& Minesweeper.map[m][n - 1].getMineType() == MinesweeperTypes.EMPTY) {
+			Minesweeper.map[m][n - 1].changeType(MinesweeperTypes.EMPTY);
 			recursion(m, n - 1);
 		} else {
-
+			showValue(m, n - 1);
 		}
-		if (Minesweeper.genNumOfMines(1 + m, 1 + n) == 0) {
+		if (Minesweeper.genNumOfMines(1 + m, 1 + n) == 0
+				&& Minesweeper.map[1 + m][1 + n].getMineType() == MinesweeperTypes.EMPTY) {
+			Minesweeper.map[1 + m][1 + n].changeType(MinesweeperTypes.EMPTY);
 			recursion(1 + m, 1 + n);
 		} else {
-
+			showValue(1 + m, 1 + n);
 		}
-		if (Minesweeper.genNumOfMines(1 - m, 1 - n) == 0) {
-			recursion(1 - m, 1 - n);
+		if (Minesweeper.genNumOfMines(m - 1, n - 1) == 0
+				&& Minesweeper.map[m - 1][n - 1].getMineType() == MinesweeperTypes.EMPTY) {
+			Minesweeper.map[m - 1][n - 1].changeType(MinesweeperTypes.EMPTY);
+			recursion(m - 1, n - 1);
 		} else {
-
+			showValue(m - 1, n - 1);
 		}
-		if (Minesweeper.genNumOfMines(1 + m, n - 1) == 0) {
+		if (Minesweeper.genNumOfMines(1 + m, n - 1) == 0
+				&& Minesweeper.map[1 + m][n - 1].getMineType() == MinesweeperTypes.EMPTY) {
+			Minesweeper.map[1 + m][n - 1].changeType(MinesweeperTypes.EMPTY);
 			recursion(1 + m, n - 1);
 		} else {
+			showValue(1 + m, n - 1);
 
 		}
-		if (Minesweeper.genNumOfMines(m - 1, 1 + n) == 0) {
+		if (Minesweeper.genNumOfMines(m - 1, 1 + n) == 0
+				&& Minesweeper.map[m - 1][1 + n].getMineType() == MinesweeperTypes.EMPTY) {
+			Minesweeper.map[m - 1][1 + n].changeType(MinesweeperTypes.EMPTY);
 			recursion(m - 1, 1 + n);
 		} else {
-
+			showValue(m - 1, 1 + n);
 		}
 	}
 
 	public static void showValue(int m, int n) {
+		int mineCount = Minesweeper.genNumOfMines(m, n);
 
+		if (mineCount != 0) {
+			buttons[m][n].setText(Integer.toString(mineCount));
+			buttons[m][n].setForeground(mycolors[mineCount]);
+			buttons[m][n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		}
 	}
 }

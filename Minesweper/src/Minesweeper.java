@@ -12,7 +12,7 @@ import java.util.Random;
 public class Minesweeper {
 
 	// Class variables
-	private static Square map[][];
+	public static Square map[][];
 	public static int roundCount = 0;
 	public static int mapSizeX;
 	public static int mapSizeY;
