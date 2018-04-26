@@ -322,76 +322,22 @@ public class GameGUI extends JFrame implements ActionListener {
 	}
 
 	public static void recursion(int m, int n) {
-		if (Minesweeper.genNumOfMines(1 + m, n) == 0
-				&& Minesweeper.map[1 + m][n].getMineType() == MinesweeperTypes.EMPTY) {
-			Minesweeper.map[1 + m][n].changeType(MinesweeperTypes.EMPTY);
-			buttons[1 + m][n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-			recursion(1 + m, n);
-		} else {
-			showValue(1 + m, n);
-		}
-		if (Minesweeper.genNumOfMines(m, 1 + n) == 0
-				&& Minesweeper.map[m][1 + n].getMineType() == MinesweeperTypes.EMPTY) {
-			Minesweeper.map[m][1 + n].changeType(MinesweeperTypes.EMPTY);
-			buttons[ m][1 + n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-			recursion(m, 1 + n);
-		} else {
-			showValue(m, 1 + n);
-		}
-		if (Minesweeper.genNumOfMines(m - 1, n) == 0
-				&& Minesweeper.map[m - 1][n].getMineType() == MinesweeperTypes.EMPTY) {
-			Minesweeper.map[m - 1][n].changeType(MinesweeperTypes.EMPTY);
-			buttons[m - 1][n ].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-			recursion(m - 1, n);
-		} else {
-			showValue(m - 1, n);
-		}
-		if (Minesweeper.genNumOfMines(m, n - 1) == 0
-				&& Minesweeper.map[m][n - 1].getMineType() == MinesweeperTypes.EMPTY) {
-			Minesweeper.map[m][n - 1].changeType(MinesweeperTypes.EMPTY);
-			buttons[m][n - 1].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-			recursion(m, n - 1);
-		} else {
-			showValue(m, n - 1);
-		}
-		if (Minesweeper.genNumOfMines(1 + m, 1 + n) == 0
-				&& Minesweeper.map[1 + m][1 + n].getMineType() == MinesweeperTypes.EMPTY) {
-			Minesweeper.map[1 + m][1 + n].changeType(MinesweeperTypes.EMPTY);
-			buttons[1 + m][1 + n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-			recursion(1 + m, 1 + n);
-		} else {
-			showValue(1 + m, 1 + n);
-		}
-		if (Minesweeper.genNumOfMines(m - 1, n - 1) == 0
-				&& Minesweeper.map[m - 1][n - 1].getMineType() == MinesweeperTypes.EMPTY) {
-			Minesweeper.map[m - 1][n - 1].changeType(MinesweeperTypes.EMPTY);
-			buttons[m - 1][n - 1].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-			recursion(m - 1, n - 1);
-		} else {
-			showValue(m - 1, n - 1);
-		}
-		if (Minesweeper.genNumOfMines(1 + m, n - 1) == 0
-				&& Minesweeper.map[1 + m][n - 1].getMineType() == MinesweeperTypes.EMPTY) {
-			Minesweeper.map[1 + m][n - 1].changeType(MinesweeperTypes.EMPTY);
-			buttons[1 + m][n - 1].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-			recursion(1 + m, n - 1);
-		} else {
-			showValue(1 + m, n - 1);
-
-		}
-		if (Minesweeper.genNumOfMines(m - 1, 1 + n) == 0
-				&& Minesweeper.map[m - 1][1 + n].getMineType() == MinesweeperTypes.EMPTY) {
-			Minesweeper.map[m - 1][1 + n].changeType(MinesweeperTypes.EMPTY);
-			buttons[m - 1][1 + n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-			recursion(m - 1, 1 + n);
-		} else {
-			showValue(m - 1, 1 + n);
+		for (int i = -1; i < 2; i++) {
+			for (int j = -1; j < 2; j++) {
+				if (Minesweeper.genNumOfMines(i + m, j + n) == 0
+						&& Minesweeper.map[i + m][j + n].getMineType() == MinesweeperTypes.EMPTY) {
+					Minesweeper.map[i + m][j + n].changeType(MinesweeperTypes.EMPTY);
+					buttons[i + m][j + n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+					recursion(i + m, j + n);
+				} else {
+					showValue(i + m, j + n);
+				}
+			}
 		}
 	}
 
 	public static void showValue(int m, int n) {
 		int mineCount = Minesweeper.genNumOfMines(m, n);
-
 		if (mineCount != 0) {
 			buttons[m][n].setText(Integer.toString(mineCount));
 			buttons[m][n].setForeground(mycolors[mineCount]);
