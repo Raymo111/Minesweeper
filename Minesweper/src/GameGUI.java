@@ -127,30 +127,31 @@ public class GameGUI extends JFrame implements ActionListener {
 						if (pressed) {
 
 							// Checks if the mouse click was a right-click
-							if (SwingUtilities.isRightMouseButton(event))
+							if (SwingUtilities.isRightMouseButton(event)
+									&& Minesweeper.map[m][n].getMineType() == MinesweeperTypes.UNKNOWN) {
 
 								// Sets the button to an image (flag.png)
 								buttons[m][n].setIcon(
 										new ImageIcon(this.getClass().getClassLoader().getResource("flag.png")));
-
+								Minesweeper.map[m][n].changeType(MinesweeperTypes.FLAG);
+							}
 							// If the mouse click was not a right-click
 							else {
 
-								buttons[m][n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-
 								// Checks if a mine exists at the clicked square
 								if (Minesweeper.checkForMine(m, n)) {
+									if (Minesweeper.map[m][n].getMineType() != MinesweeperTypes.FLAG) {
 
-									int mineCount = Minesweeper.genNumOfMines(m, n);
-									if (mineCount != 0) {
-										showValue(m, n);
+										int mineCount = Minesweeper.genNumOfMines(m, n);
+										if (mineCount != 0) {
+											showValue(m, n);
+										}
+
+										else {
+											// Calls recursive function to auto-click all connecting blank squares
+											recursion(m, n);
+										}
 									}
-
-									else {
-										// Calls recursive function to auto-click all connecting blank squares
-										recursion(m, n);
-									}
-
 									// Checks if all empty squares were clicked
 									// TODO check for all empty squares
 								}
@@ -274,7 +275,7 @@ public class GameGUI extends JFrame implements ActionListener {
 			Minesweeper.mineCount = 10;
 			try {
 				Minesweeper.menufinished();
-				Minesweeper.fillWithEmpty();
+				Minesweeper.fillWithUnknown();
 				Minesweeper.genMines();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -293,7 +294,7 @@ public class GameGUI extends JFrame implements ActionListener {
 			Minesweeper.mineCount = 40;
 			try {
 				Minesweeper.menufinished();
-				Minesweeper.fillWithEmpty();
+				Minesweeper.fillWithUnknown();
 				Minesweeper.genMines();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -312,7 +313,7 @@ public class GameGUI extends JFrame implements ActionListener {
 			Minesweeper.mineCount = 99;
 			try {
 				Minesweeper.menufinished();
-				Minesweeper.fillWithEmpty();
+				Minesweeper.fillWithUnknown();
 				Minesweeper.genMines();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -322,23 +323,30 @@ public class GameGUI extends JFrame implements ActionListener {
 	}
 
 	public static void recursion(int m, int n) {
-		for (int i = -1; i < 2; i++) {
-			for (int j = -1; j < 2; j++) {
-				if (Minesweeper.genNumOfMines(i + m, j + n) == 0
-						&& Minesweeper.map[i + m][j + n].getMineType() == MinesweeperTypes.EMPTY) {
-					Minesweeper.map[i + m][j + n].changeType(MinesweeperTypes.EMPTY);
-					buttons[i + m][j + n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-					recursion(i + m, j + n);
-				} else {
-					showValue(i + m, j + n);
+
+		if (Minesweeper.genNumOfMines(m, n) == 0 && Minesweeper.map[m][n].getMineType() == MinesweeperTypes.UNKNOWN) {
+
+			Minesweeper.map[m][n].changeType(MinesweeperTypes.EMPTY);
+			buttons[m][n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+
+			for (int i = -1; i < 2; i++) {
+				for (int j = -1; j < 2; j++) {
+					try {
+						recursion(i + m, j + n);
+					} catch (IndexOutOfBoundsException e) {
+
+					}
 				}
 			}
+		} else {
+			showValue(m, n);
 		}
 	}
 
 	public static void showValue(int m, int n) {
 		int mineCount = Minesweeper.genNumOfMines(m, n);
-		if (mineCount != 0) {
+		if (mineCount != 0 && Minesweeper.map[m][n].getMineType() != MinesweeperTypes.FLAG) {
+			Minesweeper.map[m][n].changeType(MinesweeperTypes.NEXTTOMINE);
 			buttons[m][n].setText(Integer.toString(mineCount));
 			buttons[m][n].setForeground(mycolors[mineCount]);
 			buttons[m][n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));

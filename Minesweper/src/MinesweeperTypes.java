@@ -4,5 +4,5 @@
  * Description: Enum types used in Minesweeper game
  */
 public enum MinesweeperTypes {
-	MINE, EMPTY, FLAG, FLAGGEDMINE, UNKNOWN, UNKNOWNMINE, EXPLODEDMINE;
+	MINE, EMPTY, FLAG, UNKNOWN, UNKNOWNMINE, EXPLODEDMINE, NEXTTOMINE;
 }

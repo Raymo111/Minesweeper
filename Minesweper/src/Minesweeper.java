@@ -68,10 +68,10 @@ public class Minesweeper {
 	 *            2D array for objects that holds all of the information about the
 	 *            game board. Each object is is a different square on the board.
 	 */
-	public static void fillWithEmpty() {
+	public static void fillWithUnknown() {
 		for (int i = 0; i < mapSizeX; i++) {
 			for (int j = 0; j < mapSizeY; j++)
-				map[i][j].changeType(MinesweeperTypes.EMPTY);
+				map[i][j].changeType(MinesweeperTypes.UNKNOWN);
 		}
 	}
 
