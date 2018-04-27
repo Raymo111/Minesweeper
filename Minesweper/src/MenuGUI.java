@@ -50,6 +50,7 @@ public class MenuGUI extends JFrame implements ActionListener {
 
 	// File chooser to allow user to load a saved game
 	private JFileChooser fc;
+	public static MenuGUI menuGUI;
 
 	/** Constructor */
 	public MenuGUI() {
@@ -86,6 +87,7 @@ public class MenuGUI extends JFrame implements ActionListener {
 		buttonPanel.add(loadGame);
 		getContentPane().add(messagePanel);
 		getContentPane().add(buttonPanel);
+		pack();
 		setVisible(true);
 	}
 
@@ -101,6 +103,7 @@ public class MenuGUI extends JFrame implements ActionListener {
 			buttonPanel.add(beginner);
 			buttonPanel.add(intermediate);
 			buttonPanel.add(expert);
+			buttonPanel.add(custom);
 			buttonPanel.add(back);
 			buttonPanel.revalidate();
 			buttonPanel.repaint();
@@ -215,29 +218,21 @@ public class MenuGUI extends JFrame implements ActionListener {
 			dispose();
 		}
 
-		/*
-		 * If the custom button is clicked, sets size of map and number of mines to
-		 * user-entered values, and proceed to initialize the map with mines and empty
-		 * squares, disposing of the Menu window when done
-		 */
+		// If the custom button is clicked, opens a CustomMode dialog
 		else if (custom == event.getSource()) {
-			Minesweeper.mapSizeX = 16;
-			Minesweeper.mapSizeY = 30;
-			Minesweeper.mineCount = 99;
-			try {
-				Minesweeper.menufinished();
-				Minesweeper.fillWithUnknown();
-				Minesweeper.genMines();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			dispose();
+			CustomModeDialog customMode;
+
+			// Calls a custom mode dialog
+			customMode = new CustomModeDialog();
+			customMode.pack();
+			customMode.setLocationRelativeTo(getContentPane());
+			customMode.setVisible(true);
 		}
 
 		// If the back button is clicked, restart the MenuGUI
 		else if (back == event.getSource()) {
 			dispose();
-			new MenuGUI();
+			menuGUI = new MenuGUI();
 		}
 	}
 
