@@ -39,6 +39,7 @@ public class MenuGUI extends JFrame implements ActionListener {
 	private JButton beginner = new JButton("Beginner (9x9)");
 	private JButton intermediate = new JButton("Intermediate (16x16)");
 	private JButton expert = new JButton("Expert (16x30)");
+	private JButton custom = new JButton("Custom");
 
 	// Back button for user to go back to initial view
 	private JButton back = new JButton("Back");
@@ -68,6 +69,8 @@ public class MenuGUI extends JFrame implements ActionListener {
 		intermediate.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
 		expert.addActionListener(this);
 		expert.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+		custom.addActionListener(this);
+		custom.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
 		back.addActionListener(this);
 		back.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
 
@@ -199,6 +202,25 @@ public class MenuGUI extends JFrame implements ActionListener {
 		 * disposing of the Menu window when done
 		 */
 		else if (expert == event.getSource()) {
+			Minesweeper.mapSizeX = 16;
+			Minesweeper.mapSizeY = 30;
+			Minesweeper.mineCount = 99;
+			try {
+				Minesweeper.menufinished();
+				Minesweeper.fillWithEmpty();
+				Minesweeper.genMines();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			dispose();
+		}
+
+		/*
+		 * If the custom button is clicked, sets size of map and number of mines to
+		 * user-entered values, and proceed to initialize the map with mines and empty
+		 * squares, disposing of the Menu window when done
+		 */
+		else if (custom == event.getSource()) {
 			Minesweeper.mapSizeX = 16;
 			Minesweeper.mapSizeY = 30;
 			Minesweeper.mineCount = 99;
