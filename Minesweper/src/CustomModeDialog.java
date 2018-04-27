@@ -96,18 +96,17 @@ public class CustomModeDialog extends JDialog implements ActionListener, Propert
 			if (ok.equals(value))
 				try {
 
-					if (Integer.parseInt(heightField.getText()) <= 9 || Integer.parseInt(heightField.getText()) >= 24)
-						JOptionPane.showMessageDialog(CustomModeDialog.this, "Invalid height.", "I'll fix the height.",
-								JOptionPane.ERROR_MESSAGE);
-					else if (Integer.parseInt(widthField.getText()) <= 9
-							|| Integer.parseInt(widthField.getText()) >= 30)
-						JOptionPane.showMessageDialog(CustomModeDialog.this, "Invalid width.", "I'll fix the width.",
-								JOptionPane.ERROR_MESSAGE);
-					else if (Integer.parseInt(minesField.getText()) <= 10
-							|| Integer.parseInt(minesField.getText()) >= (Integer.parseInt(heightField.getText()) - 1)
-									* (Integer.parseInt(widthField.getText())))
+					if (Integer.parseInt(heightField.getText()) < 9 || Integer.parseInt(heightField.getText()) > 24)
+						JOptionPane.showMessageDialog(CustomModeDialog.this, "Invalid height.",
+								"Stop trying to crash my game! :)", JOptionPane.ERROR_MESSAGE);
+					else if (Integer.parseInt(widthField.getText()) < 9 || Integer.parseInt(widthField.getText()) > 30)
+						JOptionPane.showMessageDialog(CustomModeDialog.this, "Invalid width.",
+								"Stop trying to crash my game! :)", JOptionPane.ERROR_MESSAGE);
+					else if (Integer.parseInt(minesField.getText()) < 10
+							|| Integer.parseInt(minesField.getText()) > (Integer.parseInt(heightField.getText()) - 1)
+									* (Integer.parseInt(widthField.getText()) - 1))
 						JOptionPane.showMessageDialog(CustomModeDialog.this, "Invalid number of mines.",
-								"I'll fix the number of mines", JOptionPane.ERROR_MESSAGE);
+								"Stop trying to crash my game! :)", JOptionPane.ERROR_MESSAGE);
 					else {
 						Minesweeper.mapSizeX = Integer.parseInt(heightField.getText());
 						Minesweeper.mapSizeY = Integer.parseInt(widthField.getText());
@@ -115,7 +114,7 @@ public class CustomModeDialog extends JDialog implements ActionListener, Propert
 
 						// Dismiss the dialog
 						try {
-							MenuGUI.menuGUI.dispose();
+							MenuGUI.mainFrame.dispose();
 							dispose();
 							Minesweeper.menufinished();
 							Minesweeper.fillWithUnknown();
@@ -125,8 +124,9 @@ public class CustomModeDialog extends JDialog implements ActionListener, Propert
 						}
 					}
 				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(CustomModeDialog.this, "Stop trying to crash my game! :)",
-							"I'll enter a valid integer.", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(CustomModeDialog.this,
+							"Please enter a valid integer for all 3 fields.", "Stop trying to crash my game! :)",
+							JOptionPane.ERROR_MESSAGE);
 				}
 		}
 	}

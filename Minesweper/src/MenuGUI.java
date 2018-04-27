@@ -17,12 +17,16 @@ import java.awt.event.*;
 import javax.swing.*;
 
 // MenuGUI class extends JFrame and implements ActionListener
-public class MenuGUI extends JFrame implements ActionListener {
+public class MenuGUI implements ActionListener {
 
 	// SerialVersionUID
 	private static final long serialVersionUID = 4449469728308361534L;
 
 	// Private class variables
+
+	// Main frame
+	public static JFrame mainFrame = new JFrame();
+
 	// Message to display on start of game
 	private JLabel message = new JLabel(
 			"<html><div style='text-align: center;'>"
@@ -50,7 +54,6 @@ public class MenuGUI extends JFrame implements ActionListener {
 
 	// File chooser to allow user to load a saved game
 	private JFileChooser fc;
-	public static MenuGUI menuGUI;
 
 	/** Constructor */
 	public MenuGUI() {
@@ -76,19 +79,19 @@ public class MenuGUI extends JFrame implements ActionListener {
 		back.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
 
 		// Sets title, size, layout and location of GUI window
-		setTitle("Start Game");
-		setSize(640, 300);
-		setLayout(new GridLayout(2, 1));
-		setLocationRelativeTo(null);
+		mainFrame.setTitle("Start Game");
+		mainFrame.setSize(640, 300);
+		mainFrame.setLayout(new GridLayout(2, 1));
+		mainFrame.setLocationRelativeTo(null);
 
 		// Sets layout of and adds buttons to buttonPanel
 		buttonPanel.setLayout(new FlowLayout());
 		buttonPanel.add(newGame);
 		buttonPanel.add(loadGame);
-		getContentPane().add(messagePanel);
-		getContentPane().add(buttonPanel);
-		pack();
-		setVisible(true);
+		mainFrame.getContentPane().add(messagePanel);
+		mainFrame.getContentPane().add(buttonPanel);
+		mainFrame.pack();
+		mainFrame.setVisible(true);
 	}
 
 	/** Action performed method handles button clicks */
@@ -107,8 +110,8 @@ public class MenuGUI extends JFrame implements ActionListener {
 			buttonPanel.add(back);
 			buttonPanel.revalidate();
 			buttonPanel.repaint();
-			revalidate();
-			repaint();
+			mainFrame.revalidate();
+			mainFrame.repaint();
 		}
 
 		/*
@@ -125,7 +128,7 @@ public class MenuGUI extends JFrame implements ActionListener {
 			}
 
 			// Processes the results of getting the user to load a game
-			if (fc.showDialog(MenuGUI.this, "Load Game") == JFileChooser.APPROVE_OPTION) {
+			if (fc.showDialog(MenuGUI.mainFrame, "Load Game") == JFileChooser.APPROVE_OPTION) {
 				File saveGame = fc.getSelectedFile();
 
 				// Resets the file chooser for the next time it's shown
@@ -145,8 +148,8 @@ public class MenuGUI extends JFrame implements ActionListener {
 				}
 
 				// Shows a popup telling the user that the saved game has been loaded
-				JOptionPane.showMessageDialog(rootPane, new JLabel("Savegame loaded!", JLabel.CENTER), "FileLoader",
-						JOptionPane.DEFAULT_OPTION);
+				JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel("Savegame loaded!", JLabel.CENTER),
+						"FileLoader", JOptionPane.DEFAULT_OPTION);
 			}
 
 			/*
@@ -154,9 +157,9 @@ public class MenuGUI extends JFrame implements ActionListener {
 			 * restarts the MenuGUI window by disposing and recreating it
 			 */
 			else {
-				JOptionPane.showMessageDialog(rootPane, new JLabel("Savegame not loaded. Bad File."), "FileLoader",
-						JLabel.CENTER);
-				dispose();
+				JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel("Savegame not loaded. Bad File."),
+						"FileLoader", JLabel.CENTER);
+				mainFrame.dispose();
 				new MenuGUI();
 			}
 		}
@@ -177,7 +180,7 @@ public class MenuGUI extends JFrame implements ActionListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			dispose();
+			mainFrame.dispose();
 		}
 
 		/*
@@ -196,7 +199,7 @@ public class MenuGUI extends JFrame implements ActionListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			dispose();
+			mainFrame.dispose();
 		}
 
 		/*
@@ -215,7 +218,7 @@ public class MenuGUI extends JFrame implements ActionListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			dispose();
+			mainFrame.dispose();
 		}
 
 		// If the custom button is clicked, opens a CustomMode dialog
@@ -225,14 +228,14 @@ public class MenuGUI extends JFrame implements ActionListener {
 			// Calls a custom mode dialog
 			customMode = new CustomModeDialog();
 			customMode.pack();
-			customMode.setLocationRelativeTo(getContentPane());
+			customMode.setLocationRelativeTo(mainFrame.getContentPane());
 			customMode.setVisible(true);
 		}
 
 		// If the back button is clicked, restart the MenuGUI
 		else if (back == event.getSource()) {
-			dispose();
-			menuGUI = new MenuGUI();
+			mainFrame.dispose();
+			new MenuGUI();
 		}
 	}
 
