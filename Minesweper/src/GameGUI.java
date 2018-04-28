@@ -1,4 +1,3 @@
-
 /*
  * Authors: Raymond Li, David Tuck
  * Date started: 2018-04-18
@@ -17,7 +16,6 @@
 // Imports required packages
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Map;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -45,8 +43,8 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 	private JPanel infoPanel = new JPanel();
 
 	// Colors for each number of mines
-	static Color[] mycolors = { Color.BLUE, Color.GREEN, Color.ORANGE, Color.MAGENTA, Color.CYAN, Color.DARK_GRAY,
-			Color.GRAY };
+	static Color[] mycolors = { new Color(0, 0, 255), new Color(0, 129, 0), new Color(255, 19, 0), new Color(0, 0, 131),
+			new Color(129, 5, 0), new Color(42, 148, 148), new Color(0, 0, 0), new Color(128, 128, 128) };
 
 	// MenuBar variables
 	// The menuBar itself
