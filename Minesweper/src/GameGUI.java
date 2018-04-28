@@ -207,7 +207,8 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 
 						// Checks if the mouse click was a right-click
 						if (event.getButton() == MouseEvent.BUTTON3
-								&& Minesweeper.map[i][j].getMineType() == MinesweeperTypes.UNKNOWN) {
+								&& (Minesweeper.map[i][j].getMineType() == MinesweeperTypes.UNKNOWN
+										|| Minesweeper.map[i][j].getMineType() == MinesweeperTypes.FLAG)) {
 
 							// If there is no flag at the square
 							if (Minesweeper.map[i][j].getMineType() != MinesweeperTypes.FLAG) {
@@ -215,7 +216,6 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 								// Sets the button to an image (flag.png)
 								buttons[i][j].setIcon(
 										new ImageIcon(this.getClass().getClassLoader().getResource("flag.png")));
-								buttons[i][j].addMouseListener(this);
 								Minesweeper.map[i][j].changeType(MinesweeperTypes.FLAG);
 							}
 
@@ -223,16 +223,8 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 							else {
 
 								// Reset button
-								buttons[i][j].removeAll();
-								buttons[i][j].setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-								buttons[i][j].setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
-								buttons[i][j].setPreferredSize(new Dimension(30, 30));
-								buttons[i][j].setMaximumSize(new Dimension(30, 30));
-								buttons[i][j].setMinimumSize(new Dimension(30, 30));
+								buttons[i][j].setIcon(null);
 								Minesweeper.map[i][j].changeType(MinesweeperTypes.UNKNOWN);
-
-								// Adds mouse listener to each button
-								buttons[i][j].addMouseListener(this);
 							}
 						}
 						// If the mouse click was a left-click
