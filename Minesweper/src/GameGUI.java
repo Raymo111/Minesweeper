@@ -236,17 +236,15 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 								if (Minesweeper.map[i][j].getMineType() != MinesweeperTypes.FLAG) {
 
 									int mineCount = Minesweeper.genNumOfMines(i, j);
-									if (mineCount != 0) {
+									if (mineCount != 0)
 										showValue(i, j);
-									}
 
 									/*
 									 * Calls recursive function to auto-click all connecting blank squares and
 									 * surrounding numbered squares
 									 */
-									else {
+									else
 										recursion(i, j);
-									}
 								}
 								// Checks if all empty squares were clicked
 								// TODO check for all empty squares
