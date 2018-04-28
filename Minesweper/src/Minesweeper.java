@@ -37,9 +37,10 @@ public class Minesweeper {
 		for (int i = 0; i < mapSizeX; i++) {
 			for (int j = 0; j < mapSizeY; j++) {
 				map[i][j] = new Square();
+				map[i][j].changeType(MinesweeperTypes.UNKNOWN);
 			}
 		}
-		new GameGUI(mapSizeX, mapSizeY);
+		new GameGUI();
 	}
 
 	/**
