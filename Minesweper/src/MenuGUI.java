@@ -1,8 +1,7 @@
-
 /*
  * Authors: Raymond Li, David Tuck
  * Date started: 2018-04-19
- * Date Finished: 2018-04-
+ * Date Finished: 2018-04-28
  * Description: User first starts with a welcome message and options to start a new game
  * 				and	to load a game. New game brings out 3 choices - Beginner, Intermediate
  * 				and Expert. A game based on the selected difficulty is then created. Load
@@ -227,8 +226,14 @@ public class MenuGUI implements ActionListener {
 
 			// Calls a custom mode dialog
 			customMode = new CustomModeDialog();
+
+			// Packs the customMode dialog
 			customMode.pack();
+
+			// Sets the location of the customMode dialog
 			customMode.setLocationRelativeTo(mainFrame.getContentPane());
+
+			// Shows the customMode dialog
 			customMode.setVisible(true);
 		}
 
