@@ -16,7 +16,6 @@
 // Imports required packages
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Map;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -44,8 +43,8 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 	private JPanel infoPanel = new JPanel();
 
 	// Colors for each number of mines
-	static Color[] mycolors = { Color.BLUE, Color.GREEN, Color.ORANGE, Color.MAGENTA, Color.CYAN, Color.DARK_GRAY,
-			Color.GRAY };
+	static Color[] mycolors = { new Color(0, 0, 255), new Color(0, 129, 0), new Color(255, 19, 0), new Color(0, 0, 131),
+			new Color(129, 5, 0), new Color(42, 148, 148), new Color(0, 0, 0), new Color(128, 128, 128) };
 
 	// MenuBar variables
 	// The menuBar itself
@@ -88,14 +87,14 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 		buttons = new JButton[Minesweeper.mapSizeX][Minesweeper.mapSizeY];
 
 		/*
-		 * Initializes buttons with raised-bevel border, Comic Sans font and a fixed
-		 * size of 30 pixels by 30 pixels
+		 * Initializes buttons with raised-bevel border, Consolas font and a fixed size
+		 * of 30 pixels by 30 pixels
 		 */
 		for (int i = 0; i < Minesweeper.mapSizeX; i++)
 			for (int j = 0; j < Minesweeper.mapSizeY; j++) {
 				buttons[i][j] = new JButton();
 				buttons[i][j].setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-				buttons[i][j].setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+				buttons[i][j].setFont(new Font("Consolas", Font.BOLD, 20));
 				buttons[i][j].setPreferredSize(new Dimension(30, 30));
 				buttons[i][j].setMaximumSize(new Dimension(30, 30));
 				buttons[i][j].setMinimumSize(new Dimension(30, 30));
@@ -235,17 +234,15 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 								if (Minesweeper.map[i][j].getMineType() != MinesweeperTypes.FLAG) {
 
 									int mineCount = Minesweeper.genNumOfMines(i, j);
-									if (mineCount != 0) {
+									if (mineCount != 0)
 										showValue(i, j);
-									}
 
 									/*
 									 * Calls recursive function to auto-click all connecting blank squares and
 									 * surrounding numbered squares
 									 */
-									else {
+									else
 										recursion(i, j);
-									}
 								}
 								// Checks if all empty squares were clicked
 								// TODO check for all empty squares

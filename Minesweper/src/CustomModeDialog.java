@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class CustomModeDialog extends JDialog implements ActionListener, PropertyChangeListener {
+	private static final long serialVersionUID = -7536805503015591331L;
 	private JTextField heightField = new JTextField(4);
 	private JTextField widthField = new JTextField(4);
 	private JTextField minesField = new JTextField(4);

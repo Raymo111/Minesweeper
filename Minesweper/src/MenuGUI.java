@@ -18,9 +18,6 @@ import javax.swing.*;
 // MenuGUI class extends JFrame and implements ActionListener
 public class MenuGUI implements ActionListener {
 
-	// SerialVersionUID
-	private static final long serialVersionUID = 4449469728308361534L;
-
 	// Private class variables
 
 	// Main frame
@@ -90,6 +87,7 @@ public class MenuGUI implements ActionListener {
 		mainFrame.getContentPane().add(messagePanel);
 		mainFrame.getContentPane().add(buttonPanel);
 		mainFrame.pack();
+		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
 	}
 
@@ -234,6 +232,7 @@ public class MenuGUI implements ActionListener {
 			customMode.setLocationRelativeTo(mainFrame.getContentPane());
 
 			// Shows the customMode dialog
+			customMode.setResizable(false);
 			customMode.setVisible(true);
 		}
 
