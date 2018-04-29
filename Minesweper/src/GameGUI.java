@@ -87,14 +87,14 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 		buttons = new JButton[Minesweeper.mapSizeX][Minesweeper.mapSizeY];
 
 		/*
-		 * Initializes buttons with raised-bevel border, Comic Sans font and a fixed
-		 * size of 30 pixels by 30 pixels
+		 * Initializes buttons with raised-bevel border, Consolas font and a fixed size
+		 * of 30 pixels by 30 pixels
 		 */
 		for (int i = 0; i < Minesweeper.mapSizeX; i++)
 			for (int j = 0; j < Minesweeper.mapSizeY; j++) {
 				buttons[i][j] = new JButton();
 				buttons[i][j].setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-				buttons[i][j].setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+				buttons[i][j].setFont(new Font("Consolas", Font.BOLD, 20));
 				buttons[i][j].setPreferredSize(new Dimension(30, 30));
 				buttons[i][j].setMaximumSize(new Dimension(30, 30));
 				buttons[i][j].setMinimumSize(new Dimension(30, 30));
