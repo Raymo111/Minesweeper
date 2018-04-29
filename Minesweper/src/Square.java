@@ -4,7 +4,6 @@
  * Description: Minesweeper squares
  */
 public class Square {
-	private int visibleValue = 0;
 	private MinesweeperTypes contains;
 	private boolean isAMine = false;
 
@@ -30,13 +29,5 @@ public class Square {
 
 	public void changeType(MinesweeperTypes type) {
 		contains = type;
-	}
-
-	public void setVisibleValue(int newValue) {
-		visibleValue = newValue;
-	}
-
-	public int getVisibleValue() {
-		return visibleValue;
 	}
 }

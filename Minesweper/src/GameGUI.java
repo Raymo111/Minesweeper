@@ -31,7 +31,7 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 	private static JButton[][] buttons;
 
 	// Clock to display the amount of time elapsed for the user
-	private JTextPane clock = new JTextPane();
+	private JTextPane clockPane = new JTextPane();
 
 	// MinesLeft to display the amount of mines left to be flagged
 	private JTextPane minesLeft = new JTextPane();
@@ -42,7 +42,10 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 	// InfoPanel to hold clock and minesLeft
 	private JPanel infoPanel = new JPanel();
 
-	// Colors for each number of mines
+	/*
+	 * Colors for each number of mines: 1-Blue 2-Green 3-Red 4-Dark_Blue 5-Dark_Red
+	 * 6-Turquoise 7-Black 8-Grey
+	 */
 	static Color[] mycolors = { new Color(0, 0, 255), new Color(0, 129, 0), new Color(255, 19, 0), new Color(0, 0, 131),
 			new Color(129, 5, 0), new Color(42, 148, 148), new Color(0, 0, 0), new Color(128, 128, 128) };
 
@@ -107,15 +110,16 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 			}
 
 		// Initializes and adds textPanes to infoPanel
-		clock.setEditable(false);
+		clockPane.setEditable(false);
 		minesLeft.setEditable(false);
-		clock.setFont(new Font("Consolas", Font.BOLD, 20));
+		clockPane.setFont(new Font("Consolas", Font.BOLD, 20));
 		minesLeft.setFont(new Font("Consolas", Font.BOLD, 20));
-		clock.setForeground(Color.RED);
+		clockPane.setForeground(Color.RED);
 		minesLeft.setForeground(Color.RED);
-		clock.setBackground(Color.BLACK);
+		clockPane.setBackground(Color.BLACK);
+		clockPane.setText("0");
 		minesLeft.setBackground(Color.BLACK);
-		infoPanel.add(clock);
+		infoPanel.add(clockPane);
 		infoPanel.add(minesLeft);
 
 		// Adds panels to frame
@@ -229,23 +233,38 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 						else if (event.getButton() == MouseEvent.BUTTON1
 								&& Minesweeper.map[i][j].getMineType() == MinesweeperTypes.UNKNOWN) {
 
+							// Starts timer
+							if (clockPane.getText().equals("0"))
+								new Clock(clockPane);
+
 							// Checks if a mine exists at the clicked square
-							if (Minesweeper.checkForMine(i, j)) {
-								if (Minesweeper.map[i][j].getMineType() != MinesweeperTypes.FLAG) {
+							if (!Minesweeper.checkForMine(i, j)
+									&& Minesweeper.map[i][j].getMineType() != MinesweeperTypes.FLAG) {
+								if (Minesweeper.genNumOfMines(i, j) != 0)
+									showValue(i, j);
 
-									int mineCount = Minesweeper.genNumOfMines(i, j);
-									if (mineCount != 0)
-										showValue(i, j);
+								/*
+								 * Calls recursive function to auto-click all connecting blank squares and
+								 * surrounding numbered squares
+								 */
+								else
+									recursion(i, j);
 
-									/*
-									 * Calls recursive function to auto-click all connecting blank squares and
-									 * surrounding numbered squares
-									 */
-									else
-										recursion(i, j);
-								}
 								// Checks if all empty squares were clicked
-								// TODO check for all empty squares
+								for (int k = 0; k < Minesweeper.map.length; k++) {
+									for (int l = 0; l < Minesweeper.map[k].length; l++) {
+
+										// Exit loops if any square is not clicked
+										if (Minesweeper.map[k][l].getMineType() == MinesweeperTypes.UNKNOWN)
+											break;
+
+										// If all squares were clicked, user has won
+										else if (k == Minesweeper.map.length - 1
+												&& l == Minesweeper.map[k].length - 1) {
+											// TODO Show win dialog
+										}
+									}
+								}
 							}
 
 							// If user clicks on a mine
@@ -267,7 +286,6 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 					// Resets pressed variable to false
 					pressed = false;
 				}
-
 	}
 
 	// Sets pressed to false if cursor leaves a button
@@ -366,7 +384,6 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 	public static void showValue(int i, int j) {
 		int mineCount = Minesweeper.genNumOfMines(i, j);
 		if (mineCount != 0 && Minesweeper.map[i][j].getMineType() != MinesweeperTypes.FLAG) {
-			Minesweeper.map[i][j].changeType(MinesweeperTypes.NEXTTOMINE);
 			buttons[i][j].setText(Integer.toString(mineCount));
 			buttons[i][j].setForeground(mycolors[mineCount]);
 			buttons[i][j].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));

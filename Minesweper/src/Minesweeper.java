@@ -104,9 +104,9 @@ public class Minesweeper {
 			return true;
 		} else {
 			if (map[clickX][clickY].checkMine()) {// checks to see if position has a mine
-				return false;// returns true if user has clicked on a mine
+				return true;// returns true if there is a mine
 			} else {// returns false if there is no mine
-				return true;
+				return false;
 			}
 		}
 	}
