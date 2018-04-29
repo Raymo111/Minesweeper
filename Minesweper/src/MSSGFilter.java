@@ -1,3 +1,4 @@
+
 /*
  * Author: Raymond Li
  * Date created: 2018-04-19
@@ -10,12 +11,13 @@ import javax.swing.filechooser.FileFilter;
 
 public class MSSGFilter extends FileFilter {
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Accepts only .mssg files when selecting files in save loader
 	 * 
-	 * @see javax.swing.filechooser.FileFilter#accept(java.io.File)
+	 * @param f
+	 *            A file to check for
+	 * @return Whether the file has the .mmsg extension
 	 */
-	// Accepts only .mssg files when selecting files in save loader
 	public boolean accept(File f) {
 
 		// Enable all directories to be opened

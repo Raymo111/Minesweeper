@@ -32,6 +32,7 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 
 	// Clock to display the amount of time elapsed for the user
 	private JTextPane clockPane = new JTextPane();
+	private Clock clock;
 
 	// MinesLeft to display the amount of mines left to be flagged
 	private JTextPane minesLeft = new JTextPane();
@@ -197,6 +198,8 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 	 */
 	public void mouseReleased(MouseEvent event) {
 
+		boolean won = true;
+
 		for (int i = 0; i < buttons.length; i++)
 			for (int j = 0; j < buttons[i].length; j++)
 				if (buttons[i][j] == event.getSource()) {
@@ -235,7 +238,10 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 
 							// Starts timer
 							if (clockPane.getText().equals("0"))
-								new Clock(clockPane);
+								clock = new Clock(clockPane);
+
+							// Disables clicks on square
+							buttons[i][j].removeMouseListener(this);
 
 							// Checks if a mine exists at the clicked square
 							if (!Minesweeper.checkForMine(i, j)
@@ -254,25 +260,34 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 								for (int k = 0; k < Minesweeper.map.length; k++) {
 									for (int l = 0; l < Minesweeper.map[k].length; l++) {
 
-										// Exit loops if any square is not clicked
-										if (Minesweeper.map[k][l].getMineType() == MinesweeperTypes.UNKNOWN)
+										// Exit loops and set won to false if any square is not clicked
+										if (Minesweeper.map[k][l].getMineType() == MinesweeperTypes.UNKNOWN) {
+											won = false;
 											break;
-
-										// If all squares were clicked, user has won
-										else if (k == Minesweeper.map.length - 1
-												&& l == Minesweeper.map[k].length - 1) {
-											// TODO Show win dialog
 										}
 									}
+								}
+
+								if (won) {
+
+									// Shows a win dialog and stops timer
+									clock.cancel();
+									JOptionPane.showMessageDialog(getContentPane(),
+											new JLabel("Congratulations! You've won the game!"),
+											"Game by Raymond Li and David Tuck", JLabel.CENTER);
 								}
 							}
 
 							// If user clicks on a mine
 							else {
 
-								// For all squares on map with a mine, shows the mine image
 								for (int k = 0; k < Minesweeper.mapSizeX; k++)
 									for (int l = 0; l < Minesweeper.mapSizeY; l++) {
+
+										// For all squares on map, disables clicking
+										buttons[k][l].removeMouseListener(this);
+
+										// For squares with mine, shows mine image
 										if (Minesweeper.checkForMine(k, l)) {
 											// TODO Show Mine image here
 										}
