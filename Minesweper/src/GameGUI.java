@@ -220,9 +220,9 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 							// If there is no flag at the square
 							if (Minesweeper.map[i][j].getMineType() != SquareTypes.FLAG) {
 
-								// Sets the button to an image (flag.png)
+								// Sets the button to an image (Flag.png)
 								buttons[i][j].setIcon(
-										new ImageIcon(this.getClass().getClassLoader().getResource("flag.png")));
+										new ImageIcon(this.getClass().getClassLoader().getResource("Flag.png")));
 								Minesweeper.map[i][j].changeType(SquareTypes.FLAG);
 								Minesweeper.numOfMinesLeft--;
 								minesLeft.setText(Integer.toString(Minesweeper.numOfMinesLeft));
@@ -280,14 +280,19 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 											buttons[k][l].removeMouseListener(this);
 
 											// If a square has a mine, autoflag it
-											if (Minesweeper.map[k][l].getMineType() == SquareTypes.UNKNOWN)
+											if (Minesweeper.map[k][l].getMineType() == SquareTypes.UNKNOWN) {
 												Minesweeper.map[k][l].changeType(SquareTypes.FLAG);
+
+												// Sets the button to an image (Flag.png)
+												buttons[i][j].setIcon(new ImageIcon(
+														this.getClass().getClassLoader().getResource("Flag.png")));
+											}
 										}
 
 									// Shows a win dialog and stops timer
 									clock.cancel();
 									JOptionPane.showMessageDialog(getContentPane(), new JLabel(
-											"<html><div style='text-align: center;'>Congratulations!<br>You've won the game!<br>Game created by: Raymond Li and David Tuck</div></html>"),
+											"<html><div style='text-align: center;'>Congratulations!<br>You've won the game!<br>Game created by:<br>Raymond Li and David Tuck</div></html>"),
 											"Congratulations!", JLabel.CENTER);
 								}
 							}
@@ -305,12 +310,21 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 										buttons[k][l].removeMouseListener(this);
 
 										// For squares with mine, shows mine image
-										if (Minesweeper.checkForMine(k, l)) {
-											// TODO Show Mine image here
-										}
-										// Ends the game with a game over and prompts for name with High Score
-										// TODO End game
+										if (Minesweeper.checkForMine(k, l))
+
+											// Sets the buttons to an image (Mine.png)
+											buttons[k][l].setIcon(new ImageIcon(
+													this.getClass().getClassLoader().getResource("Mine.png")));
 									}
+
+								// Sets the button to an image (Explode.png)
+								buttons[i][j].setIcon(
+										new ImageIcon(this.getClass().getClassLoader().getResource("Explode.png")));
+
+								// Ends the game with a game over
+								JOptionPane.showMessageDialog(getContentPane(), new JLabel(
+										"<html><div style='text-align: center;'>Game Over!<br>Better luck next time!<br>Game created by:<br>Raymond Li and David Tuck</div></html>"),
+										"Game Over!", JLabel.CENTER);
 							}
 						}
 					}
