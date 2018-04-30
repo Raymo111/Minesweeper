@@ -25,8 +25,7 @@ public class MenuGUI implements ActionListener {
 
 	// Message to display on start of game
 	private JLabel message = new JLabel(
-			"<html><div style='text-align: center;'>"
-					+ "Welcome to Minesweeper!<br>Created by: Raymond Li and David Tuck" + "</div></html>",
+			"<html><div style='text-align: center;'>Welcome to Minesweeper!<br>Created by: Raymond Li and David Tuck</div></html>",
 			JLabel.CENTER);
 
 	// Button for user to start a new game of Minesweeper
