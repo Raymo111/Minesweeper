@@ -17,11 +17,7 @@ public class Minesweeper {
 	public static int mapSizeX;
 	public static int mapSizeY;
 	public static int mineCount;
-	public static final int mapSizeYLimit = 24;// limit on the custom dimension Y
-	public static final int mapSizeXLimit = 30;// limit on the custom dimension X
-	public static final int numOfMinesLimit = 99;// limit on the number of mines
-	public static long additionalTime = 0;
-	public static long timeStarted;
+	public static long clock;
 	public static boolean newGame = false;
 	public static Integer numOfMinesLeft;// display on gameGUI
 	private static Random random = new Random();
@@ -104,9 +100,9 @@ public class Minesweeper {
 			return true;
 		} else {
 			if (map[clickX][clickY].checkMine()) {// checks to see if position has a mine
-				return false;// returns true if user has clicked on a mine
+				return true;// returns true if there is a mine
 			} else {// returns false if there is no mine
-				return true;
+				return false;
 			}
 		}
 	}
@@ -177,7 +173,7 @@ public class Minesweeper {
 			System.err.println(e);// GUI needs to display error
 		}
 	}
- 
+
 	/**
 	 * Updates the number of mines that are left. This method should be run right
 	 * after every time the user right click a cell
