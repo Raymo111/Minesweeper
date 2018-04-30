@@ -55,7 +55,7 @@ public class MSSGFilter extends FileFilter {
 	 *            The file the user has selected
 	 * @return The extension of the selected file
 	 */
-	public static String getExtension(File file) {
+	public String getExtension(File file) {
 		String extension = null;
 		String fileName = file.getName();
 		int index = fileName.lastIndexOf('.');

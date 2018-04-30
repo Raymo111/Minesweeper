@@ -198,8 +198,6 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 	 */
 	public void mouseReleased(MouseEvent event) {
 
-		boolean won = true;
-
 		for (int i = 0; i < buttons.length; i++)
 			for (int j = 0; j < buttons[i].length; j++)
 				if (buttons[i][j] == event.getSource()) {
@@ -212,16 +210,16 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 
 						// Checks if the mouse click was a right-click
 						if (event.getButton() == MouseEvent.BUTTON3
-								&& (Minesweeper.map[i][j].getMineType() == MinesweeperTypes.UNKNOWN
-										|| Minesweeper.map[i][j].getMineType() == MinesweeperTypes.FLAG)) {
+								&& (Minesweeper.map[i][j].getMineType() == SquareTypes.UNKNOWN
+										|| Minesweeper.map[i][j].getMineType() == SquareTypes.FLAG)) {
 
 							// If there is no flag at the square
-							if (Minesweeper.map[i][j].getMineType() != MinesweeperTypes.FLAG) {
+							if (Minesweeper.map[i][j].getMineType() != SquareTypes.FLAG) {
 
 								// Sets the button to an image (flag.png)
 								buttons[i][j].setIcon(
 										new ImageIcon(this.getClass().getClassLoader().getResource("flag.png")));
-								Minesweeper.map[i][j].changeType(MinesweeperTypes.FLAG);
+								Minesweeper.map[i][j].changeType(SquareTypes.FLAG);
 							}
 
 							// If there is a flag at the square
@@ -229,23 +227,20 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 
 								// Reset button
 								buttons[i][j].setIcon(null);
-								Minesweeper.map[i][j].changeType(MinesweeperTypes.UNKNOWN);
+								Minesweeper.map[i][j].changeType(SquareTypes.UNKNOWN);
 							}
 						}
 						// If the mouse click was a left-click
 						else if (event.getButton() == MouseEvent.BUTTON1
-								&& Minesweeper.map[i][j].getMineType() == MinesweeperTypes.UNKNOWN) {
+								&& Minesweeper.map[i][j].getMineType() == SquareTypes.UNKNOWN) {
 
 							// Starts timer
 							if (clockPane.getText().equals("0"))
 								clock = new Clock(clockPane);
 
-							// Disables clicks on square
-							buttons[i][j].removeMouseListener(this);
-
 							// Checks if a mine exists at the clicked square
 							if (!Minesweeper.checkForMine(i, j)
-									&& Minesweeper.map[i][j].getMineType() != MinesweeperTypes.FLAG) {
+									&& Minesweeper.map[i][j].getMineType() != SquareTypes.FLAG) {
 								if (Minesweeper.genNumOfMines(i, j) != 0)
 									showValue(i, j);
 
@@ -256,19 +251,24 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 								else
 									recursion(i, j);
 
-								// Checks if all empty squares were clicked
-								for (int k = 0; k < Minesweeper.map.length; k++) {
-									for (int l = 0; l < Minesweeper.map[k].length; l++) {
+								boolean won = true;
 
-										// Exit loops and set won to false if any square is not clicked
-										if (Minesweeper.map[k][l].getMineType() == MinesweeperTypes.UNKNOWN) {
+								// Checks if all empty squares were clicked
+								for (int k = 0; k < Minesweeper.map.length; k++)
+									for (int l = 0; l < Minesweeper.map[k].length; l++)
+
+										// Exit loops and set won to false if any non-mine square has not been clicked
+										if (Minesweeper.map[k][l].getMineType() == SquareTypes.UNKNOWN) {
 											won = false;
 											break;
 										}
-									}
-								}
 
 								if (won) {
+
+									// For all squares on map, disables clicking
+									for (int k = 0; k < Minesweeper.mapSizeX; k++)
+										for (int l = 0; l < Minesweeper.mapSizeY; l++)
+											buttons[k][l].removeMouseListener(this);
 
 									// Shows a win dialog and stops timer
 									clock.cancel();
@@ -280,6 +280,9 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 
 							// If user clicks on a mine
 							else {
+
+								// Stops timer
+								clock.cancel();
 
 								for (int k = 0; k < Minesweeper.mapSizeX; k++)
 									for (int l = 0; l < Minesweeper.mapSizeY; l++) {
@@ -375,12 +378,15 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 		}
 	}
 
-	public static void recursion(int m, int n) {
+	public void recursion(int m, int n) {
 
-		if (Minesweeper.genNumOfMines(m, n) == 0 && Minesweeper.map[m][n].getMineType() == MinesweeperTypes.UNKNOWN) {
+		if (Minesweeper.genNumOfMines(m, n) == 0 && Minesweeper.map[m][n].getMineType() == SquareTypes.UNKNOWN) {
 
-			Minesweeper.map[m][n].changeType(MinesweeperTypes.EMPTY);
+			Minesweeper.map[m][n].changeType(SquareTypes.EMPTY);
 			buttons[m][n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+
+			// Disables clicks on square
+			buttons[m][n].removeMouseListener(this);
 
 			for (int i = -1; i < 2; i++) {
 				for (int j = -1; j < 2; j++) {
@@ -396,12 +402,16 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 		}
 	}
 
-	public static void showValue(int i, int j) {
+	public void showValue(int i, int j) {
 		int mineCount = Minesweeper.genNumOfMines(i, j);
-		if (mineCount != 0 && Minesweeper.map[i][j].getMineType() != MinesweeperTypes.FLAG) {
+		if (mineCount != 0 && Minesweeper.map[i][j].getMineType() != SquareTypes.FLAG) {
+			Minesweeper.map[i][j].changeType(SquareTypes.EMPTY);
 			buttons[i][j].setText(Integer.toString(mineCount));
 			buttons[i][j].setForeground(mycolors[mineCount]);
 			buttons[i][j].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+
+			// Disables clicks on square
+			buttons[i][j].removeMouseListener(this);
 		}
 	}
 

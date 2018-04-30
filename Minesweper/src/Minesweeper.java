@@ -17,11 +17,7 @@ public class Minesweeper {
 	public static int mapSizeX;
 	public static int mapSizeY;
 	public static int mineCount;
-	public static final int mapSizeYLimit = 24;// limit on the custom dimension Y
-	public static final int mapSizeXLimit = 30;// limit on the custom dimension X
-	public static final int numOfMinesLimit = 99;// limit on the number of mines
-	public static long additionalTime = 0;
-	public static long timeStarted;
+	public static long clock;
 	public static boolean newGame = false;
 	public static Integer numOfMinesLeft;// display on gameGUI
 	private static Random random = new Random();
@@ -37,7 +33,7 @@ public class Minesweeper {
 		for (int i = 0; i < mapSizeX; i++) {
 			for (int j = 0; j < mapSizeY; j++) {
 				map[i][j] = new Square();
-				map[i][j].changeType(MinesweeperTypes.UNKNOWN);
+				map[i][j].changeType(SquareTypes.UNKNOWN);
 			}
 		}
 		new GameGUI();
@@ -72,7 +68,7 @@ public class Minesweeper {
 	public static void fillWithUnknown() {
 		for (int i = 0; i < mapSizeX; i++) {
 			for (int j = 0; j < mapSizeY; j++)
-				map[i][j].changeType(MinesweeperTypes.UNKNOWN);
+				map[i][j].changeType(SquareTypes.UNKNOWN);
 		}
 	}
 
@@ -186,7 +182,7 @@ public class Minesweeper {
 		int counter = 0;
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map.length; j++) {
-				if (map[i][j].getMineType() == MinesweeperTypes.FLAG) {
+				if (map[i][j].getMineType() == SquareTypes.FLAG) {
 					counter++;
 				}
 			}

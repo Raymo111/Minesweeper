@@ -4,11 +4,11 @@
  * Description: Minesweeper squares
  */
 public class Square {
-	private MinesweeperTypes contains;
+	private SquareTypes contains;
 	private boolean isAMine = false;
 
 	public Square() {
-		contains = MinesweeperTypes.EMPTY;
+		contains = SquareTypes.EMPTY;
 	}
 
 	public void setToMine() {
@@ -23,11 +23,11 @@ public class Square {
 		return isAMine;
 	}
 
-	public MinesweeperTypes getMineType() {
+	public SquareTypes getMineType() {
 		return contains;
 	}
 
-	public void changeType(MinesweeperTypes type) {
+	public void changeType(SquareTypes type) {
 		contains = type;
 	}
 }
