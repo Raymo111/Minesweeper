@@ -289,7 +289,7 @@ public class GameGUI implements ActionListener, MouseListener {
 												Minesweeper.map[k][l].changeType(SquareTypes.FLAG);
 
 												// Sets the button to an image (Flag.png)
-												buttons[i][j].setIcon(new ImageIcon(
+												buttons[k][l].setIcon(new ImageIcon(
 														this.getClass().getClassLoader().getResource("Flag.png")));
 											}
 										}
