@@ -162,7 +162,8 @@ public class GameGUI implements ActionListener, MouseListener {
 		// Makes the program terminate on press of close window
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		// Sets window to visible
+		// Sets window to visible and disable resizing
+		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
 	}
 
