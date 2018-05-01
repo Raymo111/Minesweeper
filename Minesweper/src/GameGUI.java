@@ -58,7 +58,7 @@ public class GameGUI implements ActionListener, MouseListener {
 	private JMenu gameMenu = new JMenu("Game");
 
 	// New game with F2 as keyboard shortcut - maintains current settings
-	private JMenuItem newGame = new JMenuItem("New game", KeyEvent.VK_T);
+	private JMenuItem newGame = new JMenuItem("New game", KeyEvent.VK_F2);
 
 	// The submenu under gameMenu
 	private JMenu newSubmenu = new JMenu("New");
@@ -75,8 +75,14 @@ public class GameGUI implements ActionListener, MouseListener {
 	private JMenuItem expert = new JMenuItem("Expert (16x30)");
 	private JMenuItem custom = new JMenuItem("Custom");
 
-	// Help button to get help with minesweeper
-	private JMenuItem helpButton = new JMenu("Help");
+	// Help menu for general information
+	private JMenu helpMenu = new JMenu("Help");
+
+	// About button displays game's creators
+	private JMenuItem about = new JMenuItem("About");
+
+	// How to play button links to a webpage on how to play minesweeper
+	private JMenuItem howToPlay = new JMenuItem("How to Play");
 
 	// Declares boolean value for whether a button was pressed
 	boolean pressed;
@@ -185,9 +191,12 @@ public class GameGUI implements ActionListener, MouseListener {
 		newSubmenu.add(custom);
 		gameMenu.add(newSubmenu);
 
-		// Adds help button to menu
-		helpButton.addActionListener(this);
-		menuBar.add(helpButton);
+		// Adds help menu to menubar
+		menuBar.add(helpMenu);
+		about.addActionListener(this);
+		helpMenu.add(about);
+		howToPlay.addActionListener(this);
+		helpMenu.add(howToPlay);
 
 		// Returns the finished menuBar
 		return menuBar;
@@ -353,8 +362,7 @@ public class GameGUI implements ActionListener, MouseListener {
 
 	// Sets pressed to true if cursor enters a button that is not the help
 	public void mouseEntered(MouseEvent event) {
-		if (!(helpButton == event.getSource()))
-			pressed = true;
+		pressed = true;
 	}
 
 	/**

@@ -91,6 +91,7 @@ public class Minesweeper {
 		roundCount++;
 		if (roundCount == 1 && map[clickX][clickY].checkMine()) {// moves the mine
 			map[clickX][clickY].removeMine();// Removes the mine
+
 			// generates one move mine in a different location
 			int newX, newY;
 			do {
@@ -98,7 +99,7 @@ public class Minesweeper {
 				newY = random.nextInt(mapSizeY);
 			} while (map[newX][newY].checkMine() || newX == clickX & newY == clickY);
 			map[newX][newY].setToMine();
-			return true;
+			return false;
 		} else {
 			if (map[clickX][clickY].checkMine()) {// checks to see if position has a mine
 				return true;// returns true if there is a mine
