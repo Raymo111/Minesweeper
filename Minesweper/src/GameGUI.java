@@ -57,8 +57,11 @@ public class GameGUI implements ActionListener, MouseListener {
 	// The first menu
 	private JMenu gameMenu = new JMenu("Game");
 
+	// New game with F2 as keyboard shortcut - maintains current settings
+	private JMenuItem newGame = new JMenuItem("New game", KeyEvent.VK_T);
+
 	// The submenu under gameMenu
-	private JMenu newGameSubmenu = new JMenu("New game");
+	private JMenu newSubmenu = new JMenu("New");
 
 	// Menu item to save game
 	private JMenuItem saveGame = new JMenuItem("Save game");
@@ -161,6 +164,8 @@ public class GameGUI implements ActionListener, MouseListener {
 		menuBar.add(gameMenu);
 
 		// Adds actionListeners to menuItems and adds menuItems to gameMenu
+		newGame.addActionListener(this);
+		gameMenu.add(newGame);
 		saveGame.addActionListener(this);
 		gameMenu.add(saveGame);
 		loadGame.addActionListener(this);
@@ -171,14 +176,14 @@ public class GameGUI implements ActionListener, MouseListener {
 
 		// Adds actionListeners to submenuItems and adds menuItems to gameMenu
 		beginner.addActionListener(this);
-		newGameSubmenu.add(beginner);
+		newSubmenu.add(beginner);
 		intermediate.addActionListener(this);
-		newGameSubmenu.add(intermediate);
+		newSubmenu.add(intermediate);
 		expert.addActionListener(this);
-		newGameSubmenu.add(expert);
+		newSubmenu.add(expert);
 		custom.addActionListener(this);
-		newGameSubmenu.add(custom);
-		gameMenu.add(newGameSubmenu);
+		newSubmenu.add(custom);
+		gameMenu.add(newSubmenu);
 
 		// Adds help button to menu
 		helpButton.addActionListener(this);
@@ -346,9 +351,10 @@ public class GameGUI implements ActionListener, MouseListener {
 		pressed = false;
 	}
 
-	// Sets pressed to true if cursor enters a button
+	// Sets pressed to true if cursor enters a button that is not the help
 	public void mouseEntered(MouseEvent event) {
-		pressed = true;
+		if (!(helpButton == event.getSource()))
+			pressed = true;
 	}
 
 	/**
@@ -360,7 +366,18 @@ public class GameGUI implements ActionListener, MouseListener {
 		 * mines to 10, and proceed to initialize the map with mines and empty squares,
 		 * disposing of the menu window when done
 		 */
-		if (beginner == event.getSource()) {
+		if (newGame == event.getSource()) {
+			try {
+				Minesweeper.menufinished();
+				Minesweeper.fillWithUnknown();
+				Minesweeper.genMines();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			mainFrame.dispose();
+		}
+
+		else if (beginner == event.getSource()) {
 			Minesweeper.mapSizeX = 9;
 			Minesweeper.mapSizeY = 9;
 			Minesweeper.mineCount = 10;
