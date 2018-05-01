@@ -296,9 +296,11 @@ public class GameGUI implements ActionListener, MouseListener {
 
 									// Shows a win dialog and stops timer
 									clock.cancel();
+									Minesweeper.numOfMinesLeft = 0;
+									minesLeft.setText("0");
 									JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel(
 											"<html><div style='text-align: center;'>Congratulations!<br>You've won the game!<br>Game created by:<br>Raymond Li and David Tuck</div></html>"),
-											"Congratulations!", JLabel.CENTER);
+											"Congratulations!", JOptionPane.INFORMATION_MESSAGE);
 								}
 							}
 
@@ -329,7 +331,7 @@ public class GameGUI implements ActionListener, MouseListener {
 								// Ends the game with a game over
 								JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel(
 										"<html><div style='text-align: center;'>Game Over!<br>Better luck next time!<br>Game created by:<br>Raymond Li and David Tuck</div></html>"),
-										"Game Over!", JLabel.CENTER);
+										"Game Over!", JOptionPane.ERROR_MESSAGE);
 							}
 						}
 					}
