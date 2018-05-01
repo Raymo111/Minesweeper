@@ -7,6 +7,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -14,6 +15,7 @@ import javax.swing.JTextField;
 
 public class CustomModeDialog extends JDialog implements ActionListener, PropertyChangeListener {
 	private static final long serialVersionUID = -7536805503015591331L;
+	private JFrame mainFrame;
 	private JTextField heightField = new JTextField(4);
 	private JTextField widthField = new JTextField(4);
 	private JTextField minesField = new JTextField(4);
@@ -24,8 +26,9 @@ public class CustomModeDialog extends JDialog implements ActionListener, Propert
 	private String cancel = "Cancel";
 
 	/** Creates the reusable dialog. */
-	public CustomModeDialog() {
+	public CustomModeDialog(JFrame frame) {
 		super();
+		mainFrame = frame;
 		setTitle("Custom Map");
 
 		// Create an array of the text and components to be displayed
@@ -115,7 +118,8 @@ public class CustomModeDialog extends JDialog implements ActionListener, Propert
 
 						// Dismiss the dialog
 						try {
-							MenuGUI.mainFrame.dispose();
+							mainFrame.dispose();
+							mainFrame.dispose();
 							dispose();
 							Minesweeper.menufinished();
 							Minesweeper.fillWithUnknown();

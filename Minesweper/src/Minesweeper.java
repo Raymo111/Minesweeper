@@ -13,7 +13,7 @@ public class Minesweeper {
 
 	// Class variables
 	public static Square map[][];
-	public static int roundCount = 0;
+	public static int roundCount;
 	public static int mapSizeX;
 	public static int mapSizeY;
 	public static int mineCount;
@@ -30,6 +30,7 @@ public class Minesweeper {
 
 	public static void menufinished() throws IOException, ClassNotFoundException {
 		map = new Square[mapSizeX][mapSizeY];
+		roundCount = 0;
 		for (int i = 0; i < mapSizeX; i++) {
 			for (int j = 0; j < mapSizeY; j++) {
 				map[i][j] = new Square();

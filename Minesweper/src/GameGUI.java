@@ -21,10 +21,10 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
 //Main class that extends JFrame and implements ActionListener
-public class GameGUI extends JFrame implements ActionListener, MouseListener {
+public class GameGUI implements ActionListener, MouseListener {
 
-	// Serial version UID
-	private static final long serialVersionUID = -3978640272114053636L;
+	// Main frame that contains everything
+	public JFrame mainFrame = new JFrame();
 
 	// Private class Variables
 	// 2D JButton array for the Minesweeper map
@@ -70,6 +70,9 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 	private JMenuItem beginner = new JMenuItem("Beginner (9x9)");
 	private JMenuItem intermediate = new JMenuItem("Intermediate (16x16)");
 	private JMenuItem expert = new JMenuItem("Expert (16x30)");
+	private JMenuItem custom = new JMenuItem("Custom");
+
+	// Help button to get help with minesweeper
 	private JMenuItem helpButton = new JMenu("Help");
 
 	// Declares boolean value for whether a button was pressed
@@ -128,23 +131,23 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 		infoPanel.add(minesLeft);
 
 		// Adds panels to frame
-		getContentPane().add(infoPanel);
-		getContentPane().add(gamePanel);
+		mainFrame.getContentPane().add(infoPanel);
+		mainFrame.getContentPane().add(gamePanel);
 
 		// Adds menuBar to frame
-		setJMenuBar(createMenuBar());
+		mainFrame.setJMenuBar(createMenuBar());
 
 		// Sets title, size, layout and location of GUI window
-		setTitle("Minesweeper");
-		setSize(Minesweeper.mapSizeY * 30 + 30, Minesweeper.mapSizeX * 30 + 126);
-		setLayout(new FlowLayout());
-		setLocationRelativeTo(null);
+		mainFrame.setTitle("Minesweeper");
+		mainFrame.setSize(Minesweeper.mapSizeY * 30 + 30, Minesweeper.mapSizeX * 30 + 126);
+		mainFrame.setLayout(new FlowLayout());
+		mainFrame.setLocationRelativeTo(null);
 
 		// Makes the program terminate on press of close window
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Sets window to visible
-		setVisible(true);
+		mainFrame.setVisible(true);
 	}
 
 	/**
@@ -173,6 +176,8 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 		newGameSubmenu.add(intermediate);
 		expert.addActionListener(this);
 		newGameSubmenu.add(expert);
+		custom.addActionListener(this);
+		newGameSubmenu.add(custom);
 		gameMenu.add(newGameSubmenu);
 
 		// Adds help button to menu
@@ -291,7 +296,7 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 
 									// Shows a win dialog and stops timer
 									clock.cancel();
-									JOptionPane.showMessageDialog(getContentPane(), new JLabel(
+									JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel(
 											"<html><div style='text-align: center;'>Congratulations!<br>You've won the game!<br>Game created by:<br>Raymond Li and David Tuck</div></html>"),
 											"Congratulations!", JLabel.CENTER);
 								}
@@ -322,7 +327,7 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 										new ImageIcon(this.getClass().getClassLoader().getResource("Explode.png")));
 
 								// Ends the game with a game over
-								JOptionPane.showMessageDialog(getContentPane(), new JLabel(
+								JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel(
 										"<html><div style='text-align: center;'>Game Over!<br>Better luck next time!<br>Game created by:<br>Raymond Li and David Tuck</div></html>"),
 										"Game Over!", JLabel.CENTER);
 							}
@@ -364,7 +369,7 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			dispose();
+			mainFrame.dispose();
 		}
 
 		/*
@@ -383,7 +388,7 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			dispose();
+			mainFrame.dispose();
 		}
 
 		/*
@@ -402,7 +407,24 @@ public class GameGUI extends JFrame implements ActionListener, MouseListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			dispose();
+			mainFrame.dispose();
+		}
+
+		// If the custom button is clicked, opens a CustomMode dialog
+		else if (custom == event.getSource()) {
+
+			// Calls a custom mode dialog
+			CustomModeDialog customMode = new CustomModeDialog(mainFrame);
+
+			// Packs the customMode dialog
+			customMode.pack();
+
+			// Sets the location of the customMode dialog
+			customMode.setLocationRelativeTo(mainFrame.getContentPane());
+
+			// Shows the customMode dialog
+			customMode.setResizable(false);
+			customMode.setVisible(true);
 		}
 	}
 

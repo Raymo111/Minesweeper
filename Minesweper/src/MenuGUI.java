@@ -20,8 +20,8 @@ public class MenuGUI implements ActionListener {
 
 	// Private class variables
 
-	// Main frame
-	public static JFrame mainFrame = new JFrame();
+	// Main frame that contains everything
+	public JFrame mainFrame = new JFrame();
 
 	// Message to display on start of game
 	private JLabel message = new JLabel(
@@ -124,7 +124,7 @@ public class MenuGUI implements ActionListener {
 			}
 
 			// Processes the results of getting the user to load a game
-			if (fc.showDialog(MenuGUI.mainFrame, "Load Game") == JFileChooser.APPROVE_OPTION) {
+			if (fc.showDialog(mainFrame, "Load Game") == JFileChooser.APPROVE_OPTION) {
 				File saveGame = fc.getSelectedFile();
 
 				// Resets the file chooser for the next time it's shown
@@ -219,10 +219,9 @@ public class MenuGUI implements ActionListener {
 
 		// If the custom button is clicked, opens a CustomMode dialog
 		else if (custom == event.getSource()) {
-			CustomModeDialog customMode;
 
 			// Calls a custom mode dialog
-			customMode = new CustomModeDialog();
+			CustomModeDialog customMode = new CustomModeDialog(mainFrame);
 
 			// Packs the customMode dialog
 			customMode.pack();
