@@ -3,7 +3,8 @@
  * Date created: 2018-04-18
  * Description: Minesweeper squares
  */
-public class Square {
+public class Square implements java.io.Serializable {
+	private static final long serialVersionUID = -4896377842037028342L;
 	private SquareTypes contains;
 	private boolean isAMine = false;
 

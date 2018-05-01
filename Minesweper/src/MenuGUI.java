@@ -88,6 +88,7 @@ public class MenuGUI implements ActionListener {
 		mainFrame.pack();
 		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	/** Action performed method handles button clicks */

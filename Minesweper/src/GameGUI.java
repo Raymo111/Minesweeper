@@ -16,6 +16,7 @@
 // Imports required packages
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -86,6 +87,12 @@ public class GameGUI implements ActionListener, MouseListener {
 
 	// Declares boolean value for whether a button was pressed
 	boolean pressed;
+
+	// File chooser to allow user to load a saved game
+	private JFileChooser loadFile;
+
+	// File chooser to allow user to save a game
+	private JFileChooser saveFile;
 
 	/**
 	 * Constructor
@@ -383,6 +390,99 @@ public class GameGUI implements ActionListener, MouseListener {
 				e.printStackTrace();
 			}
 			mainFrame.dispose();
+		}
+
+		/*
+		 * Sets up file chooser and loads game from file if the loadGame button is
+		 * clicked
+		 */
+		else if (saveGame == event.getSource()) {
+			if (saveFile == null) {
+
+				// Setup file saver
+				saveFile = new JFileChooser();
+				saveFile.setCurrentDirectory(new File("."));
+				saveFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				saveFile.addChoosableFileFilter(new MSSGFilter());
+				saveFile.setAcceptAllFileFilterUsed(false);
+			}
+
+			// Processes the results of getting the user to load a game
+			if (saveFile.showDialog(mainFrame, "Save Game") == JFileChooser.APPROVE_OPTION) {
+				File game = saveFile.getSelectedFile();
+
+				// Resets the file chooser for the next time it's shown
+				saveFile.setSelectedFile(null);
+
+				// Try-catch to handle exceptions
+				try {
+
+					// Saves game to file
+					Minesweeper.writeToFile(game.getName());
+				} catch (Exception e) {
+
+					// Prints stack trace if any errors occur
+					e.printStackTrace();
+				}
+
+				// Shows a popup telling the user that the saved game has been loaded
+				JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel("Game Saved!", JLabel.CENTER),
+						"FileSaver", JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+
+		/*
+		 * Sets up file chooser and loads game from file if the loadGame button is
+		 * clicked
+		 */
+		else if (loadGame == event.getSource()) {
+			if (loadFile == null) {
+				loadFile = new JFileChooser();
+
+				// Sets the default directory to wherever the Minesweeper game is
+				loadFile.setCurrentDirectory(new File("."));
+
+				// Adds a custom file filter and disables the default (Accept All) file filter
+				loadFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				loadFile.addChoosableFileFilter(new MSSGFilter());
+				loadFile.setAcceptAllFileFilterUsed(false);
+			}
+
+			// Processes the results of getting the user to load a game
+			if (loadFile.showDialog(mainFrame, "Load Game") == JFileChooser.APPROVE_OPTION) {
+				File game = loadFile.getSelectedFile();
+
+				// Resets the file chooser for the next time it's shown
+				loadFile.setSelectedFile(null);
+
+				// Try-catch to handle exceptions
+				try {
+
+					// Calls the actual game
+					Minesweeper.menufinished();
+
+					// Reads saved game from file
+					Minesweeper.readFromFile(game.getName());
+
+				} catch (Exception e) {
+
+					// Prints stack trace if any errors occur
+					e.printStackTrace();
+				}
+
+				// Shows a popup telling the user that the saved game has been loaded
+				JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel("Savegame loaded!", JLabel.CENTER),
+						"FileLoader", JOptionPane.INFORMATION_MESSAGE);
+			}
+
+			/*
+			 * Shows a popup telling the user that the saved game has not been loaded and
+			 * restarts the MenuGUI window by disposing and recreating it
+			 */
+			else {
+				JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel("Savegame not loaded. Bad File."),
+						"FileLoader", JLabel.CENTER);
+			}
 		}
 
 		else if (beginner == event.getSource()) {
