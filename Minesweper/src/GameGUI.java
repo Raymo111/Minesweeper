@@ -17,6 +17,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -24,16 +25,17 @@ import javax.swing.border.BevelBorder;
 //Main class that extends JFrame and implements ActionListener
 public class GameGUI implements ActionListener, MouseListener {
 
+	// Private class Variables
 	// Main frame that contains everything
 	public JFrame mainFrame = new JFrame();
 
-	// Private class Variables
 	// 2D JButton array for the Minesweeper map
 	private static JButton[][] buttons;
 
 	// Clock to display the amount of time elapsed for the user
 	private JTextPane clockPane = new JTextPane();
 	private Clock clock;
+	public static int clockSeconds = 0;
 
 	// MinesLeft to display the amount of mines left to be flagged
 	private JTextPane minesLeft = new JTextPane();
@@ -48,8 +50,9 @@ public class GameGUI implements ActionListener, MouseListener {
 	 * Colors for each number of mines: 1-Blue 2-Green 3-Red 4-Dark_Blue 5-Dark_Red
 	 * 6-Turquoise 7-Black 8-Grey
 	 */
-	static Color[] mycolors = { new Color(0, 0, 255), new Color(0, 129, 0), new Color(255, 19, 0), new Color(0, 0, 131),
-			new Color(129, 5, 0), new Color(42, 148, 148), new Color(0, 0, 0), new Color(128, 128, 128) };
+	private final static Color[] mycolors = { new Color(0, 0, 255), new Color(0, 129, 0), new Color(255, 19, 0),
+			new Color(0, 0, 131), new Color(129, 5, 0), new Color(42, 148, 148), new Color(0, 0, 0),
+			new Color(128, 128, 128) };
 
 	// MenuBar variables
 	// The menuBar itself
@@ -88,6 +91,7 @@ public class GameGUI implements ActionListener, MouseListener {
 	// Declares boolean value for whether a button was pressed
 	boolean pressed;
 
+	// File IO
 	// File chooser to allow user to load a saved game
 	private JFileChooser loadFile;
 
@@ -383,10 +387,11 @@ public class GameGUI implements ActionListener, MouseListener {
 		 * disposing of the menu window when done
 		 */
 		if (newGame == event.getSource()) {
+
+			// Stops the clock
+			clock.cancel();
 			try {
 				Minesweeper.menufinished();
-				Minesweeper.fillWithUnknown();
-				Minesweeper.genMines();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -487,13 +492,14 @@ public class GameGUI implements ActionListener, MouseListener {
 		}
 
 		else if (beginner == event.getSource()) {
+
+			// Stops the clock
+			clock.cancel();
 			Minesweeper.mapSizeX = 9;
 			Minesweeper.mapSizeY = 9;
 			Minesweeper.mineCount = 10;
 			try {
 				Minesweeper.menufinished();
-				Minesweeper.fillWithUnknown();
-				Minesweeper.genMines();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -506,13 +512,14 @@ public class GameGUI implements ActionListener, MouseListener {
 		 * squares, disposing of the Menu window when done
 		 */
 		else if (intermediate == event.getSource()) {
+
+			// Stops the clock
+			clock.cancel();
 			Minesweeper.mapSizeX = 16;
 			Minesweeper.mapSizeY = 16;
 			Minesweeper.mineCount = 40;
 			try {
 				Minesweeper.menufinished();
-				Minesweeper.fillWithUnknown();
-				Minesweeper.genMines();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -525,13 +532,14 @@ public class GameGUI implements ActionListener, MouseListener {
 		 * disposing of the Menu window when done
 		 */
 		else if (expert == event.getSource()) {
+
+			// Stops the clock
+			clock.cancel();
 			Minesweeper.mapSizeX = 16;
 			Minesweeper.mapSizeY = 30;
 			Minesweeper.mineCount = 99;
 			try {
 				Minesweeper.menufinished();
-				Minesweeper.fillWithUnknown();
-				Minesweeper.genMines();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -540,6 +548,9 @@ public class GameGUI implements ActionListener, MouseListener {
 
 		// If the custom button is clicked, opens a CustomMode dialog
 		else if (custom == event.getSource()) {
+
+			// Stops the clock
+			clock.cancel();
 
 			// Calls a custom mode dialog
 			CustomModeDialog customMode = new CustomModeDialog(mainFrame);

@@ -5,8 +5,6 @@ import java.util.TimerTask;
 import javax.swing.JTextPane;
 
 public class Clock {
-
-	private int nSeconds = 0;
 	private JTextPane clockDisplay;
 	private Timer timer = new Timer();
 	private TimerTask clock = new TimerTask() {
@@ -15,7 +13,7 @@ public class Clock {
 			EventQueue.invokeLater(new Runnable() {
 
 				public void run() {
-					clockDisplay.setText(String.valueOf(nSeconds++));
+					clockDisplay.setText(String.valueOf(GameGUI.clockSeconds++));
 				}
 			});
 		}
@@ -27,6 +25,8 @@ public class Clock {
 	}
 
 	public void cancel() {
+		GameGUI.clockSeconds = 0;
 		timer.cancel();
+		clock.cancel();
 	}
 }

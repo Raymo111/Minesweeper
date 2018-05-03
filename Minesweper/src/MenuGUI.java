@@ -172,8 +172,6 @@ public class MenuGUI implements ActionListener {
 			Minesweeper.mineCount = 10;
 			try {
 				Minesweeper.menufinished();
-				Minesweeper.fillWithUnknown();
-				Minesweeper.genMines();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -191,8 +189,6 @@ public class MenuGUI implements ActionListener {
 			Minesweeper.mineCount = 40;
 			try {
 				Minesweeper.menufinished();
-				Minesweeper.fillWithUnknown();
-				Minesweeper.genMines();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -210,8 +206,6 @@ public class MenuGUI implements ActionListener {
 			Minesweeper.mineCount = 99;
 			try {
 				Minesweeper.menufinished();
-				Minesweeper.fillWithUnknown();
-				Minesweeper.genMines();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -122,8 +122,6 @@ public class CustomModeDialog extends JDialog implements ActionListener, Propert
 							mainFrame.dispose();
 							dispose();
 							Minesweeper.menufinished();
-							Minesweeper.fillWithUnknown();
-							Minesweeper.genMines();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

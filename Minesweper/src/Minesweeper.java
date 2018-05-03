@@ -17,8 +17,6 @@ public class Minesweeper {
 	public static int mapSizeX;
 	public static int mapSizeY;
 	public static int mineCount;
-	public static long clock;
-	public static boolean newGame = false;
 	public static Integer numOfMinesLeft;// display on gameGUI
 	private static Random random = new Random();
 
@@ -37,6 +35,8 @@ public class Minesweeper {
 				map[i][j].changeType(SquareTypes.UNKNOWN);
 			}
 		}
+		fillWithUnknown();
+		genMines();
 		new GameGUI();
 	}
 
@@ -174,22 +174,6 @@ public class Minesweeper {
 		} catch (FileNotFoundException e) {
 			System.err.println(e);// GUI needs to display error
 		}
-	}
-
-	/**
-	 * Updates the number of mines that are left. This method should be run right
-	 * after every time the user right click a cell
-	 */
-	public static void updateScore() {
-		int counter = 0;
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map.length; j++) {
-				if (map[i][j].getMineType() == SquareTypes.FLAG) {
-					counter++;
-				}
-			}
-		}
-		numOfMinesLeft = mineCount - counter;
 	}
 
 }
