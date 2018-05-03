@@ -1,10 +1,14 @@
 import java.awt.EventQueue;
+import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JTextPane;
 
-public class Clock {
+public class Clock implements Serializable {
+
+	private static final long serialVersionUID = -2023068599368972675L;
+
 	private JTextPane clockDisplay;
 	private Timer timer = new Timer();
 	private TimerTask clock = new TimerTask() {
@@ -29,4 +33,5 @@ public class Clock {
 		timer.cancel();
 		clock.cancel();
 	}
+
 }
