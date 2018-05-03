@@ -6,10 +6,19 @@
  */
 
 //Imports java io and Random classes
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Random;
 
-public class Minesweeper {
+public class Minesweeper implements Serializable {
+
+	private static final long serialVersionUID = 7670165703153443696L;
 
 	// Class variables
 	public static Square map[][];
@@ -17,7 +26,7 @@ public class Minesweeper {
 	public static int mapSizeX;
 	public static int mapSizeY;
 	public static int mineCount;
-	public static Integer numOfMinesLeft;// display on gameGUI
+	public static int numOfMinesLeft;// display on gameGUI
 	private static Random random = new Random();
 	public static GameGUI gameGUI;
 
@@ -151,12 +160,23 @@ public class Minesweeper {
 	 */
 	public static void writeToFile(String fileName) throws FileNotFoundException, IOException {
 		try {
-			FileOutputStream fileOut = new FileOutputStream(fileName + ".mssg");
-			ObjectOutput outStream = new ObjectOutputStream(fileOut);
-			outStream.writeObject(map);
-			outStream.writeObject(gameGUI);
-			// TODO: Write array of all other miscellaneous values
-			outStream.close();
+			if (fileName.contains(".mssg")) {
+				FileOutputStream fileOut = new FileOutputStream(fileName);
+				ObjectOutput outStream = new ObjectOutputStream(fileOut);
+				outStream.writeObject(map);
+				outStream.writeObject(gameGUI);
+				outStream.writeObject(roundCount);
+				outStream.writeObject(mineCount);
+				outStream.close();
+			} else {
+				FileOutputStream fileOut = new FileOutputStream(fileName + ".mssg");
+				ObjectOutput outStream = new ObjectOutputStream(fileOut);
+				outStream.writeObject(map);
+				outStream.writeObject(gameGUI);
+				outStream.writeObject(roundCount);
+				outStream.writeObject(mineCount);
+				outStream.close();
+			}
 		} catch (IOException e) {
 			System.err.println(e);// GUI needs to display error
 		}
@@ -177,8 +197,11 @@ public class Minesweeper {
 			ObjectInputStream inStream = new ObjectInputStream(fileIn);
 			map = (Square[][]) inStream.readObject();
 			gameGUI = (GameGUI) inStream.readObject();
-			// TODO: Read array of all other miscellaneous values
+			roundCount = (int) inStream.readObject();
+			mineCount = (int) inStream.readObject();
 			inStream.close();
+			mapSizeX = map.length;
+			mapSizeY = map[0].length;
 		} catch (FileNotFoundException e) {
 			System.err.println(e);// GUI needs to display error
 		}
