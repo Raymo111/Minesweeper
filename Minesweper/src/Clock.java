@@ -1,13 +1,10 @@
 import java.awt.EventQueue;
-import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JTextPane;
 
-public class Clock implements Serializable {
-
-	private static final long serialVersionUID = -2023068599368972675L;
+public class Clock {
 
 	private JTextPane clockDisplay;
 	private Timer timer = new Timer();
@@ -30,8 +27,8 @@ public class Clock implements Serializable {
 
 	public void cancel() {
 		GameGUI.clockSeconds = 0;
-		timer.cancel();
 		clock.cancel();
+		timer.cancel();
 	}
 
 }

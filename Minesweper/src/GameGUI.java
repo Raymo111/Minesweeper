@@ -51,21 +51,24 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 	public JFrame mainFrame = new JFrame();
 
 	// 2D JButton array for the Minesweeper map
-	private static JButton[][] buttons;
+	public static JButton[][] buttons;
 
 	// Clock to display the amount of time elapsed for the user
-	private JTextPane clockPane = new JTextPane();
+	public JTextPane clockPane = new JTextPane();
 	private Clock clock;
 	public static int clockSeconds = 0;
 
+	// Check to see if click is the first
+	public static boolean firstClick = true;
+
 	// MinesLeft to display the amount of mines left to be flagged
-	private JTextPane minesLeft = new JTextPane();
+	public JTextPane minesLeft = new JTextPane();
 
 	// GamePanel to hold all the buttons
-	private JPanel gamePanel = new JPanel();
+	public JPanel gamePanel = new JPanel();
 
 	// InfoPanel to hold clock and minesLeft
-	private JPanel infoPanel = new JPanel();
+	public JPanel infoPanel = new JPanel();
 
 	/*
 	 * Colors for each number of mines: 1-Blue 2-Green 3-Red 4-Dark_Blue 5-Dark_Red
@@ -111,13 +114,6 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 
 	// Declares boolean value for whether a button was pressed
 	boolean pressed;
-
-	// File IO
-	// File chooser to allow user to load a saved game
-	private JFileChooser loadFile;
-
-	// File chooser to allow user to save a game
-	private JFileChooser saveFile;
 
 	/**
 	 * Constructor
@@ -295,8 +291,10 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 								&& Minesweeper.map[i][j].getMineType() == SquareTypes.UNKNOWN) {
 
 							// Starts timer
-							if (clockPane.getText().equals("0"))
+							if (firstClick) {
 								clock = new Clock(clockPane);
+								firstClick = false;
+							}
 
 							// Checks if a mine exists at the clicked square
 							if (!Minesweeper.checkForMine(i, j)
@@ -402,6 +400,7 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 	 * Action performed method to control the menuBar
 	 */
 	public void actionPerformed(ActionEvent event) {
+
 		/*
 		 * If the beginner button is clicked, sets size of map to 9x9 and the number of
 		 * mines to 10, and proceed to initialize the map with mines and empty squares,
@@ -424,15 +423,13 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		 * clicked
 		 */
 		else if (saveGame == event.getSource()) {
-			if (saveFile == null) {
 
-				// Setup file saver
-				saveFile = new JFileChooser();
-				saveFile.setCurrentDirectory(new File("."));
-				saveFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-				saveFile.addChoosableFileFilter(new MSSGFilter());
-				saveFile.setAcceptAllFileFilterUsed(false);
-			}
+			// Setup file saver
+			JFileChooser saveFile = new JFileChooser();
+			saveFile.setCurrentDirectory(new File("."));
+			saveFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+			saveFile.addChoosableFileFilter(new MSSGFilter());
+			saveFile.setAcceptAllFileFilterUsed(false);
 
 			// Processes the results of getting the user to load a game
 			if (saveFile.showDialog(mainFrame, "Save Game") == JFileChooser.APPROVE_OPTION) {
@@ -463,17 +460,16 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		 * clicked
 		 */
 		else if (loadGame == event.getSource()) {
-			if (loadFile == null) {
-				loadFile = new JFileChooser();
 
-				// Sets the default directory to wherever the Minesweeper game is
-				loadFile.setCurrentDirectory(new File("."));
+			JFileChooser loadFile = new JFileChooser();
 
-				// Adds a custom file filter and disables the default (Accept All) file filter
-				loadFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-				loadFile.addChoosableFileFilter(new MSSGFilter());
-				loadFile.setAcceptAllFileFilterUsed(false);
-			}
+			// Sets the default directory to wherever the Minesweeper game is
+			loadFile.setCurrentDirectory(new File("."));
+
+			// Adds a custom file filter and disables the default (Accept All) file filter
+			loadFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+			loadFile.addChoosableFileFilter(new MSSGFilter());
+			loadFile.setAcceptAllFileFilterUsed(false);
 
 			// Processes the results of getting the user to load a game
 			if (loadFile.showDialog(mainFrame, "Load Game") == JFileChooser.APPROVE_OPTION) {

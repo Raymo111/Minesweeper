@@ -16,6 +16,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Random;
 
+import javax.swing.JButton;
+import javax.swing.JTextPane;
+
 public class Minesweeper implements Serializable {
 
 	private static final long serialVersionUID = 7670165703153443696L;
@@ -164,18 +167,29 @@ public class Minesweeper implements Serializable {
 				FileOutputStream fileOut = new FileOutputStream(fileName);
 				ObjectOutput outStream = new ObjectOutputStream(fileOut);
 				outStream.writeObject(map);
-				outStream.writeObject(gameGUI);
 				outStream.writeObject(roundCount);
 				outStream.writeObject(mineCount);
+				outStream.writeObject(mapSizeX);
+				outStream.writeObject(mapSizeY);
+				outStream.writeObject(GameGUI.buttons);
+				outStream.writeObject(GameGUI.clockSeconds);
 				outStream.close();
+				fileOut.close();
 			} else {
 				FileOutputStream fileOut = new FileOutputStream(fileName + ".mssg");
 				ObjectOutput outStream = new ObjectOutputStream(fileOut);
 				outStream.writeObject(map);
+				outStream.writeObject(roundCount);
+				outStream.writeObject(mineCount);
 				outStream.writeObject(gameGUI);
 				outStream.writeObject(roundCount);
 				outStream.writeObject(mineCount);
+				outStream.writeObject(mapSizeX);
+				outStream.writeObject(mapSizeY);
+				outStream.writeObject(GameGUI.buttons);
+				outStream.writeObject(GameGUI.clockSeconds);
 				outStream.close();
+				fileOut.close();
 			}
 		} catch (IOException e) {
 			System.err.println(e);// GUI needs to display error
@@ -196,12 +210,22 @@ public class Minesweeper implements Serializable {
 			FileInputStream fileIn = new FileInputStream(fileName);
 			ObjectInputStream inStream = new ObjectInputStream(fileIn);
 			map = (Square[][]) inStream.readObject();
-			gameGUI = (GameGUI) inStream.readObject();
 			roundCount = (int) inStream.readObject();
 			mineCount = (int) inStream.readObject();
+			mapSizeX = (int) inStream.readObject();
+			mapSizeY = (int) inStream.readObject();
+			GameGUI.buttons = (JButton[][]) inStream.readObject();
+			GameGUI.clockSeconds = (int) inStream.readObject();
 			inStream.close();
-			mapSizeX = map.length;
-			mapSizeY = map[0].length;
+			GameGUI.firstClick = true;
+			gameGUI.minesLeft.setText(Integer.toString(numOfMinesLeft));
+			gameGUI.mainFrame.revalidate();
+			gameGUI.mainFrame.repaint();
+			gameGUI.gamePanel.revalidate();
+			gameGUI.gamePanel.repaint();
+			gameGUI.infoPanel.revalidate();
+			gameGUI.infoPanel.repaint();
+			fileIn.close();
 		} catch (FileNotFoundException e) {
 			System.err.println(e);// GUI needs to display error
 		}

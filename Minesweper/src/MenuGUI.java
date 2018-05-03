@@ -127,7 +127,11 @@ public class MenuGUI implements ActionListener {
 			if (fc == null) {
 				fc = new JFileChooser();
 
+				// Sets the default directory to wherever the Minesweeper game is
+				fc.setCurrentDirectory(new File("."));
+
 				// Adds a custom file filter and disables the default (Accept All) file filter
+				fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 				fc.addChoosableFileFilter(new MSSGFilter());
 				fc.setAcceptAllFileFilterUsed(false);
 			}
@@ -141,11 +145,13 @@ public class MenuGUI implements ActionListener {
 
 				// Try-catch to handle exceptions
 				try {
-					// Calls the actual game
-					Minesweeper.menufinished();
 
 					// Reads saved game from file
 					Minesweeper.readFromFile(saveGame.getName());
+					mainFrame.dispose();
+
+					Minesweeper.gameGUI.mainFrame.setVisible(true);
+
 				} catch (Exception e) {
 
 					// Prints stack trace if any errors occur
