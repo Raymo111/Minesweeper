@@ -19,6 +19,7 @@ public class Minesweeper {
 	public static int mineCount;
 	public static Integer numOfMinesLeft;// display on gameGUI
 	private static Random random = new Random();
+	public static GameGUI gameGUI;
 
 	public static void main(String[] args) {
 
@@ -37,7 +38,7 @@ public class Minesweeper {
 		}
 		fillWithUnknown();
 		genMines();
-		new GameGUI();
+		gameGUI = new GameGUI();
 	}
 
 	/**
@@ -149,11 +150,13 @@ public class Minesweeper {
 	 * @throws IOException
 	 */
 	public static void writeToFile(String fileName) throws FileNotFoundException, IOException {
-		try (FileOutputStream f = new FileOutputStream(fileName + ".mssg");
-				ObjectOutput s = new ObjectOutputStream(f)) {
-			s.writeObject(map);
-		} catch (FileNotFoundException e) {
-			System.err.println("Could not find file.");// GUI needs to display error
+		try {
+			FileOutputStream fileOut = new FileOutputStream(fileName + ".mssg");
+			ObjectOutput outStream = new ObjectOutputStream(fileOut);
+			outStream.writeObject(map);
+			outStream.writeObject(gameGUI);
+			// TODO: Write array of all other miscellaneous values
+			outStream.close();
 		} catch (IOException e) {
 			System.err.println(e);// GUI needs to display error
 		}
@@ -169,8 +172,13 @@ public class Minesweeper {
 	 * @throws ClassNotFoundException
 	 */
 	public static void readFromFile(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException {
-		try (FileInputStream in = new FileInputStream(fileName); ObjectInputStream s = new ObjectInputStream(in)) {
-			map = (Square[][]) s.readObject();
+		try {
+			FileInputStream fileIn = new FileInputStream(fileName);
+			ObjectInputStream inStream = new ObjectInputStream(fileIn);
+			map = (Square[][]) inStream.readObject();
+			gameGUI = (GameGUI) inStream.readObject();
+			// TODO: Read array of all other miscellaneous values
+			inStream.close();
 		} catch (FileNotFoundException e) {
 			System.err.println(e);// GUI needs to display error
 		}

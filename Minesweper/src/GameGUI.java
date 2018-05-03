@@ -17,13 +17,15 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.io.IOException;
+import java.io.Serializable;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
 //Main class that extends JFrame and implements ActionListener
-public class GameGUI implements ActionListener, MouseListener {
+public class GameGUI implements ActionListener, MouseListener, Serializable {
+
+	private static final long serialVersionUID = 9140551278445058487L;
 
 	// Private class Variables
 	// Main frame that contains everything
