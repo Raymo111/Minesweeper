@@ -99,7 +99,6 @@ public class CustomModeDialog extends JDialog implements ActionListener, Propert
 
 			if (ok.equals(value))
 				try {
-
 					if (Integer.parseInt(heightField.getText()) < 9 || Integer.parseInt(heightField.getText()) > 24)
 						JOptionPane.showMessageDialog(CustomModeDialog.this, "Invalid height.",
 								"Stop trying to crash my game! :)", JOptionPane.ERROR_MESSAGE);
@@ -131,6 +130,9 @@ public class CustomModeDialog extends JDialog implements ActionListener, Propert
 							"Please enter a valid integer for all 3 fields.", "Stop trying to crash my game! :)",
 							JOptionPane.ERROR_MESSAGE);
 				}
+			else if (cancel.equals(value)) {
+				dispose();
+			}
 		}
 	}
 }
