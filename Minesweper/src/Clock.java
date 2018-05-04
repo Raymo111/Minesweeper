@@ -14,7 +14,7 @@ public class Clock {
 			EventQueue.invokeLater(new Runnable() {
 
 				public void run() {
-					clockDisplay.setText(String.valueOf(GameGUI.clockSeconds++));
+					clockDisplay.setText(String.valueOf(Minesweeper.gameGUI.clockSeconds++));
 				}
 			});
 		}
@@ -26,7 +26,6 @@ public class Clock {
 	}
 
 	public void cancel() {
-		GameGUI.clockSeconds = 0;
 		clock.cancel();
 		timer.cancel();
 	}

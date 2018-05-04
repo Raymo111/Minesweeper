@@ -17,7 +17,6 @@ import java.io.Serializable;
 import java.util.Random;
 
 import javax.swing.JButton;
-import javax.swing.JTextPane;
 
 public class Minesweeper implements Serializable {
 
@@ -171,8 +170,8 @@ public class Minesweeper implements Serializable {
 				outStream.writeObject(mineCount);
 				outStream.writeObject(mapSizeX);
 				outStream.writeObject(mapSizeY);
-				outStream.writeObject(GameGUI.buttons);
-				outStream.writeObject(GameGUI.clockSeconds);
+				// outStream.writeObject(GameGUI.buttons);
+				// outStream.writeObject(GameGUI.clockSeconds);
 				outStream.close();
 				fileOut.close();
 			} else {
@@ -186,8 +185,8 @@ public class Minesweeper implements Serializable {
 				outStream.writeObject(mineCount);
 				outStream.writeObject(mapSizeX);
 				outStream.writeObject(mapSizeY);
-				outStream.writeObject(GameGUI.buttons);
-				outStream.writeObject(GameGUI.clockSeconds);
+				// outStream.writeObject(GameGUI.buttons);
+				// outStream.writeObject(GameGUI.clockSeconds);
 				outStream.close();
 				fileOut.close();
 			}
@@ -214,17 +213,17 @@ public class Minesweeper implements Serializable {
 			mineCount = (int) inStream.readObject();
 			mapSizeX = (int) inStream.readObject();
 			mapSizeY = (int) inStream.readObject();
-			GameGUI.buttons = (JButton[][]) inStream.readObject();
-			GameGUI.clockSeconds = (int) inStream.readObject();
+			// GameGUI.buttons = (JButton[][]) inStream.readObject();
+			// GameGUI.clockSeconds = (int) inStream.readObject();
 			inStream.close();
-			GameGUI.firstClick = true;
-			gameGUI.minesLeft.setText(Integer.toString(numOfMinesLeft));
-			gameGUI.mainFrame.revalidate();
-			gameGUI.mainFrame.repaint();
-			gameGUI.gamePanel.revalidate();
-			gameGUI.gamePanel.repaint();
-			gameGUI.infoPanel.revalidate();
-			gameGUI.infoPanel.repaint();
+			// GameGUI.firstClick = true;
+			// gameGUI.minesLeft.setText(Integer.toString(numOfMinesLeft));
+			// gameGUI.mainFrame.revalidate();
+			// gameGUI.mainFrame.repaint();
+			// gameGUI.gamePanel.revalidate();
+			// gameGUI.gamePanel.repaint();
+			// gameGUI.infoPanel.revalidate();
+			// gameGUI.infoPanel.repaint();
 			fileIn.close();
 		} catch (FileNotFoundException e) {
 			System.err.println(e);// GUI needs to display error

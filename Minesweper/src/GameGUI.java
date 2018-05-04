@@ -51,24 +51,24 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 	public JFrame mainFrame = new JFrame();
 
 	// 2D JButton array for the Minesweeper map
-	public static JButton[][] buttons;
+	public JButton[][] buttons;
 
 	// Clock to display the amount of time elapsed for the user
 	public JTextPane clockPane = new JTextPane();
 	private Clock clock;
-	public static int clockSeconds = 0;
+	public int clockSeconds;
 
 	// Check to see if click is the first
-	public static boolean firstClick = true;
+	public boolean firstClick = true;
 
 	// MinesLeft to display the amount of mines left to be flagged
-	public JTextPane minesLeft = new JTextPane();
+	private JTextPane minesLeft = new JTextPane();
 
 	// GamePanel to hold all the buttons
-	public JPanel gamePanel = new JPanel();
+	private JPanel gamePanel = new JPanel();
 
 	// InfoPanel to hold clock and minesLeft
-	public JPanel infoPanel = new JPanel();
+	private JPanel infoPanel = new JPanel();
 
 	/*
 	 * Colors for each number of mines: 1-Blue 2-Green 3-Red 4-Dark_Blue 5-Dark_Red
@@ -152,6 +152,9 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 				// Adds buttons to game panel
 				gamePanel.add(buttons[i][j]);
 			}
+
+		// Resets clock
+		clockSeconds = 0;
 
 		// Initializes and adds textPanes to infoPanel
 		clockPane.setEditable(false);
@@ -268,12 +271,8 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 							// If there is no flag at the square
 							if (Minesweeper.map[i][j].getMineType() != SquareTypes.FLAG) {
 
-								// Sets the button to an image (Flag.png)
-								buttons[i][j].setIcon(
-										new ImageIcon(this.getClass().getClassLoader().getResource("Flag.png")));
-								Minesweeper.map[i][j].changeType(SquareTypes.FLAG);
-								Minesweeper.numOfMinesLeft--;
-								minesLeft.setText(Integer.toString(Minesweeper.numOfMinesLeft));
+								// Flags the square
+								flagSquare(i, j);
 							}
 
 							// If there is a flag at the square
@@ -333,16 +332,13 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 											if (Minesweeper.map[k][l].getMineType() == SquareTypes.UNKNOWN) {
 												Minesweeper.map[k][l].changeType(SquareTypes.FLAG);
 
-												// Sets the button to an image (Flag.png)
-												buttons[k][l].setIcon(new ImageIcon(
-														this.getClass().getClassLoader().getResource("Flag.png")));
+												// Flags the square
+												flagSquare(k, l);
 											}
 										}
 
 									// Shows a win dialog and stops timer
 									clock.cancel();
-									Minesweeper.numOfMinesLeft = 0;
-									minesLeft.setText("0");
 									JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel(
 											"<html><div style='text-align: center;'>Congratulations!<br>You've won the game!<br>Game created by:<br>Raymond Li and David Tuck</div></html>"),
 											"Congratulations!", JOptionPane.INFORMATION_MESSAGE);
@@ -424,6 +420,9 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		 */
 		else if (saveGame == event.getSource()) {
 
+			// Stops the clock
+			clock.cancel();
+
 			// Setup file saver
 			JFileChooser saveFile = new JFileChooser();
 			saveFile.setCurrentDirectory(new File("."));
@@ -453,6 +452,9 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 				JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel("Game Saved!", JLabel.CENTER),
 						"FileSaver", JOptionPane.INFORMATION_MESSAGE);
 			}
+
+			// Starts clock
+			clock = new Clock(clockPane);
 		}
 
 		/*
@@ -460,6 +462,9 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		 * clicked
 		 */
 		else if (loadGame == event.getSource()) {
+
+			// Stops the clock
+			clock.cancel();
 
 			JFileChooser loadFile = new JFileChooser();
 
@@ -506,6 +511,9 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 				JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel("Savegame not loaded. Bad File."),
 						"FileLoader", JLabel.CENTER);
 			}
+
+			// Starts clock
+			clock = new Clock(clockPane);
 		}
 
 		else if (beginner == event.getSource()) {
@@ -610,15 +618,27 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 
 	public void showValue(int i, int j) {
 		int mineCount = Minesweeper.genNumOfMines(i, j);
-		if (mineCount != 0 && Minesweeper.map[i][j].getMineType() != SquareTypes.FLAG) {
+		if (Minesweeper.map[i][j].getMineType() != SquareTypes.FLAG) {
+
+			if (mineCount != 0) {
+				buttons[i][j].setText(Integer.toString(mineCount));
+				buttons[i][j].setForeground(mycolors[mineCount]);
+			}
 			Minesweeper.map[i][j].changeType(SquareTypes.EMPTY);
-			buttons[i][j].setText(Integer.toString(mineCount));
-			buttons[i][j].setForeground(mycolors[mineCount]);
 			buttons[i][j].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 
 			// Disables clicks on square
 			buttons[i][j].removeMouseListener(this);
 		}
+	}
+
+	// Flags the selected square
+	public void flagSquare(int i, int j) {
+		// Sets the button to an image (Flag.png)
+		buttons[i][j].setIcon(new ImageIcon(this.getClass().getClassLoader().getResource("Flag.png")));
+		Minesweeper.map[i][j].changeType(SquareTypes.FLAG);
+		Minesweeper.numOfMinesLeft--;
+		minesLeft.setText(Integer.toString(Minesweeper.numOfMinesLeft));
 	}
 
 	public void mouseClicked(MouseEvent event) {
