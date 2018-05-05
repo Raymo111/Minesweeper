@@ -56,7 +56,6 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 	// Clock to display the amount of time elapsed for the user
 	public JTextPane clockPane = new JTextPane();
 	private Clock clock;
-	public int clockSeconds;
 
 	// Check to see if click is the first
 	public boolean firstClick = true;
@@ -154,7 +153,7 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 			}
 
 		// Resets clock
-		clockSeconds = 0;
+		Minesweeper.clockSeconds = 0;
 
 		// Initializes and adds textPanes to infoPanel
 		clockPane.setEditable(false);
@@ -476,38 +475,47 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 			loadFile.addChoosableFileFilter(new MSSGFilter());
 			loadFile.setAcceptAllFileFilterUsed(false);
 
-			// Processes the results of getting the user to load a game
-			if (loadFile.showDialog(mainFrame, "Load Game") == JFileChooser.APPROVE_OPTION) {
-				File game = loadFile.getSelectedFile();
+			// Try-catch to handle exceptions
+			try {
 
-				// Resets the file chooser for the next time it's shown
-				loadFile.setSelectedFile(null);
+				// Processes the results of getting the user to load a game
+				if (loadFile.showDialog(mainFrame, "Load Game") == JFileChooser.APPROVE_OPTION) {
+					File game = loadFile.getSelectedFile();
 
-				// Try-catch to handle exceptions
-				try {
-
-					// Calls the actual game
-					Minesweeper.menufinished();
+					// Resets the file chooser for the next time it's shown
+					loadFile.setSelectedFile(null);
 
 					// Reads saved game from file
 					Minesweeper.readFromFile(game.getName());
 
-				} catch (Exception e) {
-
-					// Prints stack trace if any errors occur
-					e.printStackTrace();
+					// Shows a popup telling the user that the saved game has been loaded
+					JOptionPane.showMessageDialog(mainFrame.getContentPane(),
+							new JLabel("Savegame loaded!", JLabel.CENTER), "FileLoader",
+							JOptionPane.INFORMATION_MESSAGE);
 				}
 
-				// Shows a popup telling the user that the saved game has been loaded
-				JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel("Savegame loaded!", JLabel.CENTER),
-						"FileLoader", JOptionPane.INFORMATION_MESSAGE);
-			}
+				/*
+				 * Shows a popup telling the user that the saved game has not been loaded
+				 */
+				else
+					JOptionPane.showMessageDialog(mainFrame.getContentPane(),
+							new JLabel("Savegame not loaded. Bad File."), "FileLoader", JLabel.CENTER);
 
-			/*
-			 * Shows a popup telling the user that the saved game has not been loaded and
-			 * restarts the MenuGUI window by disposing and recreating it
-			 */
-			else {
+				// Refreshes GUI according to save data
+				minesLeft.setText(Integer.toString(Minesweeper.mineCount));
+				for (int i = 0; i < buttons.length; i++)
+					for (int j = 0; j < buttons[i].length; j++) {
+						buttons[i][j].setIcon(null);
+						buttons[i][j].setText(null);
+						buttons[i][j].setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+						buttons[i][j].addMouseListener(this);
+						if (Minesweeper.map[i][j].getMineType() == SquareTypes.FLAG)
+							flagSquare(i, j);
+						else if (Minesweeper.map[i][j].getMineType() == SquareTypes.EMPTY)
+							showValue(i, j);
+					}
+
+			} catch (Exception e) {
 				JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel("Savegame not loaded. Bad File."),
 						"FileLoader", JLabel.CENTER);
 			}

@@ -8,13 +8,14 @@ public class Clock {
 
 	private JTextPane clockDisplay;
 	private Timer timer = new Timer();
+	private boolean cancel = true;
 	private TimerTask clock = new TimerTask() {
 
 		public void run() {
 			EventQueue.invokeLater(new Runnable() {
 
 				public void run() {
-					clockDisplay.setText(String.valueOf(Minesweeper.gameGUI.clockSeconds++));
+					clockDisplay.setText(String.valueOf(Minesweeper.clockSeconds++));
 				}
 			});
 		}
@@ -26,8 +27,11 @@ public class Clock {
 	}
 
 	public void cancel() {
-		clock.cancel();
-		timer.cancel();
+		if (cancel) {
+			clock.cancel();
+			timer.cancel();
+			cancel = false;
+		}
 	}
 
 }

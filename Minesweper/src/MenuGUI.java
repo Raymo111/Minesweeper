@@ -55,9 +55,6 @@ public class MenuGUI implements ActionListener {
 	private JPanel messagePanel = new JPanel();
 	private JPanel buttonPanel = new JPanel();
 
-	// File chooser to allow user to load a saved game
-	private JFileChooser fc;
-
 	/** Constructor */
 	public MenuGUI() {
 
@@ -124,43 +121,39 @@ public class MenuGUI implements ActionListener {
 		 * clicked
 		 */
 		else if (loadGame == event.getSource()) {
-			if (fc == null) {
-				fc = new JFileChooser();
 
-				// Sets the default directory to wherever the Minesweeper game is
-				fc.setCurrentDirectory(new File("."));
+			JFileChooser loadFile = new JFileChooser();
 
-				// Adds a custom file filter and disables the default (Accept All) file filter
-				fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-				fc.addChoosableFileFilter(new MSSGFilter());
-				fc.setAcceptAllFileFilterUsed(false);
-			}
+			// Sets the default directory to wherever the Minesweeper game is
+			loadFile.setCurrentDirectory(new File("."));
+
+			// Adds a custom file filter and disables the default (Accept All) file filter
+			loadFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+			loadFile.addChoosableFileFilter(new MSSGFilter());
+			loadFile.setAcceptAllFileFilterUsed(false);
 
 			// Processes the results of getting the user to load a game
-			if (fc.showDialog(mainFrame, "Load Game") == JFileChooser.APPROVE_OPTION) {
-				File saveGame = fc.getSelectedFile();
+			if (loadFile.showDialog(mainFrame, "Load Game") == JFileChooser.APPROVE_OPTION) {
+				File game = loadFile.getSelectedFile();
 
 				// Resets the file chooser for the next time it's shown
-				fc.setSelectedFile(null);
+				loadFile.setSelectedFile(null);
 
 				// Try-catch to handle exceptions
 				try {
 
 					// Reads saved game from file
-					Minesweeper.readFromFile(saveGame.getName());
-					mainFrame.dispose();
-
-					Minesweeper.gameGUI.mainFrame.setVisible(true);
+					Minesweeper.readFromFile(game.getName());
 
 				} catch (Exception e) {
-
-					// Prints stack trace if any errors occur
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(mainFrame.getContentPane(),
+							new JLabel("Savegame not loaded. Bad File."), "FileLoader", JLabel.CENTER);
 				}
 
 				// Shows a popup telling the user that the saved game has been loaded
 				JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel("Savegame loaded!", JLabel.CENTER),
-						"FileLoader", JOptionPane.DEFAULT_OPTION);
+						"FileLoader", JOptionPane.INFORMATION_MESSAGE);
+				mainFrame.dispose();
 			}
 
 			/*
@@ -168,11 +161,22 @@ public class MenuGUI implements ActionListener {
 			 * restarts the MenuGUI window by disposing and recreating it
 			 */
 			else {
-				JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel("Savegame not loaded. Bad File."),
-						"FileLoader", JLabel.CENTER);
+				JOptionPane.showMessageDialog(mainFrame.getContentPane(),
+						new JLabel("Savegame not loaded. Bad File.", JLabel.CENTER), "FileLoader",
+						JOptionPane.ERROR_MESSAGE);
 				mainFrame.dispose();
 				new MenuGUI();
 			}
+
+			// Refreshes GUI according to save data
+			Minesweeper.gameGUI = new GameGUI();
+			for (int i = 0; i < Minesweeper.gameGUI.buttons.length; i++)
+				for (int j = 0; j < Minesweeper.gameGUI.buttons[i].length; j++) {
+					if (Minesweeper.map[i][j].getMineType() == SquareTypes.FLAG)
+						Minesweeper.gameGUI.flagSquare(i, j);
+					else if (Minesweeper.map[i][j].getMineType() == SquareTypes.EMPTY)
+						Minesweeper.gameGUI.showValue(i, j);
+				}
 		}
 
 		/*
