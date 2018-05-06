@@ -48,7 +48,7 @@ public class Minesweeper implements Serializable {
 		}
 		fillWithUnknown();
 		genMines();
-		gameGUI = new GameGUI();
+		gameGUI = new GameGUI(false);
 	}
 
 	/**
@@ -166,6 +166,7 @@ public class Minesweeper implements Serializable {
 				ObjectOutput outStream = new ObjectOutputStream(fileOut);
 				outStream.writeObject(map);
 				outStream.writeObject(roundCount);
+				outStream.writeObject(mineCount);
 				outStream.writeObject(clockSeconds);
 				outStream.writeObject(mapSizeX);
 				outStream.writeObject(mapSizeY);
@@ -176,6 +177,7 @@ public class Minesweeper implements Serializable {
 				ObjectOutput outStream = new ObjectOutputStream(fileOut);
 				outStream.writeObject(map);
 				outStream.writeObject(roundCount);
+				outStream.writeObject(mineCount);
 				outStream.writeObject(clockSeconds);
 				outStream.writeObject(mapSizeX);
 				outStream.writeObject(mapSizeY);
@@ -183,7 +185,6 @@ public class Minesweeper implements Serializable {
 				fileOut.close();
 			}
 		} catch (IOException e) {
-			System.err.println(e);// GUI needs to display error
 		}
 	}
 
@@ -202,13 +203,14 @@ public class Minesweeper implements Serializable {
 			ObjectInputStream inStream = new ObjectInputStream(fileIn);
 			map = (Square[][]) inStream.readObject();
 			roundCount = (int) inStream.readObject();
+			mineCount = (int) inStream.readObject();
 			clockSeconds = (int) inStream.readObject();
 			mapSizeX = (int) inStream.readObject();
 			mapSizeY = (int) inStream.readObject();
 			inStream.close();
 			fileIn.close();
+			gameGUI = new GameGUI(true);
 		} catch (FileNotFoundException e) {
-			System.err.println(e);// GUI needs to display error
 		}
 	}
 

@@ -144,16 +144,12 @@ public class MenuGUI implements ActionListener {
 
 					// Reads saved game from file
 					Minesweeper.readFromFile(game.getName());
+					mainFrame.dispose();
 
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(mainFrame.getContentPane(),
 							new JLabel("Savegame not loaded. Bad File."), "FileLoader", JLabel.CENTER);
 				}
-
-				// Shows a popup telling the user that the saved game has been loaded
-				JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel("Savegame loaded!", JLabel.CENTER),
-						"FileLoader", JOptionPane.INFORMATION_MESSAGE);
-				mainFrame.dispose();
 			}
 
 			/*
@@ -167,16 +163,6 @@ public class MenuGUI implements ActionListener {
 				mainFrame.dispose();
 				new MenuGUI();
 			}
-
-			// Refreshes GUI according to save data
-			Minesweeper.gameGUI = new GameGUI();
-			for (int i = 0; i < Minesweeper.gameGUI.buttons.length; i++)
-				for (int j = 0; j < Minesweeper.gameGUI.buttons[i].length; j++) {
-					if (Minesweeper.map[i][j].getMineType() == SquareTypes.FLAG)
-						Minesweeper.gameGUI.flagSquare(i, j);
-					else if (Minesweeper.map[i][j].getMineType() == SquareTypes.EMPTY)
-						Minesweeper.gameGUI.showValue(i, j);
-				}
 		}
 
 		/*

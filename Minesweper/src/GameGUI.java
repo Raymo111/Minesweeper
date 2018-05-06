@@ -112,7 +112,7 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 	private JMenuItem howToPlay = new JMenuItem("How to Play");
 
 	// Declares boolean value for whether a button was pressed
-	boolean pressed;
+	private boolean pressed, finished = false;
 
 	/**
 	 * Constructor
@@ -122,7 +122,7 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 	 * @param Minesweeper.mapSizeY
 	 *            The vertical size of the map
 	 */
-	public GameGUI() {
+	public GameGUI(boolean isLoadGame) {
 
 		// Initializes panels and buttons array
 		gamePanel.setLayout(new GridLayout(Minesweeper.mapSizeX, Minesweeper.mapSizeY));
@@ -152,8 +152,10 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 				gamePanel.add(buttons[i][j]);
 			}
 
-		// Resets clock
-		Minesweeper.clockSeconds = 0;
+		if (!isLoadGame)
+
+			// Resets clock
+			Minesweeper.clockSeconds = 0;
 
 		// Initializes and adds textPanes to infoPanel
 		clockPane.setEditable(false);
@@ -164,7 +166,7 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		minesLeft.setForeground(Color.RED);
 		clockPane.setBackground(Color.BLACK);
 		minesLeft.setBackground(Color.BLACK);
-		clockPane.setText("0");
+		clockPane.setText(Integer.toString(Minesweeper.clockSeconds));
 		minesLeft.setText(Integer.toString(Minesweeper.numOfMinesLeft));
 		infoPanel.add(clockPane);
 		infoPanel.add(minesLeft);
@@ -188,6 +190,24 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		// Sets window to visible and disable resizing
 		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
+
+		if (isLoadGame) {
+
+			// Refreshes GUI according to save data
+			for (int i = 0; i < Minesweeper.mapSizeX; i++)
+				for (int j = 0; j < Minesweeper.mapSizeY; j++) {
+
+					// Adds buttons to game panel
+					if (Minesweeper.map[i][j].getMineType() == SquareTypes.FLAG)
+						flagSquare(i, j);
+					else if (Minesweeper.map[i][j].getMineType() == SquareTypes.EMPTY)
+						showValue(i, j);
+				}
+
+			// Shows a popup telling the user that the saved game has been loaded
+			JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel("Savegame loaded!", JLabel.CENTER),
+					"FileLoader", JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
 	/**
@@ -337,7 +357,11 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 										}
 
 									// Shows a win dialog and stops timer
-									clock.cancel();
+									try {
+										clock.cancel();
+									} catch (Exception e) {
+									}
+									finished = true;
 									JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel(
 											"<html><div style='text-align: center;'>Congratulations!<br>You've won the game!<br>Game created by:<br>Raymond Li and David Tuck</div></html>"),
 											"Congratulations!", JOptionPane.INFORMATION_MESSAGE);
@@ -348,7 +372,11 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 							else {
 
 								// Stops timer
-								clock.cancel();
+								try {
+									clock.cancel();
+								} catch (Exception e) {
+								}
+								finished = true;
 
 								for (int k = 0; k < Minesweeper.mapSizeX; k++)
 									for (int l = 0; l < Minesweeper.mapSizeY; l++) {
@@ -404,7 +432,10 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		if (newGame == event.getSource()) {
 
 			// Stops the clock
-			clock.cancel();
+			try {
+				clock.cancel();
+			} catch (Exception e) {
+			}
 			try {
 				Minesweeper.menufinished();
 			} catch (Exception e) {
@@ -420,40 +451,49 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		else if (saveGame == event.getSource()) {
 
 			// Stops the clock
-			clock.cancel();
-
-			// Setup file saver
-			JFileChooser saveFile = new JFileChooser();
-			saveFile.setCurrentDirectory(new File("."));
-			saveFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-			saveFile.addChoosableFileFilter(new MSSGFilter());
-			saveFile.setAcceptAllFileFilterUsed(false);
-
-			// Processes the results of getting the user to load a game
-			if (saveFile.showDialog(mainFrame, "Save Game") == JFileChooser.APPROVE_OPTION) {
-				File game = saveFile.getSelectedFile();
-
-				// Resets the file chooser for the next time it's shown
-				saveFile.setSelectedFile(null);
-
-				// Try-catch to handle exceptions
-				try {
-
-					// Saves game to file
-					Minesweeper.writeToFile(game.getName());
-				} catch (Exception e) {
-
-					// Prints stack trace if any errors occur
-					e.printStackTrace();
-				}
-
-				// Shows a popup telling the user that the saved game has been loaded
-				JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel("Game Saved!", JLabel.CENTER),
-						"FileSaver", JOptionPane.INFORMATION_MESSAGE);
+			try {
+				clock.cancel();
+			} catch (Exception e) {
 			}
 
-			// Starts clock
-			clock = new Clock(clockPane);
+			if (!finished) {
+
+				// Setup file saver
+				JFileChooser saveFile = new JFileChooser();
+				saveFile.setCurrentDirectory(new File("."));
+				saveFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				saveFile.addChoosableFileFilter(new MSSGFilter());
+				saveFile.setAcceptAllFileFilterUsed(false);
+
+				// Processes the results of getting the user to load a game
+				if (saveFile.showDialog(mainFrame, "Save Game") == JFileChooser.APPROVE_OPTION) {
+					File game = saveFile.getSelectedFile();
+
+					// Resets the file chooser for the next time it's shown
+					saveFile.setSelectedFile(null);
+
+					// Try-catch to handle exceptions
+					try {
+
+						// Saves game to file
+						Minesweeper.writeToFile(game.getName());
+					} catch (Exception e) {
+
+						// Prints stack trace if any errors occur
+						e.printStackTrace();
+					}
+
+					// Shows a popup telling the user that the saved game has been loaded
+					JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel("Game Saved!", JLabel.CENTER),
+							"FileSaver", JOptionPane.INFORMATION_MESSAGE);
+
+					// Starts clock
+					clock = new Clock(clockPane);
+				}
+			} else
+				JOptionPane.showMessageDialog(mainFrame.getContentPane(),
+						new JLabel("You can not save a finished game.", JLabel.CENTER), "FileSaver",
+						JOptionPane.ERROR_MESSAGE);
 		}
 
 		/*
@@ -463,7 +503,10 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		else if (loadGame == event.getSource()) {
 
 			// Stops the clock
-			clock.cancel();
+			try {
+				clock.cancel();
+			} catch (Exception e) {
+			}
 
 			JFileChooser loadFile = new JFileChooser();
 
@@ -487,47 +530,39 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 
 					// Reads saved game from file
 					Minesweeper.readFromFile(game.getName());
-
-					// Shows a popup telling the user that the saved game has been loaded
-					JOptionPane.showMessageDialog(mainFrame.getContentPane(),
-							new JLabel("Savegame loaded!", JLabel.CENTER), "FileLoader",
-							JOptionPane.INFORMATION_MESSAGE);
+					mainFrame.dispose();
 				}
 
 				/*
 				 * Shows a popup telling the user that the saved game has not been loaded
 				 */
-				else
+				else {
 					JOptionPane.showMessageDialog(mainFrame.getContentPane(),
-							new JLabel("Savegame not loaded. Bad File."), "FileLoader", JLabel.CENTER);
+							new JLabel("Savegame not loaded. Bad File.", JLabel.CENTER), "FileLoader",
+							JOptionPane.ERROR_MESSAGE);
 
-				// Refreshes GUI according to save data
-				minesLeft.setText(Integer.toString(Minesweeper.mineCount));
-				for (int i = 0; i < buttons.length; i++)
-					for (int j = 0; j < buttons[i].length; j++) {
-						buttons[i][j].setIcon(null);
-						buttons[i][j].setText(null);
-						buttons[i][j].setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-						buttons[i][j].addMouseListener(this);
-						if (Minesweeper.map[i][j].getMineType() == SquareTypes.FLAG)
-							flagSquare(i, j);
-						else if (Minesweeper.map[i][j].getMineType() == SquareTypes.EMPTY)
-							showValue(i, j);
-					}
+					// Starts clock
+					clock = new Clock(clockPane);
+				}
 
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(mainFrame.getContentPane(), new JLabel("Savegame not loaded. Bad File."),
-						"FileLoader", JLabel.CENTER);
-			}
+				JOptionPane.showMessageDialog(mainFrame.getContentPane(),
+						new JLabel("Savegame not loaded. Bad File.", JLabel.CENTER), "FileLoader",
+						JOptionPane.ERROR_MESSAGE);
+				if (!finished)
 
-			// Starts clock
-			clock = new Clock(clockPane);
+					// Starts clock
+					clock = new Clock(clockPane);
+			}
 		}
 
 		else if (beginner == event.getSource()) {
 
 			// Stops the clock
-			clock.cancel();
+			try {
+				clock.cancel();
+			} catch (Exception e) {
+			}
 			Minesweeper.mapSizeX = 9;
 			Minesweeper.mapSizeY = 9;
 			Minesweeper.mineCount = 10;
@@ -547,7 +582,10 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		else if (intermediate == event.getSource()) {
 
 			// Stops the clock
-			clock.cancel();
+			try {
+				clock.cancel();
+			} catch (Exception e) {
+			}
 			Minesweeper.mapSizeX = 16;
 			Minesweeper.mapSizeY = 16;
 			Minesweeper.mineCount = 40;
@@ -567,7 +605,10 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		else if (expert == event.getSource()) {
 
 			// Stops the clock
-			clock.cancel();
+			try {
+				clock.cancel();
+			} catch (Exception e) {
+			}
 			Minesweeper.mapSizeX = 16;
 			Minesweeper.mapSizeY = 30;
 			Minesweeper.mineCount = 99;
@@ -583,7 +624,10 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		else if (custom == event.getSource()) {
 
 			// Stops the clock
-			clock.cancel();
+			try {
+				clock.cancel();
+			} catch (Exception e) {
+			}
 
 			// Calls a custom mode dialog
 			CustomModeDialog customMode = new CustomModeDialog(mainFrame);

@@ -8,7 +8,6 @@ public class Clock {
 
 	private JTextPane clockDisplay;
 	private Timer timer = new Timer();
-	private boolean cancel = true;
 	private TimerTask clock = new TimerTask() {
 
 		public void run() {
@@ -27,11 +26,8 @@ public class Clock {
 	}
 
 	public void cancel() {
-		if (cancel) {
-			clock.cancel();
-			timer.cancel();
-			cancel = false;
-		}
+		clock.cancel();
+		timer.cancel();
 	}
 
 }
