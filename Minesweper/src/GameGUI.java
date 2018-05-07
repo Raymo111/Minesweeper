@@ -460,11 +460,21 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 										buttons[k][l].removeMouseListener(this);
 
 										// For squares with mine, shows mine image
-										if (Minesweeper.checkForMine(k, l))
+										if (Minesweeper.checkForMine(k, l)) {
 
-											// Sets the buttons to an image (Mine.png)
+											if (!(Minesweeper.map[k][l].getMineType() == SquareTypes.FLAG))
+
+												// Sets the buttons to an image (Mine.png)
+												buttons[k][l].setIcon(new ImageIcon(
+														this.getClass().getClassLoader().getResource("Mine.png")));
+										}
+
+										// Sets the buttons to Wrong.png if the flag was not a mine
+										if (Minesweeper.map[k][l].getMineType() == SquareTypes.FLAG
+												&& !Minesweeper.checkForMine(k, l))
 											buttons[k][l].setIcon(new ImageIcon(
-													this.getClass().getClassLoader().getResource("Mine.png")));
+													this.getClass().getClassLoader().getResource("Wrong.png")));
+
 									}
 
 								// Sets the button to an image (Explode.png)
