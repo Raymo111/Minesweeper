@@ -1,7 +1,6 @@
 /*
  * Authors: David Tuck, Raymond Li
- * Date started: 2018-04-18
- * Date Finished: 2018-04-
+ * Date: 06/05/2018
  * Description: Minesweeper game
  */
 

@@ -1,7 +1,6 @@
 /*
  * Authors: Raymond Li, David Tuck
- * Date started: 2018-04-19
- * Date Finished: 2018-04-28
+ * Date: 06/05/2018
  * Description: User first starts with a welcome message and options to start a new game
  * 				and	to load a game. New game brings out 3 choices - Beginner, Intermediate
  * 				and Expert. A game based on the selected difficulty is then created. Load

@@ -15,6 +15,7 @@
 
 // Imports required packages
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -27,6 +28,7 @@ import java.awt.event.MouseListener;
 
 import java.io.File;
 import java.io.Serializable;
+import java.net.URL;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -723,6 +725,25 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 			// Shows the customMode dialog
 			customMode.setResizable(false);
 			customMode.setVisible(true);
+		}
+
+		// If the about button is clicked, opens a dialog
+		else if (about == event.getSource()) {
+
+			// Shows a creators dialog
+			JOptionPane.showMessageDialog(mainFrame.getContentPane(),
+					new JLabel("Game created by Raymond Li and David Tuck.", JLabel.CENTER), "About",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
+
+		// If the how to play button is clicked, opens a webpage
+		else if (howToPlay == event.getSource()) {
+
+			// Opens Minesweeper.info
+			try {
+				Desktop.getDesktop().browse(new URL("http://minesweeper.info/wiki/Windows_Minesweeper").toURI());
+			} catch (Exception e) {
+			}
 		}
 	}
 
