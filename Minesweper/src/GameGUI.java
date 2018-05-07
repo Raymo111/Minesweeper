@@ -37,6 +37,7 @@ import javax.sound.sampled.Clip;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -120,6 +121,10 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 
 	// Declares boolean value for whether a button was pressed
 	private boolean pressed, finished = false;
+
+	// Boolean and menuItem for sound or not
+	public static boolean soundCheck = true;
+	private JCheckBoxMenuItem sound = new JCheckBoxMenuItem("Sound", true);
 
 	/**
 	 * Constructor
@@ -216,17 +221,20 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 					"FileLoader", JOptionPane.INFORMATION_MESSAGE);
 		}
 
-		// Play new game sound
-		AudioInputStream newGameSound;
-		try {
-			newGameSound = AudioSystem.getAudioInputStream(this.getClass().getClassLoader().getResource("NewGame.wav"));
-			Clip clip = AudioSystem.getClip();
-			clip.open(newGameSound);
-			clip.start();
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(mainFrame.getContentPane(),
-					new JLabel("You did not download the music file!", JLabel.CENTER), "Minesweeper Sound Player",
-					JOptionPane.ERROR_MESSAGE);
+		// Plays new game sound if sound is enabled
+		if (soundCheck) {
+			AudioInputStream newGameSound;
+			try {
+				newGameSound = AudioSystem
+						.getAudioInputStream(this.getClass().getClassLoader().getResource("NewGame.wav"));
+				Clip clip = AudioSystem.getClip();
+				clip.open(newGameSound);
+				clip.start();
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(mainFrame.getContentPane(),
+						new JLabel("You did not download the music file!", JLabel.CENTER), "Minesweeper Sound Player",
+						JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
@@ -261,6 +269,11 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		custom.addActionListener(this);
 		newSubmenu.add(custom);
 		gameMenu.add(newSubmenu);
+
+		// Adds sound menuItem with actionListener to gameMenu
+		gameMenu.addSeparator();
+		sound.addActionListener(this);
+		newSubmenu.add(sound);
 
 		// Adds help menu to menubar
 		menuBar.add(helpMenu);
@@ -307,18 +320,20 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 								&& (Minesweeper.map[i][j].getMineType() == SquareTypes.UNKNOWN
 										|| Minesweeper.map[i][j].getMineType() == SquareTypes.FLAG)) {
 
-							// Plays the flag sound
-							AudioInputStream flagSound;
-							try {
-								flagSound = AudioSystem
-										.getAudioInputStream(this.getClass().getClassLoader().getResource("Flag.wav"));
-								Clip clip = AudioSystem.getClip();
-								clip.open(flagSound);
-								clip.start();
-							} catch (Exception e) {
-								JOptionPane.showMessageDialog(mainFrame.getContentPane(),
-										new JLabel("You did not download the music file!", JLabel.CENTER),
-										"Minesweeper Sound Player", JOptionPane.ERROR_MESSAGE);
+							// Plays the flag sound if sound is enabled
+							if (soundCheck) {
+								AudioInputStream flagSound;
+								try {
+									flagSound = AudioSystem.getAudioInputStream(
+											this.getClass().getClassLoader().getResource("Flag.wav"));
+									Clip clip = AudioSystem.getClip();
+									clip.open(flagSound);
+									clip.start();
+								} catch (Exception e) {
+									JOptionPane.showMessageDialog(mainFrame.getContentPane(),
+											new JLabel("You did not download the music file!", JLabel.CENTER),
+											"Minesweeper Sound Player", JOptionPane.ERROR_MESSAGE);
+								}
 							}
 
 							// If there is no flag at the square
@@ -354,18 +369,20 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 								if (Minesweeper.genNumOfMines(i, j) != 0) {
 									showValue(i, j);
 
-									// Play click sound
-									AudioInputStream clickSound;
-									try {
-										clickSound = AudioSystem.getAudioInputStream(
-												this.getClass().getClassLoader().getResource("Click.wav"));
-										Clip clip = AudioSystem.getClip();
-										clip.open(clickSound);
-										clip.start();
-									} catch (Exception e) {
-										JOptionPane.showMessageDialog(mainFrame.getContentPane(),
-												new JLabel("You did not download the music file!", JLabel.CENTER),
-												"Minesweeper Sound Player", JOptionPane.ERROR_MESSAGE);
+									// Plays click sound if sound is enabled
+									if (soundCheck) {
+										AudioInputStream clickSound;
+										try {
+											clickSound = AudioSystem.getAudioInputStream(
+													this.getClass().getClassLoader().getResource("Click.wav"));
+											Clip clip = AudioSystem.getClip();
+											clip.open(clickSound);
+											clip.start();
+										} catch (Exception e) {
+											JOptionPane.showMessageDialog(mainFrame.getContentPane(),
+													new JLabel("You did not download the music file!", JLabel.CENTER),
+													"Minesweeper Sound Player", JOptionPane.ERROR_MESSAGE);
+										}
 									}
 								}
 
@@ -391,18 +408,20 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 
 								if (won) {
 
-									// Plays the win sound
-									AudioInputStream winSound;
-									try {
-										winSound = AudioSystem.getAudioInputStream(
-												this.getClass().getClassLoader().getResource("Win.wav"));
-										Clip clip = AudioSystem.getClip();
-										clip.open(winSound);
-										clip.start();
-									} catch (Exception e) {
-										JOptionPane.showMessageDialog(mainFrame.getContentPane(),
-												new JLabel("You did not download the music file!", JLabel.CENTER),
-												"Minesweeper Sound Player", JOptionPane.ERROR_MESSAGE);
+									// Plays the win sound if sound is enabled
+									if (soundCheck) {
+										AudioInputStream winSound;
+										try {
+											winSound = AudioSystem.getAudioInputStream(
+													this.getClass().getClassLoader().getResource("Win.wav"));
+											Clip clip = AudioSystem.getClip();
+											clip.open(winSound);
+											clip.start();
+										} catch (Exception e) {
+											JOptionPane.showMessageDialog(mainFrame.getContentPane(),
+													new JLabel("You did not download the music file!", JLabel.CENTER),
+													"Minesweeper Sound Player", JOptionPane.ERROR_MESSAGE);
+										}
 									}
 
 									// For all squares on map, disables clicking
@@ -434,18 +453,20 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 							// If user clicks on a mine
 							else {
 
-								// Plays the explosion sound
-								AudioInputStream explosionSound;
-								try {
-									explosionSound = AudioSystem.getAudioInputStream(
-											this.getClass().getClassLoader().getResource("Explosions.wav"));
-									Clip clip = AudioSystem.getClip();
-									clip.open(explosionSound);
-									clip.start();
-								} catch (Exception e) {
-									JOptionPane.showMessageDialog(mainFrame.getContentPane(),
-											new JLabel("You did not download the music file!", JLabel.CENTER),
-											"Minesweeper Sound Player", JOptionPane.ERROR_MESSAGE);
+								// Plays the explosion sound if sound is enabled
+								if (soundCheck) {
+									AudioInputStream explosionSound;
+									try {
+										explosionSound = AudioSystem.getAudioInputStream(
+												this.getClass().getClassLoader().getResource("Explosions.wav"));
+										Clip clip = AudioSystem.getClip();
+										clip.open(explosionSound);
+										clip.start();
+									} catch (Exception e) {
+										JOptionPane.showMessageDialog(mainFrame.getContentPane(),
+												new JLabel("You did not download the music file!", JLabel.CENTER),
+												"Minesweeper Sound Player", JOptionPane.ERROR_MESSAGE);
+									}
 								}
 
 								// Stops timer
@@ -745,6 +766,10 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 			} catch (Exception e) {
 			}
 		}
+
+		// If the sound checkbox is clicked, assigns soundCheck to the value of sound
+		else if (sound == event.getSource())
+			soundCheck = sound.getState();
 	}
 
 	public void recursion(int m, int n) {
@@ -754,17 +779,20 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 			Minesweeper.map[m][n].changeType(SquareTypes.EMPTY);
 			buttons[m][n].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 
-			// Play click sound
-			AudioInputStream clickSound;
-			try {
-				clickSound = AudioSystem.getAudioInputStream(this.getClass().getClassLoader().getResource("Click.wav"));
-				Clip clip = AudioSystem.getClip();
-				clip.open(clickSound);
-				clip.start();
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(mainFrame.getContentPane(),
-						new JLabel("You did not download the music file!", JLabel.CENTER), "Minesweeper Sound Player",
-						JOptionPane.ERROR_MESSAGE);
+			// Plays click sound if sound is enabled
+			if (soundCheck) {
+				AudioInputStream clickSound;
+				try {
+					clickSound = AudioSystem
+							.getAudioInputStream(this.getClass().getClassLoader().getResource("Click.wav"));
+					Clip clip = AudioSystem.getClip();
+					clip.open(clickSound);
+					clip.start();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(mainFrame.getContentPane(),
+							new JLabel("You did not download the music file!", JLabel.CENTER),
+							"Minesweeper Sound Player", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 
 			// Disables clicks on square
