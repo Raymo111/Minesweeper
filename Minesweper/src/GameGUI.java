@@ -1,7 +1,7 @@
 /*
  * Authors: Raymond Li, David Tuck
  * Date started: 2018-04-18
- * Date Finished: 2018-04-
+ * Date Finished: 2018-05-07
  * Description: Shows a window with a menuBar containing a Game menu with buttons to load
  * 				or save a game and a submenu containing different new game difficulties
  * 				and another Help button containing instructions on how to play the game.
@@ -9,8 +9,8 @@
  * 				Below that is the actual Minesweeper map, which the user can left press
  * 				to show the number of mines around the square pressed on, or right press
  * 				to flag the square as containing a mine. Flagging a square lowers the
- * 				mine count. If the user press on a square containing a mine, the user’s
- * 				game will see ‘Game over’ and be prompted to start a new game or quit.
+ * 				mine count. If the user press on a square containing a mine, the user's
+ * 				game will see 'Game over' and be prompted to start a new game or quit.
  */
 
 // Imports required packages
