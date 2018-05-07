@@ -273,7 +273,7 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		// Adds sound menuItem with actionListener to gameMenu
 		gameMenu.addSeparator();
 		sound.addActionListener(this);
-		newSubmenu.add(sound);
+		gameMenu.add(sound);
 
 		// Adds help menu to menubar
 		menuBar.add(helpMenu);
