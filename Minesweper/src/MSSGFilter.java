@@ -1,4 +1,3 @@
-
 /*
  * Author: Raymond Li
  * Date created: 2018-04-19

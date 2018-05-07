@@ -1,7 +1,14 @@
 /*
  * Authors: David Tuck, Raymond Li
  * Date: 06/05/2018
- * Description: Minesweeper game
+ * Description: Minesweeper starts when you click on a square with the left mouse button.
+ * The first click is always safe and reveals a number or an opening surrounded by numbers.
+ * Each number tells you how many mines touch that numbered square.
+ * You can mark a mine by putting a flag on it with the right mouse button.
+ * You win by clearing all the safe squares and lose if you click on a mine.
+ * A mine counter tells you how many mines are still hidden and a time counter keeps track of your score.
+ * There are three levels of difficulty: Beginner has 10 mines, Intermediate has 40 mines, and Expert has 99 mines.
+ * It is also possible to create Custom levels.
  */
 
 //Imports java io and Random classes
@@ -29,6 +36,10 @@ public class Minesweeper implements Serializable {
 	public static int clockSeconds;// display on gameGUI
 	private static Random random = new Random();
 	public static GameGUI gameGUI;
+
+	// Minimum values for custom mode - note that the max number of mines is:
+	// (x-1)(y-1), with x and y being the dimensions of the map
+	public static final int minX = 9, minY = 9, maxX = 24, maxY = 30, minMines = 10;
 
 	public static void main(String[] args) {
 

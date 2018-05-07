@@ -1,3 +1,9 @@
+/*
+ * Authors: Raymond Li
+ * Date: 06/05/2018
+ * Description: Custom mode dialog used by user to create a custom game. Dimensions are limited in Minesweeper.java
+ */
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -99,13 +105,15 @@ public class CustomModeDialog extends JDialog implements ActionListener, Propert
 
 			if (ok.equals(value))
 				try {
-					if (Integer.parseInt(heightField.getText()) < 9 || Integer.parseInt(heightField.getText()) > 24)
+					if (Integer.parseInt(heightField.getText()) < Minesweeper.minX
+							|| Integer.parseInt(heightField.getText()) > Minesweeper.maxX)
 						JOptionPane.showMessageDialog(CustomModeDialog.this, "Invalid height.",
 								"Stop trying to crash my game! :)", JOptionPane.ERROR_MESSAGE);
-					else if (Integer.parseInt(widthField.getText()) < 9 || Integer.parseInt(widthField.getText()) > 30)
+					else if (Integer.parseInt(widthField.getText()) < Minesweeper.minY
+							|| Integer.parseInt(widthField.getText()) > Minesweeper.maxY)
 						JOptionPane.showMessageDialog(CustomModeDialog.this, "Invalid width.",
 								"Stop trying to crash my game! :)", JOptionPane.ERROR_MESSAGE);
-					else if (Integer.parseInt(minesField.getText()) < 10
+					else if (Integer.parseInt(minesField.getText()) < Minesweeper.minMines
 							|| Integer.parseInt(minesField.getText()) > (Integer.parseInt(heightField.getText()) - 1)
 									* (Integer.parseInt(widthField.getText()) - 1))
 						JOptionPane.showMessageDialog(CustomModeDialog.this, "Invalid number of mines.",

@@ -1,3 +1,9 @@
+/*
+ * Authors: Raymond Li
+ * Date: 06/05/2018
+ * Description: Clock used to count the time
+ */
+
 import java.awt.EventQueue;
 import java.util.Timer;
 import java.util.TimerTask;
