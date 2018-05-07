@@ -47,17 +47,23 @@ public class Minesweeper implements Serializable {
 		new MenuGUI();
 	}
 
+	/**
+	 * Menu finished creates a new map and sets each square to unknown. Calls the
+	 * class gameGUI to start the game
+	 * 
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public static void menufinished() throws IOException, ClassNotFoundException {
 		map = new Square[mapSizeX][mapSizeY];
 		roundCount = 0;
 		for (int i = 0; i < mapSizeX; i++) {
 			for (int j = 0; j < mapSizeY; j++) {
 				map[i][j] = new Square();
-				map[i][j].changeType(SquareTypes.UNKNOWN);
+				map[i][j].changeType(SquareTypes.UNKNOWN);// Sets the array of myMine to all empty
 			}
 		}
-		fillWithUnknown();
-		genMines();
+		genMines();// generates a random amount of mine within the map
 		gameGUI = new GameGUI(false);
 	}
 
@@ -77,20 +83,6 @@ public class Minesweeper implements Serializable {
 			newX = random.nextInt(mapSizeX);
 			newY = random.nextInt(mapSizeY);
 			map[newX][newY].setToMine();
-		}
-	}
-
-	/**
-	 * Sets the array of myMine to all empty
-	 *
-	 * @param myMine
-	 *            2D array for objects that holds all of the information about the
-	 *            game board. Each object is is a different square on the board.
-	 */
-	public static void fillWithUnknown() {
-		for (int i = 0; i < mapSizeX; i++) {
-			for (int j = 0; j < mapSizeY; j++)
-				map[i][j].changeType(SquareTypes.UNKNOWN);
 		}
 	}
 
