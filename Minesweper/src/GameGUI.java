@@ -747,6 +747,14 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		}
 	}
 
+	/**
+	 * Allows for empty squares around a mouse click to be "pressed".
+	 * 
+	 * @param m
+	 *            x coordinate of user mouse click
+	 * @param n
+	 *            y coordinate of user mouse click
+	 */
 	public void recursion(int m, int n) {
 
 		if (Minesweeper.genNumOfMines(m, n) == 0 && Minesweeper.map[m][n].getMineType() == SquareTypes.UNKNOWN) {
@@ -783,6 +791,14 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		}
 	}
 
+	/**
+	 * Generates the number of mines around position i,j. sets the color and bevel.
+	 * 
+	 * @param i
+	 *            x coordinate for square that is to be shown
+	 * @param j
+	 *            y coordinate for square that is to be shown
+	 */
 	public void showValue(int i, int j) {
 		int mineCount = Minesweeper.genNumOfMines(i, j);
 		if (Minesweeper.map[i][j].getMineType() != SquareTypes.FLAG) {
@@ -799,7 +815,14 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		}
 	}
 
-	// Flags the selected square
+	/**
+	 * Flags the selected square
+	 * 
+	 * @param i
+	 *            x coordinate for square that is to be flagged
+	 * @param j
+	 *            y coordinate for square that is to be flagged
+	 */
 	public void flagSquare(int i, int j) {
 		// Sets the button to an image (Flag.png)
 		buttons[i][j].setIcon(new ImageIcon(this.getClass().getClassLoader().getResource("Flag.png")));
@@ -808,6 +831,12 @@ public class GameGUI implements ActionListener, MouseListener, Serializable {
 		minesLeft.setText(Integer.toString(Minesweeper.numOfMinesLeft));
 	}
 
+	/**
+	 * Calls mouseReleased method
+	 * 
+	 * @param event
+	 *            What kind of mouse is clicked, or what mouse button is clicked
+	 */
 	public void mouseClicked(MouseEvent event) {
 		mouseReleased(event);
 	}

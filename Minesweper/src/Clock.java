@@ -30,7 +30,7 @@ public class Clock {
 		clockDisplay = textField;
 		timer.schedule(clock, 0, 1000);
 	}
-
+//can
 	public void cancel() {
 		clock.cancel();
 		timer.cancel();
