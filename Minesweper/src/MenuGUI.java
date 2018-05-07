@@ -147,7 +147,8 @@ public class MenuGUI implements ActionListener {
 
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(mainFrame.getContentPane(),
-							new JLabel("Savegame not loaded. Bad File."), "FileLoader", JLabel.CENTER);
+							new JLabel("Savegame not loaded. Bad File.", JLabel.CENTER), "FileLoader",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 
